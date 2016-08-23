@@ -1,0 +1,23 @@
+{
+  "name": "greg-md/php-support",
+  "type": "library",
+  "description": "Greg PHP Support",
+  "keywords": ["greg","php-support"],
+  "homepage": "https://github.com/greg-md/php-support",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Grigorii Duca",
+      "email": "contact@greg.md",
+      "homepage": "http://greg.md",
+      "role": "Developer"
+    }
+  ],
+  "require": {},
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Greg\\Support": "src/"
+    }
+  }
+}
