@@ -17,7 +17,7 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "Greg\\Support": "src/"
+      "Greg\\Support\\": "src/"
     }
   }
 }
