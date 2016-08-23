@@ -2,7 +2,7 @@
 
 namespace Greg\Support;
 
-use Greg\Http\Request;
+use Greg\Support\Http\Request;
 
 class Url
 {
