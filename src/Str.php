@@ -67,7 +67,7 @@ class Str
     {
         $var = static::$type($var);
 
-        if (!$var or Type::isNaturalNumber($var[0])) {
+        if (!$var or Str::isNaturalNumber($var[0])) {
             $var = '_' . $var;
         }
 
@@ -466,5 +466,10 @@ class Str
             case 3:  return $number . 'rd';
             default: return $number . 'th';
         }
+    }
+
+    static public function isNaturalNumber($var)
+    {
+        return ctype_digit((string)$var);
     }
 }

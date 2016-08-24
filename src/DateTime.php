@@ -35,7 +35,7 @@ class DateTime extends \DateTime
 
     static public function toTimestamp($time)
     {
-        return Type::isNaturalNumber($time) ? $time : strtotime($time);
+        return Str::isNaturalNumber($time) ? $time : strtotime($time);
     }
 
     static public function diffTime($time1, $time2 = 'now')

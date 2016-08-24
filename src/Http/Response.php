@@ -4,7 +4,7 @@ namespace Greg\Support\Http;
 
 use Greg\Support\Image;
 use Greg\Support\Arr;
-use Greg\Support\Type;
+use Greg\Support\Str;
 
 class Response
 {
@@ -250,7 +250,7 @@ class Response
 
     static public function sendCode($code)
     {
-        if (Type::isNaturalNumber($code) and Arr::has(static::CODES, $code)) {
+        if (Str::isNaturalNumber($code) and Arr::has(static::CODES, $code)) {
             $code .= ' ' . static::CODES[$code];
         }
 
@@ -380,7 +380,7 @@ class Response
 
     static public function isModifiedSince($timestamp, $maxAge = 0)
     {
-        if (!Type::isNaturalNumber($timestamp)) {
+        if (!Str::isNaturalNumber($timestamp)) {
             $timestamp = strtotime($timestamp);
         }
 

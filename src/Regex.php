@@ -6,7 +6,7 @@ use Greg\Support\Regex\InNamespaceRegex;
 
 class Regex
 {
-    const PATTERN = '#';
+    static protected $pattern = '#';
 
     static public function inNamespace($start, $end, $recursive = true)
     {
@@ -18,13 +18,13 @@ class Regex
         return preg_replace(static::pattern('(?<!\\\\)\((?!\?)'), '(?:', $regex);
     }
 
-    static public function quote($string, $delimiter = self::PATTERN)
+    static public function quote($string, $delimiter = null)
     {
-        return preg_quote($string, $delimiter);
+        return preg_quote($string, $delimiter ?: static::$pattern);
     }
 
     static public function pattern($regex, $flags = null)
     {
-        return static::PATTERN . $regex . static::PATTERN . $flags;
+        return static::$pattern . $regex . static::$pattern . $flags;
     }
 }
