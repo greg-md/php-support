@@ -47,7 +47,7 @@ class DateTime extends \DateTime
         return ($time1 === $time2) ? 0 : ($time1 > $time2 ? 1 : -1);
     }
 
-    static public function toStringDateTime($time = 'now', $second = true)
+    static public function toDateTimeString($time = 'now', $second = true)
     {
         return static::formatTime('Y-m-d H:i' . ($second ? ':s' : ''), $time);
     }
@@ -57,14 +57,29 @@ class DateTime extends \DateTime
         return static::formatTime('c', $time);
     }
 
-    static public function toStringDate($time = 'now')
+    static public function toDateString($time = 'now')
     {
         return static::formatTime('Y-m-d', $time);
     }
 
-    static public function toStringTime($time = 'now', $second = true)
+    static public function toTimeString($time = 'now', $second = true)
     {
         return static::formatTime('H:i' . ($second ? ':s' : ''), $time);
+    }
+
+    static public function toYearString($time = 'now', $full = true)
+    {
+        return static::formatTime($full ? 'Y' : 'y', $time);
+    }
+
+    static public function toMonthString($time = 'now', $withZero = true)
+    {
+        return static::formatTime($withZero ? 'm' : 'n', $time);
+    }
+
+    static public function toDayString($time = 'now', $withZero = true)
+    {
+        return static::formatTime($withZero ? 'd' : 'j', $time);
     }
 
     static public function untilNowTime($time)
