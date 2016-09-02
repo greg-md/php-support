@@ -173,4 +173,37 @@ class Obj
 
         return false;
     }
+
+    static public function usesRecursive($class, $breakOn = null)
+    {
+        $results = [];
+
+        foreach (array_merge([$class => $class], class_parents($class)) as $class) {
+            if ($breakOn === $class) {
+                break;
+            }
+
+            $results += static::traitUsesRecursive($class);
+        }
+
+        return array_unique($results);
+    }
+
+    static public function traitUsesRecursive($trait)
+    {
+        $traits = class_uses($trait);
+
+        foreach ($traits as $trait) {
+            $traits += static::traitUsesRecursive($trait);
+        }
+
+        return $traits;
+    }
+
+    static public function baseName($class)
+    {
+        $class = is_object($class) ? get_class($class) : $class;
+
+        return basename(str_replace('\\', '/', $class));
+    }
 }
