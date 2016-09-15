@@ -18,7 +18,9 @@ class Response
 
     protected $content = null;
 
-    protected $attachmentName = null;
+    protected $disposition = null;
+
+    protected $fileName = null;
 
     const CODES = [
         100 => 'Continue',
@@ -106,10 +108,27 @@ class Response
         $this->setContent($content);
 
         if ($name) {
-            $this->setAttachmentName($name);
+            $this->setFileName($name);
         }
 
         $this->setContentType($type);
+
+        $this->setDisposition('download');
+
+        return $this;
+    }
+
+    public function inline($content, $name = null, $type = 'application/octet-stream')
+    {
+        $this->setContent($content);
+
+        if ($name) {
+            $this->setFileName($name);
+        }
+
+        $this->setContentType($type);
+
+        $this->setDisposition('inline');
 
         return $this;
     }
@@ -130,8 +149,8 @@ class Response
 
     public function send()
     {
-        if ($attachmentName = $this->getAttachmentName()) {
-            $this->sendAttachment($attachmentName);
+        if ($disposition = $this->getDisposition()) {
+            $this->sendDisposition($disposition, $this->getFileName());
         }
 
         $contentType = [];
@@ -178,16 +197,28 @@ class Response
         return $this->contentType;
     }
 
-    public function setAttachmentName($name)
+    public function setDisposition($name)
     {
-        $this->attachmentName = (string)$name;
+        $this->disposition = (string)$name;
 
         return $this;
     }
 
-    public function getAttachmentName()
+    public function getDisposition()
     {
-        return $this->attachmentName;
+        return $this->disposition;
+    }
+
+    public function setFileName($name)
+    {
+        $this->fileName = (string)$name;
+
+        return $this;
+    }
+
+    public function getFileName()
+    {
+        return $this->fileName;
     }
 
     public function setCharset($name)
@@ -360,9 +391,9 @@ class Response
         return true;
     }
 
-    static public function sendAttachment($name)
+    static public function sendDisposition($name, $fileName = null)
     {
-        header('Content-disposition: attachment; filename="' . addslashes($name) . '"');
+        header('Content-disposition: ' . $name . '; filename="' . addslashes($fileName) . '"');
 
         return true;
     }

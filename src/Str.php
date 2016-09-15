@@ -473,22 +473,18 @@ class Str
         return ctype_digit((string)$var);
     }
 
-    static public function linksToHtml($string)
+    static public function parseLinks($string, callable $callable)
     {
         $regex = '(?:((?:https?|ftps?)\:\/\/)|www\.)([a-z0-9\-]+\.)(?-1)?[a-z]{2,8}(?:(?:\/|\?)\S*[a-z0-9-_])?';
 
-        //preg_match_all('#(' . $regex . ')#i', $string, $matches);
-
-        //dd($matches);
-
-        return preg_replace_callback('#(' . $regex . ')#i', function($matches) {
+        return preg_replace_callback('#(' . $regex . ')#i', function($matches) use ($callable) {
             $href = $name = $matches[1];
 
             if ($matches[2] === 'www.') {
                 $href = Url::fix($href);
             }
 
-            return '<a href="' . $href . '" target="_blank">' . $name . '</a>';
+            call_user_func_array($callable, [$name, $href]);
         }, $string);
     }
 }
