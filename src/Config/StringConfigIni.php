@@ -2,7 +2,7 @@
 
 namespace Greg\Support\Config;
 
-class ConfigIniString extends ConfigIni
+class ConfigIniString extends ConfigIniAbstract
 {
     public function __construct($string, $section = null, $indexDelimiter = null)
     {

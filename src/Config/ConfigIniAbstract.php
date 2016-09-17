@@ -6,7 +6,7 @@ use Greg\Support\Storage\AccessorTrait;
 use Greg\Support\Storage\ArrayAccessTrait;
 use Greg\Support\Arr;
 
-class ConfigIni implements \ArrayAccess
+abstract class ConfigIniAbstract implements \ArrayAccess
 {
     use AccessorTrait, ArrayAccessTrait;
 
@@ -82,5 +82,10 @@ class ConfigIni implements \ArrayAccess
         }
 
         return $fetchedSection;
+    }
+
+    public function toArray()
+    {
+        return $this->getStorage();
     }
 }
