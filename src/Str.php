@@ -29,7 +29,7 @@ class Str
     {
         $var = static::splitCase($var, $delimiter);
 
-        $var = preg_replace('#([a-z]+)([A-Z]+)#', '$1'.$delimiter.'$2', $var);
+        $var = preg_replace('#([a-z]+)([A-Z]+)#', '$1' . $delimiter . '$2', $var);
 
         return $var;
     }
@@ -68,7 +68,7 @@ class Str
         $var = static::$type($var);
 
         if (!$var or self::isNaturalNumber($var[0])) {
-            $var = '_'.$var;
+            $var = '_' . $var;
         }
 
         return $var;
@@ -121,7 +121,7 @@ class Str
         // pattern such as "library/*", making any string check convenient.
         $pattern = str_replace('\*', '.*', $pattern);
 
-        return (bool) preg_match('#^'.$pattern.'$#', $value);
+        return (bool) preg_match('#^' . $pattern . '$#', $value);
     }
 
     /**
@@ -162,7 +162,7 @@ class Str
 
     public static function quote($str, $with = '"')
     {
-        return $with.$str.$with;
+        return $with . $str . $with;
     }
 
     public static function splitPath($string, $delimiter = '/', $limit = null)
@@ -241,7 +241,7 @@ class Str
 
         $delimiter = (array) $delimiter;
 
-        $string = '>'.$string.'<';
+        $string = '>' . $string . '<';
 
         $newString = '';
 
@@ -264,7 +264,7 @@ class Str
                 $subStrNew = '';
             }
 
-            $string = '>'.mb_substr($string, mb_strlen($subStrNew) + 1 + mb_strlen($match[1]));
+            $string = '>' . mb_substr($string, mb_strlen($subStrNew) + 1 + mb_strlen($match[1]));
 
             if ($strLen >= $length and (!$delimiter or $delimiterFound)) {
                 $remainString .= $subStrNew;
@@ -365,7 +365,7 @@ class Str
 
             ++$k;
 
-            return '>'.$htmlStr.'<';
+            return '>' . $htmlStr . '<';
         }, $string);
 
         $string = ltrim($string, '>');
@@ -394,7 +394,7 @@ class Str
             $remainString .= $string;
         }
 
-        $return = $newString.$remainString;
+        $return = $newString . $remainString;
 
         return $return;
     }
@@ -402,7 +402,7 @@ class Str
     public static function cutHtmlTag($html, $tag, $offset = 0, $limit = null, $cleanAfter = false)
     {
         // match html tag: <(\w)[^>]*(?<!\/)(\/>|>.*?<\/\1>)
-        $regex = '<('.preg_quote($tag, '#').')[^>]*(?<!\/)(\/>|>.*?<\/\1>)';
+        $regex = '<(' . preg_quote($tag, '#') . ')[^>]*(?<!\/)(\/>|>.*?<\/\1>)';
 
         $pregLimit = $cleanAfter ? abs($offset) + 1 : -1;
 
@@ -410,7 +410,7 @@ class Str
 
         $lastClean = $cleanAfter ? uniqid('cut_', true) : null;
 
-        $html = preg_replace_callback('#'.$regex.'#i', function ($matches) use (&$count, $offset, $limit, $lastClean) {
+        $html = preg_replace_callback('#' . $regex . '#i', function ($matches) use (&$count, $offset, $limit, $lastClean) {
             ++$count;
 
             if ($count > $offset and ($limit < 1 or ($count <= ($offset + $limit)))) {
@@ -466,14 +466,14 @@ class Str
     public static function nth($number)
     {
         if ($number > 3 && $number < 21) {
-            return $number.'th';
+            return $number . 'th';
         }
 
         switch ($number % 10) {
-            case 1:  return $number.'st';
-            case 2:  return $number.'nd';
-            case 3:  return $number.'rd';
-            default: return $number.'th';
+            case 1:  return $number . 'st';
+            case 2:  return $number . 'nd';
+            case 3:  return $number . 'rd';
+            default: return $number . 'th';
         }
     }
 
@@ -486,7 +486,7 @@ class Str
     {
         $regex = '(?:((?:https?|ftps?)\:\/\/)|www\.)([a-z0-9\-]+\.)(?-1)?[a-z]{2,8}(?:(?:\/|\?)\S*[a-z0-9-_])?';
 
-        return preg_replace_callback('#('.$regex.')#i', function ($matches) use ($callable) {
+        return preg_replace_callback('#(' . $regex . ')#i', function ($matches) use ($callable) {
             $href = $name = $matches[1];
 
             if ($matches[2] === 'www.') {

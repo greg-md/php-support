@@ -5,15 +5,11 @@ namespace Greg\Support\Http;
 use Greg\Support\Arr;
 
 /**
- * Interface RequestStaticTraitInterface
- * @package Greg\Support\Http
- *
- * $_GET Methods
+ * Interface RequestStaticTraitInterface.
  *
  * @method static bool hasGetParams()
  * @method static bool hasGet($key)
  * @method static bool hasIndexGet($index, $delimiter = Arr::INDEX_DELIMITER)
- *
  * @method static array getAllGet()
  * @method static string getGet($key, $else = null)
  * @method static string getGetRef($key, &$else = null)
@@ -33,11 +29,9 @@ use Greg\Support\Arr;
  * @method static string getIndexArrayForceGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
  *
  * $_POST Methods
- *
  * @method static bool hasPostParams()
  * @method static bool hasPost($key)
  * @method static bool hasIndexPost($index, $delimiter = Arr::INDEX_DELIMITER)
- *
  * @method static array getAllPost()
  * @method static string getPost($key, $else = null)
  * @method static string getPostRef($key, &$else = null)
@@ -57,11 +51,9 @@ use Greg\Support\Arr;
  * @method static string getIndexArrayForcePostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
  *
  * $_REQUEST Methods
- *
  * @method static bool hasRequestParams()
  * @method static bool hasRequest($key)
  * @method static bool hasIndexRequest($index, $delimiter = Arr::INDEX_DELIMITER)
- *
  * @method static array getAllRequest()
  * @method static string getRequest($key, $else = null)
  * @method static string getRequestRef($key, &$else = null)
@@ -81,11 +73,9 @@ use Greg\Support\Arr;
  * @method static string getIndexArrayForceRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
  *
  * $_FILES Methods
- *
  * @method static bool hasFilesParams()
  * @method static bool hasFiles($key)
  * @method static bool hasIndexFiles($index, $delimiter = Arr::INDEX_DELIMITER)
- *
  * @method static array getAllFiles()
  * @method static string getFiles($key, $else = null)
  * @method static string getFilesRef($key, &$else = null)
@@ -103,7 +93,6 @@ use Greg\Support\Arr;
  * @method static string getIndexArrayFilesRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
  * @method static string getIndexArrayForceFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
  * @method static string getIndexArrayForceFilesRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
- *
  */
 interface RequestStaticTraitInterface
 {

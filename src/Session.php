@@ -85,12 +85,12 @@ class Session
 
     public static function iniSet($var, $value)
     {
-        return ServerIni::set('session.'.$var, $value);
+        return ServerIni::set('session.' . $var, $value);
     }
 
     public static function iniGet($var)
     {
-        return ServerIni::get('session.'.$var);
+        return ServerIni::get('session.' . $var);
     }
 
     public static function id($id = null)

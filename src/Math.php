@@ -63,6 +63,6 @@ class Math
             }
         }
 
-        return $up.'/'.$down;
+        return $up . '/' . $down;
     }
 }

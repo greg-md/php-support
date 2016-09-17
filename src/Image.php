@@ -87,7 +87,7 @@ class Image extends File
         }
 
         if ($point) {
-            $ext = '.'.$ext;
+            $ext = '.' . $ext;
         }
 
         return $ext;

@@ -11,7 +11,7 @@ class DateTime extends \DateTime
         $y = date('Y');
 
         if ($y > $start) {
-            $interval .= $delimiter.$y;
+            $interval .= $delimiter . $y;
         }
 
         return $interval;
@@ -49,7 +49,7 @@ class DateTime extends \DateTime
 
     public static function toDateTimeString($time = 'now', $second = true)
     {
-        return static::formatTime('Y-m-d H:i'.($second ? ':s' : ''), $time);
+        return static::formatTime('Y-m-d H:i' . ($second ? ':s' : ''), $time);
     }
 
     public static function toISO8601($time)
@@ -64,7 +64,7 @@ class DateTime extends \DateTime
 
     public static function toTimeString($time = 'now', $second = true)
     {
-        return static::formatTime('H:i'.($second ? ':s' : ''), $time);
+        return static::formatTime('H:i' . ($second ? ':s' : ''), $time);
     }
 
     public static function toYearString($time = 'now', $full = true)

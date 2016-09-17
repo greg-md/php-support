@@ -147,8 +147,8 @@ class Obj
     public static function expectedArg(\ReflectionParameter $expectedArg)
     {
         if (!$expectedArg->isOptional()) {
-            throw new \Exception('Argument `'.$expectedArg->getName().'` is required in `'
-                .$expectedArg->getDeclaringClass()->getName().'::'.$expectedArg->getDeclaringFunction()->getName().'`');
+            throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `'
+                . $expectedArg->getDeclaringClass()->getName() . '::' . $expectedArg->getDeclaringFunction()->getName() . '`');
         }
 
         $arg = $expectedArg->getDefaultValue();
@@ -165,7 +165,7 @@ class Obj
         $name = implode('\\', $name);
 
         foreach ($prefixes as $prefix) {
-            $class = $prefix.$namePrefix.$name;
+            $class = $prefix . $namePrefix . $name;
 
             if (class_exists($class)) {
                 return $class;

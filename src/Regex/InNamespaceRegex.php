@@ -67,7 +67,7 @@ class InNamespaceRegex
 
     public function replaceCallback(callable $callable, $string, $flags = null)
     {
-        return preg_replace_callback('#'.$this->toString().'#'.$flags, $callable, $string);
+        return preg_replace_callback('#' . $this->toString() . '#' . $flags, $callable, $string);
     }
 
     public function toString()
@@ -92,7 +92,7 @@ class InNamespaceRegex
 
         if ($this->disableIn) {
             foreach ($this->disableIn as $capture) {
-                $allows[] = preg_quote($capture[0]).'.*?'.preg_quote($capture[1]);
+                $allows[] = preg_quote($capture[0]) . '.*?' . preg_quote($capture[1]);
             }
         }
 
@@ -112,12 +112,12 @@ class InNamespaceRegex
         }
 
         $matches = [
-            $this->getMath() ?: '(?:'.implode('|', $allows).')',
+            $this->getMath() ?: '(?:' . implode('|', $allows) . ')',
         ];
 
         if ($this->recursive()) {
             if ($recursiveGroup = $this->getRecursiveGroup()) {
-                $matches[] = '\g\''.$recursiveGroup.'\'';
+                $matches[] = '\g\'' . $recursiveGroup . '\'';
             } else {
                 $matches[] = '(?R)';
             }
@@ -125,7 +125,7 @@ class InNamespaceRegex
 
         $matches = implode('|', $matches);
 
-        $flag = ($this->allowEmpty() ? '*' : '+').'?';
+        $flag = ($this->allowEmpty() ? '*' : '+') . '?';
 
         $trim = $this->trim() ? '\s*' : '';
 

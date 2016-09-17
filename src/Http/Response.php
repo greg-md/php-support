@@ -97,7 +97,7 @@ class Response implements ResponseInterface
         }
 
         if ($charset = $this->getCharset()) {
-            $contentType[] = 'charset='.$charset;
+            $contentType[] = 'charset=' . $charset;
         }
 
         if ($contentType) {
@@ -219,10 +219,10 @@ class Response implements ResponseInterface
     public static function sendCode($code)
     {
         if (Str::isNaturalNumber($code) and Arr::has(static::CODES, $code)) {
-            $code .= ' '.static::CODES[$code];
+            $code .= ' ' . static::CODES[$code];
         }
 
-        header('HTTP/1.1 '.$code);
+        header('HTTP/1.1 ' . $code);
 
         return true;
     }
@@ -237,7 +237,7 @@ class Response implements ResponseInterface
             $url = '/';
         }
 
-        header('Location: '.$url, false, $code);
+        header('Location: ' . $url, false, $code);
 
         return true;
     }
@@ -323,14 +323,14 @@ class Response implements ResponseInterface
 
     public static function sendContentType($type)
     {
-        header('Content-Type: '.$type);
+        header('Content-Type: ' . $type);
 
         return true;
     }
 
     public static function sendDisposition($name, $fileName = null)
     {
-        header('Content-disposition: '.$name.'; filename="'.addslashes($fileName).'"');
+        header('Content-disposition: ' . $name . '; filename="' . addslashes($fileName) . '"');
 
         return true;
     }
@@ -372,14 +372,14 @@ class Response implements ResponseInterface
             }
         }
 
-        $lastModified = substr(date('r', $timestamp), 0, -5).'GMT';
+        $lastModified = substr(date('r', $timestamp), 0, -5) . 'GMT';
 
-        $eTag = '"'.md5($lastModified).'"';
+        $eTag = '"' . md5($lastModified) . '"';
 
         // Send the headers
-        header('Last-Modified: '.$lastModified);
+        header('Last-Modified: ' . $lastModified);
 
-        header('ETag: '.$eTag);
+        header('ETag: ' . $eTag);
 
         $match = Request::match();
 

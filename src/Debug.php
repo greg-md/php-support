@@ -22,7 +22,7 @@ class Debug
         $reflection = new \ReflectionClass($object);
 
         foreach ($reflection->getConstants() as $name => $value) {
-            $return[$name.':constant'] = $value;
+            $return[$name . ':constant'] = $value;
         }
 
         $return = array_merge($return, static::fetchVars($object, $reflection->getStaticProperties(), $full));
@@ -57,9 +57,9 @@ class Debug
 
             if (is_object($value)) {
                 if (static::$parents and static::$parents->contains($value)) {
-                    $value = get_class($value).' Object *RECURSIVE*';
+                    $value = get_class($value) . ' Object *RECURSIVE*';
                 } elseif (!$full) {
-                    $value = get_class($value).' Object';
+                    $value = get_class($value) . ' Object';
                 }
             }
 

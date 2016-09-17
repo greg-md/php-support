@@ -519,7 +519,7 @@ class Arr
     public static function &prefixRef(array &$array, $prefix)
     {
         foreach ($array as &$value) {
-            $value = $prefix.$value;
+            $value = $prefix . $value;
         }
         unset($value);
 
@@ -869,7 +869,7 @@ class Arr
     public static function &packRef(array &$array, $glue = null, $saveKeys = false)
     {
         foreach ($array as $key => &$value) {
-            $value = $key.$glue.$value;
+            $value = $key . $glue . $value;
         }
 
         if (!$saveKeys) {
@@ -893,7 +893,7 @@ class Arr
                 $value = static::packIndexes($value);
 
                 foreach ($value as $k => $v) {
-                    $new[$key.$delimiter.$k] = $v;
+                    $new[$key . $delimiter . $k] = $v;
                 }
             } else {
                 $new[$key] = $value;

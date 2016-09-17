@@ -25,6 +25,6 @@ class Regex
 
     public static function pattern($regex, $flags = null)
     {
-        return static::$pattern.$regex.static::$pattern.$flags;
+        return static::$pattern . $regex . static::$pattern . $flags;
     }
 }
