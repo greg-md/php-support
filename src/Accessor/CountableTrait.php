@@ -1,11 +1,11 @@
 <?php
 
-namespace Greg\Support\Storage;
+namespace Greg\Support\Accessor;
 
 trait CountableTrait
 {
     public function count()
     {
-        return count($this->storage);
+        return count($this->accessor);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Greg\Support\Storage;
+namespace Greg\Support\Accessor;
 
 use Greg\Support\Arr;
 
-class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \Countable
+class ArrayObject implements ArrayAccessTraitInterface, \IteratorAggregate, \Serializable, \Countable
 {
     use AccessorTrait, ArrayAccessTrait, IteratorAggregateTrait, SerializableTrait, CountableTrait;
 
@@ -28,148 +28,148 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
     {
         $input = (array) $input;
 
-        $this->storage = &$input;
+        $this->accessor = &$input;
 
         return $this;
     }
 
     public function toArray()
     {
-        return $this->storage;
+        return $this->accessor;
     }
 
     public function append($value = null, ...$values)
     {
-        array_push($this->storage, $value, ...$values);
+        array_push($this->accessor, $value, ...$values);
 
         return $this;
     }
 
     public function appendRef(&$value = null, &...$values)
     {
-        Arr::appendRefValueRef($this->storage, $value, ...$values);
+        Arr::appendRefValueRef($this->accessor, $value, ...$values);
 
         return $this;
     }
 
     public function appendKey($key = null, $value = null)
     {
-        Arr::appendKeyRefValueRef($this->storage, $key, $value);
+        Arr::appendKeyRefValueRef($this->accessor, $key, $value);
 
         return $this;
     }
 
     public function appendKeyRef($key = null, &$value = null)
     {
-        Arr::appendKeyRefValueRef($this->storage, $key, $value);
+        Arr::appendKeyRefValueRef($this->accessor, $key, $value);
 
         return $this;
     }
 
     public function prepend($value = null, ...$values)
     {
-        array_unshift($this->storage, $value, ...$values);
+        array_unshift($this->accessor, $value, ...$values);
 
         return $this;
     }
 
     public function prependRef(&$value, &...$values)
     {
-        Arr::prependRefValueRef($this->storage, $value, ...$values);
+        Arr::prependRefValueRef($this->accessor, $value, ...$values);
 
         return $this;
     }
 
     public function prependKey($key = null, $value = null)
     {
-        Arr::prependKeyRefValueRef($this->storage, $key, $value);
+        Arr::prependKeyRefValueRef($this->accessor, $key, $value);
 
         return $this;
     }
 
     public function prependKeyRef($key = null, &$value = null)
     {
-        Arr::prependKeyRefValueRef($this->storage, $key, $value);
+        Arr::prependKeyRefValueRef($this->accessor, $key, $value);
 
         return $this;
     }
 
     public function asort($flag = SORT_REGULAR)
     {
-        asort($this->storage, $flag);
+        asort($this->accessor, $flag);
 
         return $this;
     }
 
     public function ksort($flag = SORT_REGULAR)
     {
-        ksort($this->storage, $flag);
+        ksort($this->accessor, $flag);
 
         return $this;
     }
 
     public function natcasesort()
     {
-        natcasesort($this->storage);
+        natcasesort($this->accessor);
 
         return $this;
     }
 
     public function natsort()
     {
-        natsort($this->storage);
+        natsort($this->accessor);
 
         return $this;
     }
 
     public function uasort($function)
     {
-        uasort($this->storage, $function);
+        uasort($this->accessor, $function);
 
         return $this;
     }
 
     public function uksort($function)
     {
-        uksort($this->storage, $function);
+        uksort($this->accessor, $function);
 
         return $this;
     }
 
     public function reset()
     {
-        reset($this->storage);
+        reset($this->accessor);
 
         return $this;
     }
 
     public function clear()
     {
-        $this->storage = [];
+        $this->accessor = [];
 
         return $this;
     }
 
     public function inArray($value, $strict = false)
     {
-        return in_array($value, $this->storage, $strict);
+        return in_array($value, $this->accessor, $strict);
     }
 
     public function inArrayValues(array $values, $strict = false)
     {
-        return Arr::inArrayValuesRef($this->storage, $values, $strict);
+        return Arr::inArrayValuesRef($this->accessor, $values, $strict);
     }
 
     public function merge(array $array, array ...$arrays)
     {
-        $this->storage = array_merge($this->storage, $array, ...$arrays);
+        $this->accessor = array_merge($this->accessor, $array, ...$arrays);
 
         return $this;
     }
 
     public function mergeRecursive(array $array, array ...$arrays)
     {
-        $this->storage = array_merge_recursive($this->storage, $array, ...$arrays);
+        $this->accessor = array_merge_recursive($this->accessor, $array, ...$arrays);
 
         return $this;
     }
@@ -178,9 +178,9 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
     {
         $arrays = array_reverse(func_get_args());
 
-        $arrays[] = $this->storage;
+        $arrays[] = $this->accessor;
 
-        $this->storage = array_merge(...$arrays);
+        $this->accessor = array_merge(...$arrays);
 
         return $this;
     }
@@ -189,30 +189,30 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
     {
         $arrays = array_reverse(func_get_args());
 
-        $arrays[] = $this->storage;
+        $arrays[] = $this->accessor;
 
-        $this->storage = array_merge_recursive(...$arrays);
+        $this->accessor = array_merge_recursive(...$arrays);
 
         return $this;
     }
 
     public function mergeValues()
     {
-        $this->storage = array_merge(...$this->storage);
+        $this->accessor = array_merge(...$this->accessor);
 
         return $this;
     }
 
     public function replace($array, array ...$arrays)
     {
-        $this->storage = array_replace($this->storage, $array, ...$arrays);
+        $this->accessor = array_replace($this->accessor, $array, ...$arrays);
 
         return $this;
     }
 
     public function replaceRecursive($array, array ...$arrays)
     {
-        $this->storage = array_replace_recursive($this->storage, $array, ...$arrays);
+        $this->accessor = array_replace_recursive($this->accessor, $array, ...$arrays);
 
         return $this;
     }
@@ -221,9 +221,9 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
     {
         $arrays = array_reverse(func_get_args());
 
-        $arrays[] = $this->storage;
+        $arrays[] = $this->accessor;
 
-        $this->storage = array_replace(...$arrays);
+        $this->accessor = array_replace(...$arrays);
 
         return $this;
     }
@@ -232,72 +232,72 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
     {
         $arrays = array_reverse(func_get_args());
 
-        $arrays[] = $this->storage;
+        $arrays[] = $this->accessor;
 
-        $this->storage = array_replace_recursive(...$arrays);
+        $this->accessor = array_replace_recursive(...$arrays);
 
         return $this;
     }
 
     public function replaceValues()
     {
-        $this->storage = array_replace(...$this->storage);
+        $this->accessor = array_replace(...$this->accessor);
 
         return $this;
     }
 
     public function diff($array, array ...$arrays)
     {
-        $this->storage = array_diff($this->storage, $array, ...func_get_args());
+        $this->accessor = array_diff($this->accessor, $array, ...func_get_args());
 
         return $this;
     }
 
     public function map(callable $callable = null, array ...$arrays)
     {
-        $this->storage = array_map($callable, $this->storage, ...$arrays);
+        $this->accessor = array_map($callable, $this->accessor, ...$arrays);
 
         return $this;
     }
 
     public function mapRecursive(callable $callable = null, array ...$arrays)
     {
-        $this->storage = Arr::mapRecursive($callable, $this->storage, ...$arrays);
+        $this->accessor = Arr::mapRecursive($callable, $this->accessor, ...$arrays);
 
         return $this;
     }
 
     public function filter(callable $callable = null, $flag = 0)
     {
-        $this->storage = array_filter($this->storage, ...func_get_args());
+        $this->accessor = array_filter($this->accessor, ...func_get_args());
 
         return $this;
     }
 
     public function filterRecursive(callable $callable = null, $flag = 0)
     {
-        $this->storage = Arr::filterRecursive($this->storage, ...func_get_args());
+        $this->accessor = Arr::filterRecursive($this->accessor, ...func_get_args());
 
         return $this;
     }
 
     public function reverse($preserveKeys = false)
     {
-        $this->storage = array_reverse($this->storage, $preserveKeys);
+        $this->accessor = array_reverse($this->accessor, $preserveKeys);
 
         return $this;
     }
 
     public function chunk($size, $preserveKeys = false)
     {
-        $this->storage = array_chunk($this->storage, $size, $preserveKeys);
+        $this->accessor = array_chunk($this->accessor, $size, $preserveKeys);
 
         return $this;
     }
 
     public function implode($param = '')
     {
-        return implode($param, $this->storage);
+        return implode($param, $this->accessor);
     }
 
     public function join($param = '')
@@ -307,90 +307,90 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
 
     public function shift()
     {
-        return array_shift($this->storage);
+        return array_shift($this->accessor);
     }
 
     public function pop()
     {
-        return array_pop($this->storage);
+        return array_pop($this->accessor);
     }
 
     public function first()
     {
-        reset($this->storage);
+        reset($this->accessor);
 
-        return current($this->storage);
+        return current($this->accessor);
     }
 
     public function last()
     {
-        return end($this->storage);
+        return end($this->accessor);
     }
 
     public function current()
     {
-        return key($this->storage);
+        return key($this->accessor);
     }
 
     public function next()
     {
-        return next($this->storage);
+        return next($this->accessor);
     }
 
     public function group($maxLevel = 1, $replaceLast = true, $removeGroupedKey = false)
     {
-        $this->storage = Arr::group($this->storage, $maxLevel, $replaceLast, $removeGroupedKey);
+        $this->accessor = Arr::group($this->accessor, $maxLevel, $replaceLast, $removeGroupedKey);
 
         return $this;
     }
 
     public function column($key, $indexKey = null)
     {
-        return array_column($this->storage, ...func_get_args());
+        return array_column($this->accessor, ...func_get_args());
     }
 
     public function walk(callable $callable, $data = null)
     {
-        array_walk($this->storage, $callable, $data);
+        array_walk($this->accessor, $callable, $data);
 
         return $this;
     }
 
     public function shuffle()
     {
-        shuffle($this->storage);
+        shuffle($this->accessor);
 
         return $this;
     }
 
     public function sort($flags = SORT_REGULAR)
     {
-        sort($this->storage, $flags);
+        sort($this->accessor, $flags);
 
         return $this;
     }
 
     public function arsort($flags = SORT_REGULAR)
     {
-        arsort($this->storage, $flags);
+        arsort($this->accessor, $flags);
 
         return $this;
     }
 
     public function krsort($flags = SORT_REGULAR)
     {
-        krsort($this->storage, $flags);
+        krsort($this->accessor, $flags);
 
         return $this;
     }
 
     public function keys()
     {
-        return array_keys($this->storage);
+        return array_keys($this->accessor);
     }
 
     public function values()
     {
-        return array_values($this->storage);
+        return array_values($this->accessor);
     }
 }

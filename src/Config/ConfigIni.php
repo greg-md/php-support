@@ -2,19 +2,26 @@
 
 namespace Greg\Support\Config;
 
-use Greg\Support\Arr;
-use Greg\Support\Storage\AccessorTrait;
-use Greg\Support\Storage\ArrayAccessTrait;
-
-abstract class ConfigIniAbstract implements \ArrayAccess
+class ConfigIni
 {
-    use AccessorTrait, ArrayAccessTrait;
-
-    public function setContents(array $contents = [], $section = null, $indexDelimiter = null)
+    public static function file($file, $section = null, $indexDelimiter = null)
     {
-        $this->setStorage(static::fetchContents($contents, $section, $indexDelimiter));
+        return static::fetchContents(static::parseFile($file), $section, $indexDelimiter);
+    }
 
-        return $this;
+    public static function string($string, $section = null, $indexDelimiter = null)
+    {
+        return static::fetchContents(static::parseString($string), $section, $indexDelimiter);
+    }
+
+    protected static function parseFile($file)
+    {
+        return parse_ini_file($file, true);
+    }
+
+    protected static function parseString($string)
+    {
+        return parse_ini_string($string, true);
     }
 
     protected static function fetchContents($contents, $section = null, $indexDelimiter = null)
@@ -48,7 +55,7 @@ abstract class ConfigIniAbstract implements \ArrayAccess
 
             if ($section) {
                 if (!array_key_exists($section, $return)) {
-                    throw new \Exception('Config ini section `'.$section.'` not found.');
+                    throw new ConfigException('Config ini section `'.$section.'` not found.');
                 }
 
                 $return = $return[$section];
@@ -58,9 +65,10 @@ abstract class ConfigIniAbstract implements \ArrayAccess
         return $return;
     }
 
-    protected static function fetchIndexes($contents, $indexDelimiter = Arr::INDEX_DELIMITER)
+    protected static function fetchIndexes($contents, $indexDelimiter)
     {
         $fetchedSection = [];
+
         foreach ($contents as $key => $value) {
             $keys = explode($indexDelimiter, $key);
 
@@ -82,10 +90,5 @@ abstract class ConfigIniAbstract implements \ArrayAccess
         }
 
         return $fetchedSection;
-    }
-
-    public function toArray()
-    {
-        return $this->getStorage();
     }
 }

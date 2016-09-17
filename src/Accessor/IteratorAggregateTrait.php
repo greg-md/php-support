@@ -1,6 +1,6 @@
 <?php
 
-namespace Greg\Support\Storage;
+namespace Greg\Support\Accessor;
 
 trait IteratorAggregateTrait
 {
@@ -12,7 +12,7 @@ trait IteratorAggregateTrait
             throw new \Exception('Undefined iterator.');
         }
 
-        return new $this->iteratorClass($this->storage);
+        return new $this->iteratorClass($this->accessor);
     }
 
     public function getIteratorClass()

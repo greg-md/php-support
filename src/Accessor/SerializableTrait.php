@@ -1,12 +1,12 @@
 <?php
 
-namespace Greg\Support\Storage;
+namespace Greg\Support\Accessor;
 
 trait SerializableTrait
 {
     public function serialize()
     {
-        return serialize($this->storage);
+        return serialize($this->accessor);
     }
 
     public function unserialize($storage)

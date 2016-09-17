@@ -1,6 +1,6 @@
 <?php
 
-namespace Greg\Support\Storage;
+namespace Greg\Support\Accessor;
 
 use Greg\Support\Arr;
 
@@ -8,12 +8,12 @@ trait ArrayAccessTrait
 {
     public function has($key)
     {
-        return Arr::hasRef($this->storage, $key);
+        return Arr::hasRef($this->accessor, $key);
     }
 
     public function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::hasIndexRef($this->storage, $index, $delimiter);
+        return Arr::hasIndexRef($this->accessor, $index, $delimiter);
     }
 
     public function set($key, $value)
@@ -23,7 +23,7 @@ trait ArrayAccessTrait
 
     public function setRef($key, &$value)
     {
-        Arr::setRefValueRef($this->storage, $key, $value);
+        Arr::setRefValueRef($this->accessor, $key, $value);
 
         return $this;
     }
@@ -35,7 +35,7 @@ trait ArrayAccessTrait
 
     public function setIndexRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
-        Arr::setIndexRefValueRef($this->storage, $index, $value, $delimiter);
+        Arr::setIndexRefValueRef($this->accessor, $index, $value, $delimiter);
 
         return $this;
     }
@@ -47,7 +47,7 @@ trait ArrayAccessTrait
 
     public function &getRef($key, &$else = null)
     {
-        return Arr::getRef($this->storage, $key, $else);
+        return Arr::getRef($this->accessor, $key, $else);
     }
 
     public function getForce($key, $else = null)
@@ -57,7 +57,7 @@ trait ArrayAccessTrait
 
     public function &getForceRef($key, &$else = null)
     {
-        return Arr::getForceRef($this->storage, $key, $else);
+        return Arr::getForceRef($this->accessor, $key, $else);
     }
 
     public function getArray($key, $else = null)
@@ -67,7 +67,7 @@ trait ArrayAccessTrait
 
     public function &getArrayRef($key, &$else = null)
     {
-        return Arr::getArrayRef($this->storage, $key, $else);
+        return Arr::getArrayRef($this->accessor, $key, $else);
     }
 
     public function getArrayForce($key, $else = null)
@@ -77,7 +77,7 @@ trait ArrayAccessTrait
 
     public function &getArrayForceRef($key, &$else = null)
     {
-        return Arr::getArrayForceRef($this->storage, $key, $else);
+        return Arr::getArrayForceRef($this->accessor, $key, $else);
     }
 
     public function getIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
@@ -87,7 +87,7 @@ trait ArrayAccessTrait
 
     public function &getIndexRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexRef($this->storage, $index, $else, $delimiter);
+        return Arr::getIndexRef($this->accessor, $index, $else, $delimiter);
     }
 
     public function getIndexForce($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
@@ -97,7 +97,7 @@ trait ArrayAccessTrait
 
     public function &getIndexForceRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexForceRef($this->storage, $index, $else, $delimiter);
+        return Arr::getIndexForceRef($this->accessor, $index, $else, $delimiter);
     }
 
     public function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
@@ -107,7 +107,7 @@ trait ArrayAccessTrait
 
     public function &getIndexArrayRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexArrayRef($this->storage, $index, $else, $delimiter);
+        return Arr::getIndexArrayRef($this->accessor, $index, $else, $delimiter);
     }
 
     public function getIndexArrayForce($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
@@ -117,19 +117,19 @@ trait ArrayAccessTrait
 
     public function &getIndexArrayForceRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexArrayForceRef($this->storage, $index, $else, $delimiter);
+        return Arr::getIndexArrayForceRef($this->accessor, $index, $else, $delimiter);
     }
 
     public function del($key)
     {
-        Arr::delRef($this->storage, $key);
+        Arr::delRef($this->accessor, $key);
 
         return $this;
     }
 
     public function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        Arr::delIndexRef($this->storage, $index, $delimiter);
+        Arr::delIndexRef($this->accessor, $index, $delimiter);
 
         return $this;
     }
@@ -158,7 +158,7 @@ trait ArrayAccessTrait
      */
     public function &offsetGet($key)
     {
-        return $this->storage[$key];
+        return $this->accessor[$key];
         //return $this->getRef($key);
     }
 

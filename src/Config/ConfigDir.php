@@ -2,9 +2,9 @@
 
 namespace Greg\Support\Config;
 
-class ConfigPath
+class ConfigDir
 {
-    public static function fetch($path, array $params = [], $ext = 'php')
+    public static function path($path, array $params = [], $ext = 'php')
     {
         $config = [];
 
@@ -12,7 +12,7 @@ class ConfigPath
             $settings = null;
 
             if (is_dir($file)) {
-                $settings = static::fetch($file, $params, $ext);
+                $settings = static::path($file, $params, $ext);
             }
 
             if (is_file($file) and pathinfo($file, PATHINFO_EXTENSION) == $ext) {

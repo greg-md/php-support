@@ -27,7 +27,7 @@ class File
     {
         $file = explode('.', $file);
 
-        return ($point ? '.' : '').(count($file > 1) ? end($file) : null);
+        return ($point ? '.' : '') . (count($file) > 1 ? end($file) : null);
     }
 
     public static function mimeFile($file)

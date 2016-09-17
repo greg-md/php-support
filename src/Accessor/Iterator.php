@@ -1,34 +1,34 @@
 <?php
 
-namespace Greg\Support\Storage;
+namespace Greg\Support\Accessor;
 
 class Iterator implements \Iterator
 {
-    private $storage = [];
+    private $accessor = [];
 
     public function __construct(array &$storage = [])
     {
-        $this->storage = $storage;
+        $this->accessor = $storage;
     }
 
     public function current()
     {
-        return current($this->storage);
+        return current($this->accessor);
     }
 
     public function key()
     {
-        return key($this->storage);
+        return key($this->accessor);
     }
 
     public function next()
     {
-        return next($this->storage);
+        return next($this->accessor);
     }
 
     public function rewind()
     {
-        return reset($this->storage);
+        return reset($this->accessor);
     }
 
     public function valid()
