@@ -4,9 +4,9 @@ namespace Greg\Support;
 
 class ErrorHandler
 {
-    static public function throwException()
+    public static function throwException()
     {
-        set_error_handler(function($errNo, $errStr/*, $errFile, $errLine*/) {
+        set_error_handler(function ($errNo, $errStr/*, $errFile, $errLine*/) {
             unset($errNo);
 
             throw new \Exception($errStr);
@@ -15,16 +15,15 @@ class ErrorHandler
         return true;
     }
 
-    static public function disable()
+    public static function disable()
     {
-        set_error_handler(function($errNo, $errStr, $errFile, $errLine) {
-
+        set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
         });
 
         return true;
     }
 
-    static public function restore()
+    public static function restore()
     {
         return restore_error_handler();
     }

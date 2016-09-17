@@ -23,31 +23,31 @@ class File
         return $this->mimeFile($this->getFilePath());
     }
 
-    static public function extFile($file, $point = false)
+    public static function extFile($file, $point = false)
     {
         $file = explode('.', $file);
 
-        return ($point ? '.' : '') . (sizeof($file > 1) ? end($file) : null);
+        return ($point ? '.' : '').(count($file > 1) ? end($file) : null);
     }
 
-    static public function mimeFile($file)
+    public static function mimeFile($file)
     {
-        return (new \finfo)->file($file, FILEINFO_MIME_TYPE);
+        return (new \finfo())->file($file, FILEINFO_MIME_TYPE);
     }
 
-    static public function fixFileDir($file, $recursive = false)
+    public static function fixFileDir($file, $recursive = false)
     {
         return Dir::fix(dirname($file), $recursive);
     }
 
-    static public function fixFileDirRecursive($file)
+    public static function fixFileDirRecursive($file)
     {
         return static::fixFileDir($file, true);
     }
 
     public function setFilePath($file)
     {
-        $this->filePath = (string)$file;
+        $this->filePath = (string) $file;
 
         return $this;
     }

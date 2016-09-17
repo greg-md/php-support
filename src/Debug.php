@@ -7,9 +7,9 @@ class Debug
     /**
      * @var \SplObjectStorage|null
      */
-    static protected $parents = null;
+    protected static $parents = null;
 
-    static public function fixInfo($object, $vars, $full = true)
+    public static function fixInfo($object, $vars, $full = true)
     {
         if (!static::$parents) {
             static::$parents = new \SplObjectStorage();
@@ -21,8 +21,8 @@ class Debug
 
         $reflection = new \ReflectionClass($object);
 
-        foreach($reflection->getConstants() as $name => $value) {
-            $return[$name . ':constant'] = $value;
+        foreach ($reflection->getConstants() as $name => $value) {
+            $return[$name.':constant'] = $value;
         }
 
         $return = array_merge($return, static::fetchVars($object, $reflection->getStaticProperties(), $full));
@@ -40,11 +40,11 @@ class Debug
         return $return;
     }
 
-    static public function fetchVars($object, array $vars = [], $full = true)
+    public static function fetchVars($object, array $vars = [], $full = true)
     {
         $return = [];
 
-        foreach($vars as $name => $value) {
+        foreach ($vars as $name => $value) {
             $property = new \ReflectionProperty($object, $name);
 
             $key = [$name];
@@ -57,9 +57,9 @@ class Debug
 
             if (is_object($value)) {
                 if (static::$parents and static::$parents->contains($value)) {
-                    $value = get_class($value) . ' Object *RECURSIVE*';
+                    $value = get_class($value).' Object *RECURSIVE*';
                 } elseif (!$full) {
-                    $value = get_class($value) . ' Object';
+                    $value = get_class($value).' Object';
                 }
             }
 

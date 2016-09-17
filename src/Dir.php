@@ -4,7 +4,7 @@ namespace Greg\Support;
 
 class Dir
 {
-    static public function fix($dir, $recursive = false)
+    public static function fix($dir, $recursive = false)
     {
         if (!file_exists($dir)) {
             ErrorHandler::throwException();
@@ -17,14 +17,14 @@ class Dir
         return true;
     }
 
-    static public function fixRecursive($dir)
+    public static function fixRecursive($dir)
     {
         return static::fix($dir, true);
     }
 
-    static public function unlink($dir)
+    public static function unlink($dir)
     {
-        foreach (glob($dir . '/*') as $file) {
+        foreach (glob($dir.'/*') as $file) {
             is_dir($file) ? static::unlink($file) : unlink($file);
         }
 

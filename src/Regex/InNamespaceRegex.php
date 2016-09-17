@@ -67,7 +67,7 @@ class InNamespaceRegex
 
     public function replaceCallback(callable $callable, $string, $flags = null)
     {
-        return preg_replace_callback('#' . $this->toString() . '#' . $flags, $callable, $string);
+        return preg_replace_callback('#'.$this->toString().'#'.$flags, $callable, $string);
     }
 
     public function toString()
@@ -91,8 +91,8 @@ class InNamespaceRegex
         $allows = [];
 
         if ($this->disableIn) {
-            foreach($this->disableIn as $capture) {
-                $allows[] = preg_quote($capture[0]) . '.*?' . preg_quote($capture[1]);
+            foreach ($this->disableIn as $capture) {
+                $allows[] = preg_quote($capture[0]).'.*?'.preg_quote($capture[1]);
             }
         }
 
@@ -112,12 +112,12 @@ class InNamespaceRegex
         }
 
         $matches = [
-            $this->getMath() ?: '(?:' . implode('|', $allows) . ')',
+            $this->getMath() ?: '(?:'.implode('|', $allows).')',
         ];
 
         if ($this->recursive()) {
             if ($recursiveGroup = $this->getRecursiveGroup()) {
-                $matches[] = '\g\'' . $recursiveGroup . '\'';
+                $matches[] = '\g\''.$recursiveGroup.'\'';
             } else {
                 $matches[] = '(?R)';
             }
@@ -125,7 +125,7 @@ class InNamespaceRegex
 
         $matches = implode('|', $matches);
 
-        $flag = ($this->allowEmpty() ? '*' : '+') . '?';
+        $flag = ($this->allowEmpty() ? '*' : '+').'?';
 
         $trim = $this->trim() ? '\s*' : '';
 
@@ -142,12 +142,12 @@ class InNamespaceRegex
 
     public function __toString()
     {
-        return (string)$this->toString();
+        return (string) $this->toString();
     }
 
     public function setStart($value)
     {
-        $this->start = (string)$value;
+        $this->start = (string) $value;
     }
 
     public function getStart()
@@ -157,7 +157,7 @@ class InNamespaceRegex
 
     public function setEnd($value)
     {
-        $this->end = (string)$value;
+        $this->end = (string) $value;
     }
 
     public function getEnd()
@@ -168,7 +168,7 @@ class InNamespaceRegex
     public function recursive($value = null)
     {
         if (func_num_args()) {
-            $this->recursive = (bool)$value;
+            $this->recursive = (bool) $value;
 
             return $this;
         }
@@ -178,7 +178,7 @@ class InNamespaceRegex
 
     public function setRecursiveGroup($value)
     {
-        $this->recursiveGroup = (string)$value;
+        $this->recursiveGroup = (string) $value;
     }
 
     public function getRecursiveGroup()
@@ -189,7 +189,7 @@ class InNamespaceRegex
     public function capture($value = null)
     {
         if (func_num_args()) {
-            $this->capture = (bool)$value;
+            $this->capture = (bool) $value;
 
             return $this;
         }
@@ -199,7 +199,7 @@ class InNamespaceRegex
 
     public function setCapturedKey($value)
     {
-        $this->capturedKey = (string)$value;
+        $this->capturedKey = (string) $value;
     }
 
     public function getCapturedKey()
@@ -210,7 +210,7 @@ class InNamespaceRegex
     public function allowEmpty($value = null)
     {
         if (func_num_args()) {
-            $this->allowEmpty = (bool)$value;
+            $this->allowEmpty = (bool) $value;
 
             return $this;
         }
@@ -220,7 +220,7 @@ class InNamespaceRegex
 
     public function setMath($value)
     {
-        $this->match = (string)$value;
+        $this->match = (string) $value;
     }
 
     public function getMath()
@@ -230,7 +230,7 @@ class InNamespaceRegex
 
     public function setEscape($value)
     {
-        $this->escape = (string)$value;
+        $this->escape = (string) $value;
     }
 
     public function getEscape()
@@ -241,7 +241,7 @@ class InNamespaceRegex
     public function newLines($value = null)
     {
         if (func_num_args()) {
-            $this->newLines = (bool)$value;
+            $this->newLines = (bool) $value;
 
             return $this;
         }
@@ -252,7 +252,7 @@ class InNamespaceRegex
     public function trim($value = null)
     {
         if (func_num_args()) {
-            $this->trim = (bool)$value;
+            $this->trim = (bool) $value;
 
             return $this;
         }

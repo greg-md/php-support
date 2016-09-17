@@ -153,6 +153,7 @@ trait ArrayAccessTrait
      * Fix: I think this will not be a problem. You can use "has" method instead of getting by undefined keys.
      *
      * @param $key
+     *
      * @return array|null
      */
     public function &offsetGet($key)
