@@ -6,8 +6,7 @@ use Greg\Support\Config\ConfigDir;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ConfigDirTest
- * @package Greg\Support\Tests\Config
+ * Class ConfigDirTest.
  *
  * @coversDefaultClass Greg\Support\Config\ConfigDir
  *
@@ -32,7 +31,7 @@ class ConfigDirTest extends TestCase
             'c3' => [
                 'c' => 3,
                 'd' => 4,
-            ]
+            ],
         ], $config);
     }
 }

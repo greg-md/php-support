@@ -30,7 +30,7 @@ class ServerConfig
     public static function set($var, $value)
     {
         if (!method_exists(get_called_class(), $var)) {
-            throw new \Exception('Unknown config `'.$var.'`.');
+            throw new \Exception('Unknown config `' . $var . '`.');
         }
 
         return static::$var($value);

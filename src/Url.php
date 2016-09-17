@@ -19,7 +19,7 @@ class Url
             return $url;
         }
 
-        return static::fix(Request::clientHost().$url, Request::isSecured());
+        return static::fix(Request::clientHost() . $url, Request::isSecured());
     }
 
     public static function fix($url, $secured = false)
@@ -28,7 +28,7 @@ class Url
             return $url;
         }
 
-        return ($secured ? 'https' : 'http').'://'.$url;
+        return ($secured ? 'https' : 'http') . '://' . $url;
     }
 
     public static function fixShort($url)
@@ -37,7 +37,7 @@ class Url
             return $url;
         }
 
-        return '//'.$url;
+        return '//' . $url;
     }
 
     public static function host($url, $stripWWW = true)
@@ -85,7 +85,7 @@ class Url
 
         $info = parse_url($url);
 
-        return $info['scheme'].'://'.$info['host'];
+        return $info['scheme'] . '://' . $info['host'];
     }
 
     public static function removeQueryString($url)
@@ -106,7 +106,7 @@ class Url
 
     public static function base($url = '/')
     {
-        return Request::baseUri().$url;
+        return Request::baseUri() . $url;
     }
 
     public static function addQuery($url, $query)
@@ -115,7 +115,7 @@ class Url
 
         $allQuery = array_filter([$urlQuery, $query]);
 
-        return $urlPath.($allQuery ? '?'.implode('&', $allQuery) : '');
+        return $urlPath . ($allQuery ? '?' . implode('&', $allQuery) : '');
     }
 
     public static function init($url, $verbose = false)

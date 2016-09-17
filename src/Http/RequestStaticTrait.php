@@ -6,15 +6,11 @@ use Greg\Support\Arr;
 use Greg\Support\Server;
 
 /**
- * Class RequestStaticTrait
- * @package Greg\Support\Http
- *
- * $_GET Methods
+ * Class RequestStaticTrait.
  *
  * @method static bool hasGetParams()
  * @method static bool hasGet($key)
  * @method static bool hasIndexGet($index, $delimiter = Arr::INDEX_DELIMITER)
- *
  * @method static array getAllGet()
  * @method static string getGet($key, $else = null)
  * @method static string getGetRef($key, &$else = null)
@@ -34,11 +30,9 @@ use Greg\Support\Server;
  * @method static string getIndexArrayForceGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
  *
  * $_POST Methods
- *
  * @method static bool hasPostParams()
  * @method static bool hasPost($key)
  * @method static bool hasIndexPost($index, $delimiter = Arr::INDEX_DELIMITER)
- *
  * @method static array getAllPost()
  * @method static string getPost($key, $else = null)
  * @method static string getPostRef($key, &$else = null)
@@ -58,11 +52,9 @@ use Greg\Support\Server;
  * @method static string getIndexArrayForcePostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
  *
  * $_REQUEST Methods
- *
  * @method static bool hasRequestParams()
  * @method static bool hasRequest($key)
  * @method static bool hasIndexRequest($index, $delimiter = Arr::INDEX_DELIMITER)
- *
  * @method static array getAllRequest()
  * @method static string getRequest($key, $else = null)
  * @method static string getRequestRef($key, &$else = null)
@@ -82,11 +74,9 @@ use Greg\Support\Server;
  * @method static string getIndexArrayForceRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
  *
  * $_FILES Methods
- *
  * @method static bool hasFilesParams()
  * @method static bool hasFiles($key)
  * @method static bool hasIndexFiles($index, $delimiter = Arr::INDEX_DELIMITER)
- *
  * @method static array getAllFiles()
  * @method static string getFiles($key, $else = null)
  * @method static string getFilesRef($key, &$else = null)
@@ -104,7 +94,6 @@ use Greg\Support\Server;
  * @method static string getIndexArrayFilesRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
  * @method static string getIndexArrayForceFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
  * @method static string getIndexArrayForceFilesRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
- *
  */
 trait RequestStaticTrait
 {
@@ -346,7 +335,7 @@ trait RequestStaticTrait
         }
 
         if ($mimes and !in_array($file['type'], (array) $mimes)) {
-            throw new \Exception('Wrong file type was uploaded. Valid types are: '.implode(', ', $mimes));
+            throw new \Exception('Wrong file type was uploaded. Valid types are: ' . implode(', ', $mimes));
         }
 
         return true;
@@ -374,10 +363,10 @@ trait RequestStaticTrait
     public static function __callStatic($method, array $args)
     {
         return static::callType([
-            'Get' => &$_GET,
-            'Post' => &$_POST,
+            'Get'     => &$_GET,
+            'Post'    => &$_POST,
             'Request' => &$_REQUEST,
-            'Files' => &$_FILES,
+            'Files'   => &$_FILES,
         ], $method, $args);
     }
 }

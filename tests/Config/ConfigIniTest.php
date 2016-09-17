@@ -7,8 +7,7 @@ use Greg\Support\Config\ConfigIni;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ConfigIniTest
- * @package Greg\Support\Tests\Config
+ * Class ConfigIniTest.
  *
  * @coversDefaultClass Greg\Support\Config\ConfigIni
  *

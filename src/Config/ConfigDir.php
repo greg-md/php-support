@@ -8,7 +8,7 @@ class ConfigDir
     {
         $config = [];
 
-        foreach (glob($path.DIRECTORY_SEPARATOR.'*') as $file) {
+        foreach (glob($path . DIRECTORY_SEPARATOR . '*') as $file) {
             $settings = null;
 
             if (is_dir($file)) {

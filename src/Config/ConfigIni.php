@@ -55,7 +55,7 @@ class ConfigIni
 
             if ($section) {
                 if (!array_key_exists($section, $return)) {
-                    throw new ConfigException('Config ini section `'.$section.'` not found.');
+                    throw new ConfigException('Config ini section `' . $section . '` not found.');
                 }
 
                 $return = $return[$section];

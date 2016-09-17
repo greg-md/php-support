@@ -24,7 +24,7 @@ class Dir
 
     public static function unlink($dir)
     {
-        foreach (glob($dir.'/*') as $file) {
+        foreach (glob($dir . '/*') as $file) {
             is_dir($file) ? static::unlink($file) : unlink($file);
         }
 
