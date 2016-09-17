@@ -12,7 +12,7 @@ class FileConfigInitTest extends TestCase
      */
     public function testParse()
     {
-        $config = FileConfigIni::parse(__DIR__ . '/config.ini');
+        $config = FileConfigIni::parse(__DIR__.'/config.ini');
 
         $this->assertEquals([
             'test' => [

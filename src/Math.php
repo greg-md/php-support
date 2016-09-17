@@ -4,17 +4,17 @@ namespace Greg\Support;
 
 class Math
 {
-    static public function canonicalDivision($number)
+    public static function canonicalDivision($number)
     {
         $parts = explode('/', $number, 2);
 
-        $up = (int)array_shift($parts);
+        $up = (int) array_shift($parts);
 
         if (!$parts) {
             return $up;
         }
 
-        $down = (int)array_shift($parts);
+        $down = (int) array_shift($parts);
 
         if ($down === 0) {
             return $down;
@@ -27,7 +27,7 @@ class Math
         $cf = $up / $down;
 
         if (round($cf) !== $cf) {
-            $func = function($more, $less) use (&$func) {
+            $func = function ($more, $less) use (&$func) {
                 if ($more % $less === 0) {
                     return [$more / $less, 1];
                 }
@@ -37,7 +37,7 @@ class Math
                 $newMore = $more;
                 $newLess = $less;
 
-                for($i = 2; $i <= $max; ++$i) {
+                for ($i = 2; $i <= $max; ++$i) {
                     if ($less % $i !== 0) {
                         continue;
                     }
@@ -63,6 +63,6 @@ class Math
             }
         }
 
-        return $up . '/' . $down;
+        return $up.'/'.$down;
     }
 }

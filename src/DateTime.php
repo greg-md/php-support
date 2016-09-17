@@ -4,25 +4,25 @@ namespace Greg\Support;
 
 class DateTime extends \DateTime
 {
-    static public function toCurrentYearInterval($start, $delimiter = ' - ')
+    public static function toCurrentYearInterval($start, $delimiter = ' - ')
     {
         $interval = $start;
 
         $y = date('Y');
 
         if ($y > $start) {
-            $interval .= $delimiter . $y;
+            $interval .= $delimiter.$y;
         }
 
         return $interval;
     }
 
-    static public function formatTime($format, $time = 'now')
+    public static function formatTime($format, $time = 'now')
     {
         return date($format, static::toTimestamp($time));
     }
 
-    static public function formatTimeLocale($format, $time = 'now')
+    public static function formatTimeLocale($format, $time = 'now')
     {
         $string = strftime($format, static::toTimestamp($time));
 
@@ -33,12 +33,12 @@ class DateTime extends \DateTime
         return $string;
     }
 
-    static public function toTimestamp($time)
+    public static function toTimestamp($time)
     {
         return Str::isNaturalNumber($time) ? $time : strtotime($time);
     }
 
-    static public function diffTime($time1, $time2 = 'now')
+    public static function diffTime($time1, $time2 = 'now')
     {
         $time1 = static::toTimestamp($time1);
 
@@ -47,52 +47,52 @@ class DateTime extends \DateTime
         return ($time1 === $time2) ? 0 : ($time1 > $time2 ? 1 : -1);
     }
 
-    static public function toDateTimeString($time = 'now', $second = true)
+    public static function toDateTimeString($time = 'now', $second = true)
     {
-        return static::formatTime('Y-m-d H:i' . ($second ? ':s' : ''), $time);
+        return static::formatTime('Y-m-d H:i'.($second ? ':s' : ''), $time);
     }
 
-    static public function toISO8601($time)
+    public static function toISO8601($time)
     {
         return static::formatTime('c', $time);
     }
 
-    static public function toDateString($time = 'now')
+    public static function toDateString($time = 'now')
     {
         return static::formatTime('Y-m-d', $time);
     }
 
-    static public function toTimeString($time = 'now', $second = true)
+    public static function toTimeString($time = 'now', $second = true)
     {
-        return static::formatTime('H:i' . ($second ? ':s' : ''), $time);
+        return static::formatTime('H:i'.($second ? ':s' : ''), $time);
     }
 
-    static public function toYearString($time = 'now', $full = true)
+    public static function toYearString($time = 'now', $full = true)
     {
         return static::formatTime($full ? 'Y' : 'y', $time);
     }
 
-    static public function toMonthString($time = 'now', $withZero = true)
+    public static function toMonthString($time = 'now', $withZero = true)
     {
         return static::formatTime($withZero ? 'm' : 'n', $time);
     }
 
-    static public function toDayString($time = 'now', $withZero = true)
+    public static function toDayString($time = 'now', $withZero = true)
     {
         return static::formatTime($withZero ? 'd' : 'j', $time);
     }
 
-    static public function untilNowTime($time)
+    public static function untilNowTime($time)
     {
         return time() - static::toTimestamp($time);
     }
 
-    static public function passedTimeUntilNow($time, $interval)
+    public static function passedTimeUntilNow($time, $interval)
     {
         return static::passedTimeUntil($time, $interval);
     }
 
-    static public function passedTimeUntil($time, $interval, $until = 'now')
+    public static function passedTimeUntil($time, $interval, $until = 'now')
     {
         $time = static::toTimestamp($time);
 

@@ -2,9 +2,9 @@
 
 namespace Greg\Support\Config;
 
+use Greg\Support\Arr;
 use Greg\Support\Storage\AccessorTrait;
 use Greg\Support\Storage\ArrayAccessTrait;
-use Greg\Support\Arr;
 
 abstract class ConfigIniAbstract implements \ArrayAccess
 {
@@ -17,7 +17,7 @@ abstract class ConfigIniAbstract implements \ArrayAccess
         return $this;
     }
 
-    static protected function fetchContents($contents, $section = null, $indexDelimiter = null)
+    protected static function fetchContents($contents, $section = null, $indexDelimiter = null)
     {
         $return = [];
 
@@ -48,7 +48,7 @@ abstract class ConfigIniAbstract implements \ArrayAccess
 
             if ($section) {
                 if (!array_key_exists($section, $return)) {
-                    throw new \Exception('Config ini section `' . $section . '` not found.');
+                    throw new \Exception('Config ini section `'.$section.'` not found.');
                 }
 
                 $return = $return[$section];
@@ -58,7 +58,7 @@ abstract class ConfigIniAbstract implements \ArrayAccess
         return $return;
     }
 
-    static protected function fetchIndexes($contents, $indexDelimiter = Arr::INDEX_DELIMITER)
+    protected static function fetchIndexes($contents, $indexDelimiter = Arr::INDEX_DELIMITER)
     {
         $fetchedSection = [];
         foreach ($contents as $key => $value) {

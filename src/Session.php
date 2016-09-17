@@ -4,17 +4,17 @@ namespace Greg\Support;
 
 class Session
 {
-    static protected $persistent = false;
+    protected static $persistent = false;
 
-    static protected $handler = null;
+    protected static $handler = null;
 
-    static protected $flashKey = '__FLASH__';
+    protected static $flashKey = '__FLASH__';
 
-    static protected $flash = [];
+    protected static $flash = [];
 
-    static protected $flashLoaded = false;
+    protected static $flashLoaded = false;
 
-    static public function reloadFlash()
+    public static function reloadFlash()
     {
         $flash = static::get(static::$flashKey);
 
@@ -23,7 +23,7 @@ class Session
         return static::$flash = $flash;
     }
 
-    static public function loadFlash()
+    public static function loadFlash()
     {
         if (!static::$flashLoaded) {
             static::reloadFlash();
@@ -34,7 +34,7 @@ class Session
         return static::$flash;
     }
 
-    static public function setFlash($key, $value = null)
+    public static function setFlash($key, $value = null)
     {
         static::loadFlash();
 
@@ -53,7 +53,7 @@ class Session
         return $flash;
     }
 
-    static public function getFlash($key = null)
+    public static function getFlash($key = null)
     {
         static::loadFlash();
 
@@ -66,7 +66,7 @@ class Session
         return $flash;
     }
 
-    static public function ini($var, $value = null)
+    public static function ini($var, $value = null)
     {
         if (is_array($var)) {
             foreach (($param = $var) as $var => $value) {
@@ -83,43 +83,43 @@ class Session
         return static::iniGet($var);
     }
 
-    static public function iniSet($var, $value)
+    public static function iniSet($var, $value)
     {
-        return ServerIni::set('session.' . $var, $value);
+        return ServerIni::set('session.'.$var, $value);
     }
 
-    static public function iniGet($var)
+    public static function iniGet($var)
     {
-        return ServerIni::get('session.' . $var);
+        return ServerIni::get('session.'.$var);
     }
 
-    static public function id($id = null)
+    public static function id($id = null)
     {
         return session_id(...func_get_args());
     }
 
-    static public function getId()
+    public static function getId()
     {
         static::start();
 
         return static::id();
     }
 
-    static public function persistent($value = null)
+    public static function persistent($value = null)
     {
         if (func_num_args()) {
-            static::$persistent = (bool)$value;
+            static::$persistent = (bool) $value;
         }
 
         return static::$persistent;
     }
 
-    static public function name($name = null)
+    public static function name($name = null)
     {
         return session_name(...func_get_args());
     }
 
-    static public function start()
+    public static function start()
     {
         if (!isset($_SESSION)) {
             session_start();
@@ -132,12 +132,12 @@ class Session
         return true;
     }
 
-    static public function unserialize($data)
+    public static function unserialize($data)
     {
         return static::unserializePart($data);
     }
 
-    static protected function unserializePart($data, $startIndex = 0, &$dict = null)
+    protected static function unserializePart($data, $startIndex = 0, &$dict = null)
     {
         isset($dict) or $dict = [];
 
@@ -158,12 +158,12 @@ class Session
         return $dict;
     }
 
-    static public function decode($data, $return = false)
+    public static function decode($data, $return = false)
     {
         return $return ? static::unserialize($data) : session_decode($data);
     }
 
-    static public function resetLifetime($time = null, $path = null, $domain = null, $secure = null, $httpOnly = null)
+    public static function resetLifetime($time = null, $path = null, $domain = null, $secure = null, $httpOnly = null)
     {
         if ($time === null) {
             $time = ini_get('session.cookie_lifetime');
@@ -194,7 +194,7 @@ class Session
         return true;
     }
 
-    static public function saveHandler($handler = null)
+    public static function saveHandler($handler = null)
     {
         if ($handler !== null) {
             session_set_save_handler($handler);
@@ -207,139 +207,139 @@ class Session
 
     // Start standard array methods
 
-    static public function is()
+    public static function is()
     {
-        return (bool)$_SESSION;
+        return (bool) $_SESSION;
     }
 
-    static public function all()
+    public static function all()
     {
         return $_SESSION;
     }
 
-    static public function has($key)
+    public static function has($key)
     {
         return Arr::hasRef($_SESSION, $key);
     }
 
-    static public function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::hasIndexRef($_SESSION, $index, $delimiter);
     }
 
-    static public function set($key, $value)
+    public static function set($key, $value)
     {
         return static::setRef($key, $value);
     }
 
-    static public function setRef($key, &$value)
+    public static function setRef($key, &$value)
     {
         return Arr::setRefValueRef($_SESSION, $key, $value);
     }
 
-    static public function setIndex($index, $value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndex($index, $value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::setIndexRef($index, $value, $delimiter);
     }
 
-    static public function setIndexRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::setIndexRefValueRef($_SESSION, $index, $value, $delimiter);
     }
 
-    static public function get($key, $else = null)
+    public static function get($key, $else = null)
     {
         return static::getRef($key, $else);
     }
 
-    static public function &getRef($key, $else = null)
+    public static function &getRef($key, $else = null)
     {
         return Arr::getRef($_SESSION, $key, $else);
     }
 
-    static public function getForce($key, $else = null)
+    public static function getForce($key, $else = null)
     {
         return static::getForceRef($key, $else);
     }
 
-    static public function &getForceRef($key, $else = null)
+    public static function &getForceRef($key, $else = null)
     {
         return Arr::getForceRef($_SESSION, $key, $else);
     }
 
-    static public function getArray($key, $else = null)
+    public static function getArray($key, $else = null)
     {
         return static::getArrayRef($key, $else);
     }
 
-    static public function &getArrayRef($key, $else = null)
+    public static function &getArrayRef($key, $else = null)
     {
         return Arr::getArrayRef($_SESSION, $key, $else);
     }
 
-    static public function getArrayForce($key, $else = null)
+    public static function getArrayForce($key, $else = null)
     {
         return static::getArrayForceRef($key, $else);
     }
 
-    static public function &getArrayForceRef($key, $else = null)
+    public static function &getArrayForceRef($key, $else = null)
     {
         return Arr::getArrayForceRef($_SESSION, $key, $else);
     }
 
-    static public function getIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexRef($_SESSION, $index, $else, $delimiter);
     }
 
-    static public function getIndexForce($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexForce($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexForceRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexForceRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexForceRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexForceRef($_SESSION, $index, $else, $delimiter);
     }
 
-    static public function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayRef($_SESSION, $index, $else, $delimiter);
     }
 
-    static public function getIndexArrayForce($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArrayForce($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayForceRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayForceRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayForceRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayForceRef($_SESSION, $index, $else, $delimiter);
     }
 
-    static public function del($key)
+    public static function del($key)
     {
         return Arr::delRef($_SESSION, $key);
     }
 
-    static public function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::delIndexRef($_SESSION, $index, $delimiter);
     }
 
     // End standard array methods
 
-    static public function destroy()
+    public static function destroy()
     {
         static::start();
 

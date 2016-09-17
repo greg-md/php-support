@@ -4,11 +4,11 @@ namespace Greg\Support\Config;
 
 class ConfigPath
 {
-    static public function fetch($path, array $params = [], $ext = 'php')
+    public static function fetch($path, array $params = [], $ext = 'php')
     {
         $config = [];
 
-        foreach(glob($path . DIRECTORY_SEPARATOR . '*') as $file) {
+        foreach (glob($path.DIRECTORY_SEPARATOR.'*') as $file) {
             $settings = null;
 
             if (is_dir($file)) {
@@ -30,7 +30,7 @@ class ConfigPath
     }
 }
 
-/**
+/*
  * Scope isolated include.
  *
  * Prevents access to $this/self from included files.

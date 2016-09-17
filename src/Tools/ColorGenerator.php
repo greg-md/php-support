@@ -4,7 +4,7 @@ namespace Greg\Support\Tools;
 
 class ColorGenerator
 {
-    static public function generate($point, $palette = [0 => 'f00', 50 => '0f0', 100 => '00f'])
+    public static function generate($point, $palette = [0 => 'f00', 50 => '0f0', 100 => '00f'])
     {
         ksort($palette);
 
@@ -12,9 +12,8 @@ class ColorGenerator
 
         $lowerP = key($palette);
 
-        foreach($palette as $p => $upper) {
+        foreach ($palette as $p => $upper) {
             if ($point <= $p) {
-
                 $range = $p - $lowerP;
 
                 if ($range < 1) {
@@ -54,7 +53,7 @@ class ColorGenerator
         return $hex;
     }
 
-    static protected function toRGB($color)
+    protected static function toRGB($color)
     {
         if (preg_match('/#?[0-9a-f]{3,6}/i', $color)) {
             return static::hex2rgb($color);
@@ -63,42 +62,42 @@ class ColorGenerator
         return $color;
     }
 
-    static protected function hex2rgb($hex)
+    protected static function hex2rgb($hex)
     {
         if ($hex[0] == '#') {
             $hex = substr($hex, 1);
         }
 
-        if(strlen($hex) == 3) {
-            $r = hexdec(substr($hex,0,1).substr($hex,0,1));
+        if (strlen($hex) == 3) {
+            $r = hexdec(substr($hex, 0, 1).substr($hex, 0, 1));
 
-            $g = hexdec(substr($hex,1,1).substr($hex,1,1));
+            $g = hexdec(substr($hex, 1, 1).substr($hex, 1, 1));
 
-            $b = hexdec(substr($hex,2,1).substr($hex,2,1));
+            $b = hexdec(substr($hex, 2, 1).substr($hex, 2, 1));
         } else {
-            $r = hexdec(substr($hex,0,2));
+            $r = hexdec(substr($hex, 0, 2));
 
-            $g = hexdec(substr($hex,2,2));
+            $g = hexdec(substr($hex, 2, 2));
 
-            $b = hexdec(substr($hex,4,2));
+            $b = hexdec(substr($hex, 4, 2));
         }
 
         return [
             'r' => $r,
             'g' => $g,
-            'b' => $b
+            'b' => $b,
         ];
     }
 
-    static protected function rgb2hex($rgb)
+    protected static function rgb2hex($rgb)
     {
         $hex = '#';
 
-        $hex .= str_pad(dechex($rgb['r']), 2, "0", STR_PAD_LEFT);
+        $hex .= str_pad(dechex($rgb['r']), 2, '0', STR_PAD_LEFT);
 
-        $hex .= str_pad(dechex($rgb['g']), 2, "0", STR_PAD_LEFT);
+        $hex .= str_pad(dechex($rgb['g']), 2, '0', STR_PAD_LEFT);
 
-        $hex .= str_pad(dechex($rgb['b']), 2, "0", STR_PAD_LEFT);
+        $hex .= str_pad(dechex($rgb['b']), 2, '0', STR_PAD_LEFT);
 
         return $hex;
     }

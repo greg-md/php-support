@@ -2,8 +2,8 @@
 
 namespace Greg\Support\Http;
 
-use Greg\Support\Image;
 use Greg\Support\Arr;
+use Greg\Support\Image;
 use Greg\Support\Str;
 
 class Response
@@ -160,7 +160,7 @@ class Response
         }
 
         if ($charset = $this->getCharset()) {
-            $contentType[] = 'charset=' . $charset;
+            $contentType[] = 'charset='.$charset;
         }
 
         if ($contentType) {
@@ -187,7 +187,7 @@ class Response
 
     public function setContentType($type)
     {
-        $this->contentType = (string)$type;
+        $this->contentType = (string) $type;
 
         return $this;
     }
@@ -199,7 +199,7 @@ class Response
 
     public function setDisposition($name)
     {
-        $this->disposition = (string)$name;
+        $this->disposition = (string) $name;
 
         return $this;
     }
@@ -211,7 +211,7 @@ class Response
 
     public function setFileName($name)
     {
-        $this->fileName = (string)$name;
+        $this->fileName = (string) $name;
 
         return $this;
     }
@@ -223,7 +223,7 @@ class Response
 
     public function setCharset($name)
     {
-        $this->charset = (string)$name;
+        $this->charset = (string) $name;
 
         return $this;
     }
@@ -235,7 +235,7 @@ class Response
 
     public function setLocation($path)
     {
-        $this->location = (string)$path;
+        $this->location = (string) $path;
 
         return $this;
     }
@@ -247,7 +247,7 @@ class Response
 
     public function setCode($number)
     {
-        $this->code = $number ? (int)$number : null;
+        $this->code = $number ? (int) $number : null;
 
         return $this;
     }
@@ -259,7 +259,7 @@ class Response
 
     public function setContent($content)
     {
-        $this->content = (string)$content;
+        $this->content = (string) $content;
 
         return $this;
     }
@@ -271,7 +271,7 @@ class Response
 
     public function toString()
     {
-        return (string)$this->getContent();
+        return (string) $this->getContent();
     }
 
     public function __toString()
@@ -279,18 +279,18 @@ class Response
         return $this->toString();
     }
 
-    static public function sendCode($code)
+    public static function sendCode($code)
     {
         if (Str::isNaturalNumber($code) and Arr::has(static::CODES, $code)) {
-            $code .= ' ' . static::CODES[$code];
+            $code .= ' '.static::CODES[$code];
         }
 
-        header('HTTP/1.1 ' . $code);
+        header('HTTP/1.1 '.$code);
 
         return true;
     }
 
-    static public function sendRedirect($url = '/', $code = null)
+    public static function sendRedirect($url = '/', $code = null)
     {
         if ($code !== null) {
             static::sendCode($code);
@@ -300,22 +300,22 @@ class Response
             $url = '/';
         }
 
-        header('Location: ' . $url, false, $code);
+        header('Location: '.$url, false, $code);
 
         return true;
     }
 
-    static public function sendRefresh()
+    public static function sendRefresh()
     {
         return static::sendRedirect(Request::uri(), null);
     }
 
-    static public function sendBack()
+    public static function sendBack()
     {
         return static::sendRedirect(Request::referrer(), null);
     }
 
-    static public function sendJson($param = [])
+    public static function sendJson($param = [])
     {
         static::sendContentType('application/json');
 
@@ -324,7 +324,7 @@ class Response
         return true;
     }
 
-    static public function sendHtml($html)
+    public static function sendHtml($html)
     {
         static::sendContentType('text/html');
 
@@ -333,7 +333,7 @@ class Response
         return true;
     }
 
-    static public function sendImageFile($file)
+    public static function sendImageFile($file)
     {
         $mime = Image::mimeFile($file);
 
@@ -341,14 +341,14 @@ class Response
             throw new \Exception('File is not an image.');
         }
 
-        Response::sendContentType($mime);
+        self::sendContentType($mime);
 
         readfile($file);
 
         return true;
     }
 
-    static public function sendText($text)
+    public static function sendText($text)
     {
         static::sendContentType('text/plain');
 
@@ -357,7 +357,7 @@ class Response
         return true;
     }
 
-    static public function sendJpeg($image, $quality = 75)
+    public static function sendJpeg($image, $quality = 75)
     {
         static::sendContentType('image/jpeg');
 
@@ -366,7 +366,7 @@ class Response
         return true;
     }
 
-    static public function sendGif($image)
+    public static function sendGif($image)
     {
         static::sendContentType('image/gif');
 
@@ -375,7 +375,7 @@ class Response
         return true;
     }
 
-    static public function sendPng($image)
+    public static function sendPng($image)
     {
         static::sendContentType('image/png');
 
@@ -384,21 +384,21 @@ class Response
         return true;
     }
 
-    static public function sendContentType($type)
+    public static function sendContentType($type)
     {
-        header('Content-Type: ' . $type);
+        header('Content-Type: '.$type);
 
         return true;
     }
 
-    static public function sendDisposition($name, $fileName = null)
+    public static function sendDisposition($name, $fileName = null)
     {
-        header('Content-disposition: ' . $name . '; filename="' . addslashes($fileName) . '"');
+        header('Content-disposition: '.$name.'; filename="'.addslashes($fileName).'"');
 
         return true;
     }
 
-    static public function flushContent()
+    public static function flushContent()
     {
         echo str_pad('', 4096);
 
@@ -409,7 +409,7 @@ class Response
         return true;
     }
 
-    static public function isModifiedSince($timestamp, $maxAge = 0)
+    public static function isModifiedSince($timestamp, $maxAge = 0)
     {
         if (!Str::isNaturalNumber($timestamp)) {
             $timestamp = strtotime($timestamp);
@@ -435,14 +435,14 @@ class Response
             }
         }
 
-        $lastModified = substr(date('r', $timestamp), 0, -5) . 'GMT';
+        $lastModified = substr(date('r', $timestamp), 0, -5).'GMT';
 
-        $eTag = '"' . md5($lastModified) . '"';
+        $eTag = '"'.md5($lastModified).'"';
 
         // Send the headers
-        header('Last-Modified: ' . $lastModified);
+        header('Last-Modified: '.$lastModified);
 
-        header('ETag: ' . $eTag);
+        header('ETag: '.$eTag);
 
         $match = Request::match();
 

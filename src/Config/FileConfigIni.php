@@ -9,12 +9,12 @@ class FileConfigIni extends ConfigIniAbstract
         return $this->setContents($this->parse($file), $section, $indexDelimiter);
     }
 
-    static public function parse($file)
+    public static function parse($file)
     {
         return parse_ini_file($file, true);
     }
 
-    static public function fetch($file, $section = null, $indexDelimiter = false)
+    public static function fetch($file, $section = null, $indexDelimiter = false)
     {
         return parent::fetchContents(static::parse($file), $section, $indexDelimiter);
     }

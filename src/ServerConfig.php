@@ -4,20 +4,20 @@ namespace Greg\Support;
 
 class ServerConfig
 {
-    static public function encoding($encoding = null)
+    public static function encoding($encoding = null)
     {
         return mb_internal_encoding(...func_get_args());
     }
 
-    static public function timezone($timezone = null)
+    public static function timezone($timezone = null)
     {
         return func_num_args() ? date_default_timezone_set($timezone) : date_default_timezone_get();
     }
 
-    static public function param($var, $value = null)
+    public static function param($var, $value = null)
     {
         if (is_array($var)) {
-            foreach($var as $key => $value) {
+            foreach ($var as $key => $value) {
                 static::set($key, $value);
             }
         } else {
@@ -27,10 +27,10 @@ class ServerConfig
         return true;
     }
 
-    static public function set($var, $value)
+    public static function set($var, $value)
     {
         if (!method_exists(get_called_class(), $var)) {
-            throw new \Exception('Unknown config `' . $var . '`.');
+            throw new \Exception('Unknown config `'.$var.'`.');
         }
 
         return static::$var($value);

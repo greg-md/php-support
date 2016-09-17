@@ -6,6 +6,6 @@ trait CountableTrait
 {
     public function count()
     {
-        return sizeof($this->storage);
+        return count($this->storage);
     }
 }

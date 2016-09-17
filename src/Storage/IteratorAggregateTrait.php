@@ -22,7 +22,7 @@ trait IteratorAggregateTrait
 
     public function setIteratorClass($name = null)
     {
-        $this->iteratorClass = (string)$name;
+        $this->iteratorClass = (string) $name;
 
         return $this;
     }

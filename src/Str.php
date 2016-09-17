@@ -14,7 +14,7 @@ class Str
 
     const SPINAL_CASE = 'spinalCase';
 
-    static public function splitCase($var, $delimiter = ' ')
+    public static function splitCase($var, $delimiter = ' ')
     {
         $var = preg_replace('#[^a-z0-9]+#i', $delimiter, $var);
 
@@ -25,16 +25,16 @@ class Str
         return $var;
     }
 
-    static public function splitUpperCase($var, $delimiter = ' ')
+    public static function splitUpperCase($var, $delimiter = ' ')
     {
         $var = static::splitCase($var, $delimiter);
 
-        $var = preg_replace('#([a-z]+)([A-Z]+)#', '$1' . $delimiter . '$2', $var);
+        $var = preg_replace('#([a-z]+)([A-Z]+)#', '$1'.$delimiter.'$2', $var);
 
         return $var;
     }
 
-    static public function camelCase($var)
+    public static function camelCase($var)
     {
         $var = static::splitCase($var);
 
@@ -45,7 +45,7 @@ class Str
         return $var;
     }
 
-    static public function trainCase($var, $delimiter = '-')
+    public static function trainCase($var, $delimiter = '-')
     {
         $var = static::splitUpperCase($var);
 
@@ -58,23 +58,23 @@ class Str
         return $var;
     }
 
-    static public function spinalCase($var, $uppercase = true)
+    public static function spinalCase($var, $uppercase = true)
     {
         return mb_strtolower($uppercase ? static::splitUpperCase($var, '-') : static::splitCase($var, '-'));
     }
 
-    static public function phpName($var, $type = self::CAMEL_CASE)
+    public static function phpName($var, $type = self::CAMEL_CASE)
     {
         $var = static::$type($var);
 
-        if (!$var or Str::isNaturalNumber($var[0])) {
-            $var = '_' . $var;
+        if (!$var or self::isNaturalNumber($var[0])) {
+            $var = '_'.$var;
         }
 
         return $var;
     }
 
-    static public function abbreviation($var)
+    public static function abbreviation($var)
     {
         $var = static::splitUpperCase($var);
 
@@ -82,7 +82,7 @@ class Str
 
         $var = explode(' ', $var);
 
-        $var = array_map(function($var) {
+        $var = array_map(function ($var) {
             return $var[0];
         }, $var);
 
@@ -91,7 +91,7 @@ class Str
         return $var;
     }
 
-    static public function replaceAccents($str)
+    public static function replaceAccents($str)
     {
         $search = explode(',', 'ç,æ,œ,á,é,í,ó,ú,à,è,ì,ò,ù,ä,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,ø,Ø,Å,Á,À,Â,Ä,È,É,Ê,Ë,Í,Î,Ï,Ì,Ò,Ó,Ô,Ö,Ú,Ù,Û,Ü,Ÿ,Ç,Æ,Œ');
 
@@ -103,13 +103,16 @@ class Str
     /**
      * Determine if a given string matches a given pattern.
      *
-     * @param  string  $pattern
-     * @param  string  $value
+     * @param string $pattern
+     * @param string $value
+     *
      * @return bool
      */
-    static public function is($pattern, $value)
+    public static function is($pattern, $value)
     {
-        if ($pattern == $value) return true;
+        if ($pattern == $value) {
+            return true;
+        }
 
         $pattern = preg_quote($pattern, '#');
 
@@ -118,53 +121,58 @@ class Str
         // pattern such as "library/*", making any string check convenient.
         $pattern = str_replace('\*', '.*', $pattern);
 
-        return (bool)preg_match('#^' . $pattern . '$#', $value);
+        return (bool) preg_match('#^'.$pattern.'$#', $value);
     }
 
     /**
      * Determine if a given string starts with a given substring.
      *
-     * @param  string  $haystack
-     * @param  string|array  $needles
+     * @param string       $haystack
+     * @param string|array $needles
+     *
      * @return bool
      */
-    static public function startsWith($haystack, $needles)
+    public static function startsWith($haystack, $needles)
     {
-        foreach ((array)$needles as $needle) {
-            if (strpos($haystack, $needle) === 0) return true;
+        foreach ((array) $needles as $needle) {
+            if (strpos($haystack, $needle) === 0) {
+                return true;
+            }
             //if (mb_substr($haystack, 0, mb_strlen($needle)) === $needle) return true;
         }
 
         return false;
     }
 
-    static public function endsWith($haystack, $needles)
+    public static function endsWith($haystack, $needles)
     {
-        foreach ((array)$needles as $needle) {
-            if (mb_substr($haystack, -mb_strlen($needle)) === $needle) return true;
+        foreach ((array) $needles as $needle) {
+            if (mb_substr($haystack, -mb_strlen($needle)) === $needle) {
+                return true;
+            }
         }
 
         return false;
     }
 
-    static public function shift($str, $shift)
+    public static function shift($str, $shift)
     {
         return mb_substr($str, mb_strlen($shift));
     }
 
-    static public function quote($str, $with = '"')
+    public static function quote($str, $with = '"')
     {
-        return $with . $str . $with;
+        return $with.$str.$with;
     }
 
-    static public function splitPath($string, $delimiter = '/', $limit = null)
+    public static function splitPath($string, $delimiter = '/', $limit = null)
     {
         $string = trim($string, $delimiter);
 
         return static::split($string, $delimiter, $limit);
     }
 
-    static public function split($string, $delimiter = '', $limit = null)
+    public static function split($string, $delimiter = '', $limit = null)
     {
         if (static::isEmpty($string)) {
             return [];
@@ -179,28 +187,28 @@ class Str
         return explode(...$args);
     }
 
-    static public function splitQuoted($string, $delimiter = ',', $quotes = '"')
+    public static function splitQuoted($string, $delimiter = ',', $quotes = '"')
     {
         $string = static::split($string, $delimiter);
 
-        $string = array_map(function($column) use ($quotes) {
+        $string = array_map(function ($column) use ($quotes) {
             return trim($column, $quotes);
         }, $string);
 
         return $string;
     }
 
-    static public function isEmpty($var)
+    public static function isEmpty($var)
     {
         return $var === null or $var === '';
     }
 
-    static public function isScalar($var)
+    public static function isScalar($var)
     {
         return is_scalar($var) or is_null($var);
     }
 
-    static public function parse($string, $delimiter = '&', $keyValueDelimiter = '=')
+    public static function parse($string, $delimiter = '&', $keyValueDelimiter = '=')
     {
         if ($delimiter === '&' and $keyValueDelimiter === '=') {
             parse_str($string, $output);
@@ -210,7 +218,7 @@ class Str
 
         $output = [];
 
-        foreach(explode($delimiter, $string) as $part) {
+        foreach (explode($delimiter, $string) as $part) {
             list($key, $value) = explode($keyValueDelimiter, $part);
 
             $output[$key] = $value;
@@ -219,7 +227,7 @@ class Str
         return $output;
     }
 
-    static public function substringHtml($string, $start = 0, $length = null, $delimiter = null, $suffix = null, $forceSuffix = null)
+    public static function substringHtml($string, $start = 0, $length = null, $delimiter = null, $suffix = null, $forceSuffix = null)
     {
         $textLength = mb_strlen(strip_tags(html_entity_decode($string, ENT_QUOTES, 'UTF-8')));
 
@@ -231,11 +239,11 @@ class Str
             $length = mb_strlen(html_entity_decode($string, ENT_QUOTES, 'UTF-8')) - $start;
         }
 
-        $delimiter = (array)$delimiter;
+        $delimiter = (array) $delimiter;
 
-        $string = '>' . $string . '<';
+        $string = '>'.$string.'<';
 
-        $newString  = '';
+        $newString = '';
 
         $remainString = '';
 
@@ -245,8 +253,7 @@ class Str
 
         $k = 0;
 
-        preg_replace_callback('#>([^<]+)<#s', function($match)
-            use(&$string, &$newString, &$remainString, $start, $length,
+        preg_replace_callback('#>([^<]+)<#s', function ($match) use (&$string, &$newString, &$remainString, $start, $length,
                 $delimiter, $suffix, $forceSuffix, $textLength,
                 &$strLen, &$delimiterFound, &$k) {
             $index = mb_strpos($string, $match[0]);
@@ -257,28 +264,29 @@ class Str
                 $subStrNew = '';
             }
 
-            $string = '>' . mb_substr($string, mb_strlen($subStrNew) + 1 + mb_strlen($match[1]));
+            $string = '>'.mb_substr($string, mb_strlen($subStrNew) + 1 + mb_strlen($match[1]));
 
             if ($strLen >= $length and (!$delimiter or $delimiterFound)) {
                 $remainString .= $subStrNew;
+
                 return '><';
             }
 
             $subStr = max(0, ($start - $strLen));
 
             if ($subStr) {
-                while(true) {
-                    $replaced = preg_replace(array(
+                while (true) {
+                    $replaced = preg_replace([
                         '#<[^/][^>]*/>#s',
                         '#<[^/][^>]*(?<!/)></[^>]+>#s',
-                    ), '', $subStrNew);
+                    ], '', $subStrNew);
 
                     if ($replaced == $subStrNew) {
                         break;
                     }
 
                     $subStrNew = $replaced;
-                };
+                }
             }
 
             $newString .= $subStrNew;
@@ -289,6 +297,7 @@ class Str
 
             if ($htmlStrLen <= $subStr) {
                 $strLen += $htmlStrLen;
+
                 return '><';
             }
 
@@ -314,7 +323,7 @@ class Str
                         $offset = 0;
                     }
 
-                    foreach($delimiter as $del => $dFetch) {
+                    foreach ($delimiter as $del => $dFetch) {
                         if (is_int($del)) {
                             $del = $dFetch;
 
@@ -356,7 +365,7 @@ class Str
 
             ++$k;
 
-            return '>' . $htmlStr . '<';
+            return '>'.$htmlStr.'<';
         }, $string);
 
         $string = ltrim($string, '>');
@@ -368,32 +377,32 @@ class Str
         if ($remainString) {
             $remainString .= $string;
 
-            while(true) {
-                $replaced = preg_replace(array(
+            while (true) {
+                $replaced = preg_replace([
                     '#<[^/][^>]*/>#s',
                     '#<([^\s>]*)(\b)?[^>]*(?<!/)></\1>#si',
                     '#<(area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr|basefont|bgsound|frame|isindex)\b[^>]*>#si',
-                ), '', $remainString);
+                ], '', $remainString);
 
                 if ($replaced == $remainString) {
                     break;
                 }
 
                 $remainString = $replaced;
-            };
+            }
         } else {
             $remainString .= $string;
         }
 
-        $return = $newString . $remainString;
+        $return = $newString.$remainString;
 
         return $return;
     }
 
-    static public function cutHtmlTag($html, $tag, $offset = 0, $limit = null, $cleanAfter = false)
+    public static function cutHtmlTag($html, $tag, $offset = 0, $limit = null, $cleanAfter = false)
     {
         // match html tag: <(\w)[^>]*(?<!\/)(\/>|>.*?<\/\1>)
-        $regex = '<(' . preg_quote($tag, '#') . ')[^>]*(?<!\/)(\/>|>.*?<\/\1>)';
+        $regex = '<('.preg_quote($tag, '#').')[^>]*(?<!\/)(\/>|>.*?<\/\1>)';
 
         $pregLimit = $cleanAfter ? abs($offset) + 1 : -1;
 
@@ -401,7 +410,7 @@ class Str
 
         $lastClean = $cleanAfter ? uniqid('cut_', true) : null;
 
-        $html = preg_replace_callback('#' . $regex . '#i', function($matches) use (&$count, $offset, $limit, $lastClean) {
+        $html = preg_replace_callback('#'.$regex.'#i', function ($matches) use (&$count, $offset, $limit, $lastClean) {
             ++$count;
 
             if ($count > $offset and ($limit < 1 or ($count <= ($offset + $limit)))) {
@@ -418,7 +427,7 @@ class Str
         return $html;
     }
 
-    static public function cryptoRandSecure($min, $max)
+    public static function cryptoRandSecure($min, $max)
     {
         $range = $max - $min;
 
@@ -443,41 +452,41 @@ class Str
         return $min + $random;
     }
 
-    static public function generate($length, $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+    public static function generate($length, $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
     {
         $token = '';
 
-        for($i = 0; $i < $length; ++$i) {
+        for ($i = 0; $i < $length; ++$i) {
             $token .= $characters[static::cryptoRandSecure(0, strlen($characters))];
         }
 
         return $token;
     }
 
-    static public function nth($number)
+    public static function nth($number)
     {
-        if($number > 3 && $number < 21) {
-            return $number . 'th';
+        if ($number > 3 && $number < 21) {
+            return $number.'th';
         }
 
         switch ($number % 10) {
-            case 1:  return $number . 'st';
-            case 2:  return $number . 'nd';
-            case 3:  return $number . 'rd';
-            default: return $number . 'th';
+            case 1:  return $number.'st';
+            case 2:  return $number.'nd';
+            case 3:  return $number.'rd';
+            default: return $number.'th';
         }
     }
 
-    static public function isNaturalNumber($var)
+    public static function isNaturalNumber($var)
     {
-        return ctype_digit((string)$var);
+        return ctype_digit((string) $var);
     }
 
-    static public function parseLinks($string, callable $callable)
+    public static function parseLinks($string, callable $callable)
     {
         $regex = '(?:((?:https?|ftps?)\:\/\/)|www\.)([a-z0-9\-]+\.)(?-1)?[a-z]{2,8}(?:(?:\/|\?)\S*[a-z0-9-_])?';
 
-        return preg_replace_callback('#(' . $regex . ')#i', function($matches) use ($callable) {
+        return preg_replace_callback('#('.$regex.')#i', function ($matches) use ($callable) {
             $href = $name = $matches[1];
 
             if ($matches[2] === 'www.') {

@@ -18,14 +18,14 @@ class Request implements \ArrayAccess
     const URI_QUERY = 'query';
 
     const UPLOAD_ERR = [
-        UPLOAD_ERR_OK => 'There is no error, the file uploaded with success.',
-        UPLOAD_ERR_INI_SIZE => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
-        UPLOAD_ERR_FORM_SIZE => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
-        UPLOAD_ERR_PARTIAL => 'The uploaded file was only partially uploaded.',
-        UPLOAD_ERR_NO_FILE => 'No file was uploaded.',
+        UPLOAD_ERR_OK         => 'There is no error, the file uploaded with success.',
+        UPLOAD_ERR_INI_SIZE   => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+        UPLOAD_ERR_FORM_SIZE  => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+        UPLOAD_ERR_PARTIAL    => 'The uploaded file was only partially uploaded.',
+        UPLOAD_ERR_NO_FILE    => 'No file was uploaded.',
         UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder.', // Introduced in PHP 4.3.10 and PHP 5.0.3.
         UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.', // Introduced in PHP 5.1.0.
-        UPLOAD_ERR_EXTENSION => 'A PHP extension stopped the file upload.', // Introduced in PHP 5.2.0.
+        UPLOAD_ERR_EXTENSION  => 'A PHP extension stopped the file upload.', // Introduced in PHP 5.2.0.
         // PHP does not provide a way to ascertain which extension caused the file upload to stop;
         // examining the list of loaded extensions with phpinfo() may help.
     ];
@@ -39,7 +39,7 @@ class Request implements \ArrayAccess
 
     public function is()
     {
-        return (bool)$this->storage;
+        return (bool) $this->storage;
     }
 
     public function all()
@@ -87,62 +87,62 @@ class Request implements \ArrayAccess
         return Arr::getIndexArrayForceRef($this->storage, $index, $this->getIndexArrayForceRequestRef($index, $else, $delimiter), $delimiter);
     }
 
-    static public function protocol()
+    public static function protocol()
     {
         return Server::get('SERVER_PROTOCOL');
     }
 
-    static public function clientHost()
+    public static function clientHost()
     {
         return Server::get('HTTP_HOST');
     }
 
-    static public function serverHost()
+    public static function serverHost()
     {
         return Server::get('SERVER_NAME');
     }
 
-    static public function serverAdmin()
+    public static function serverAdmin()
     {
         return Server::get('SERVER_ADMIN');
     }
 
-    static public function secured()
+    public static function secured()
     {
         return Server::get('HTTPS');
     }
 
-    static public function isSecured()
+    public static function isSecured()
     {
         return static::secured() == 'on';
     }
 
-    static public function with()
+    public static function with()
     {
         return Server::get('HTTP_X_REQUESTED_WITH');
     }
 
-    static public function port()
+    public static function port()
     {
         return Server::get('SERVER_PORT');
     }
 
-    static public function agent()
+    public static function agent()
     {
         return Server::get('HTTP_USER_AGENT');
     }
 
-    static public function ip()
+    public static function ip()
     {
         return Server::get('REMOTE_ADDR');
     }
 
-    static public function uri()
+    public static function uri()
     {
         return Server::get('REQUEST_URI');
     }
 
-    static public function baseUri()
+    public static function baseUri()
     {
         $scriptName = Server::scriptName();
 
@@ -165,14 +165,14 @@ class Request implements \ArrayAccess
         return $baseUri;
     }
 
-    static public function uriPath()
+    public static function uriPath()
     {
         list($path) = explode('?', static::uri(), 2);
 
         return $path;
     }
 
-    static public function uriQuery()
+    public static function uriQuery()
     {
         list($path, $query) = array_pad(explode('?', static::uri(), 2), 2, null);
 
@@ -181,7 +181,7 @@ class Request implements \ArrayAccess
         return $query;
     }
 
-    static public function relativeUri()
+    public static function relativeUri()
     {
         $uri = static::uri();
 
@@ -190,14 +190,14 @@ class Request implements \ArrayAccess
         return $baseUri !== '/' ? mb_substr($uri, mb_strlen($baseUri)) : $uri;
     }
 
-    static public function relativeUriPath()
+    public static function relativeUriPath()
     {
         list($path) = explode('?', static::relativeUri(), 2);
 
         return $path;
     }
 
-    static public function relativeUriQuery()
+    public static function relativeUriQuery()
     {
         list($path, $query) = array_pad(explode('?', static::relativeUri(), 2), 2, null);
 
@@ -206,173 +206,173 @@ class Request implements \ArrayAccess
         return $query;
     }
 
-    static public function referrer()
+    public static function referrer()
     {
         return Server::get('HTTP_REFERER');
     }
 
-    static public function modifiedSince()
+    public static function modifiedSince()
     {
         return Server::get('HTTP_IF_MODIFIED_SINCE');
     }
 
-    static public function match()
+    public static function match()
     {
         return Server::get('HTTP_IF_NONE_MATCH');
     }
 
-    static public function time()
+    public static function time()
     {
         return Server::requestTime();
     }
 
-    static public function microTime()
+    public static function microTime()
     {
         return Server::requestMicroTime();
     }
 
-    static public function ajax()
+    public static function ajax()
     {
         return static::with() == 'XMLHttpRequest';
     }
 
-    static public function header($header)
+    public static function header($header)
     {
         $header = strtoupper($header);
 
         $header = str_replace('-', '_', $header);
 
-        return Server::get('HTTP_' . $header);
+        return Server::get('HTTP_'.$header);
     }
 
     // Start standard $_GET array methods
 
-    static public function isGet()
+    public static function isGet()
     {
-        return (bool)$_GET;
+        return (bool) $_GET;
     }
 
-    static public function allGet()
+    public static function allGet()
     {
         return $_GET;
     }
 
-    static public function hasGet($key)
+    public static function hasGet($key)
     {
         return Arr::hasRef($_GET, $key);
     }
 
-    static public function hasIndexGet($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function hasIndexGet($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::hasIndexRef($_GET, $index, $delimiter);
     }
 
-    static public function setGet($key, $value)
+    public static function setGet($key, $value)
     {
         return static::setGetRef($key, $value);
     }
 
-    static public function setGetRef($key, &$value)
+    public static function setGetRef($key, &$value)
     {
         return Arr::setRefValueRef($_GET, $key, $value);
     }
 
-    static public function setIndexGet($index, $value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexGet($index, $value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::setIndexGetRef($index, $value, $delimiter);
     }
 
-    static public function setIndexGetRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexGetRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::setIndexRefValueRef($_GET, $index, $value, $delimiter);
     }
 
-    static public function getGet($key, $else = null)
+    public static function getGet($key, $else = null)
     {
         return static::getGetRef($key, $else);
     }
 
-    static public function &getGetRef($key, &$else = null)
+    public static function &getGetRef($key, &$else = null)
     {
         return Arr::getRef($_GET, $key, $else);
     }
 
-    static public function getForceGet($key, $else = null)
+    public static function getForceGet($key, $else = null)
     {
         return static::getForceGetRef($key, $else);
     }
 
-    static public function &getForceGetRef($key, &$else = null)
+    public static function &getForceGetRef($key, &$else = null)
     {
         return Arr::getForceRef($_GET, $key, $else);
     }
 
-    static public function getArrayGet($key, $else = null)
+    public static function getArrayGet($key, $else = null)
     {
         return static::getArrayGetRef($key, $else);
     }
 
-    static public function &getArrayGetRef($key, &$else = null)
+    public static function &getArrayGetRef($key, &$else = null)
     {
         return Arr::getArrayRef($_GET, $key, $else);
     }
 
-    static public function getArrayForceGet($key, $else = null)
+    public static function getArrayForceGet($key, $else = null)
     {
         return static::getArrayForceGetRef($key, $else);
     }
 
-    static public function &getArrayForceGetRef($key, &$else = null)
+    public static function &getArrayForceGetRef($key, &$else = null)
     {
         return Arr::getArrayForceRef($_GET, $key, $else);
     }
 
-    static public function getIndexGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexGetRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexRef($_GET, $index, $else, $delimiter);
     }
 
-    static public function getIndexForceGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexForceGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexForceGetRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexForceGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexForceGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexForceRef($_GET, $index, $else, $delimiter);
     }
 
-    static public function getIndexArrayGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArrayGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayGetRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayRef($_GET, $index, $else, $delimiter);
     }
 
-    static public function getIndexArrayForceGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArrayForceGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayForceGetRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayForceGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayForceGetRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayForceRef($_GET, $index, $else, $delimiter);
     }
 
-    static public function delGet($key)
+    public static function delGet($key)
     {
         return Arr::delRef($_GET, $key);
     }
 
-    static public function delIndexGet($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function delIndexGet($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::delIndexRef($_GET, $index, $delimiter);
     }
@@ -381,264 +381,264 @@ class Request implements \ArrayAccess
 
     // Start standard $_POST array methods
 
-    static public function isPost()
+    public static function isPost()
     {
-        return (bool)$_POST;
+        return (bool) $_POST;
     }
 
-    static public function allPost()
+    public static function allPost()
     {
         return $_POST;
     }
 
-    static public function hasPost($key)
+    public static function hasPost($key)
     {
         return Arr::hasRef($_POST, $key);
     }
 
-    static public function hasIndexPost($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function hasIndexPost($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::hasIndexRef($_POST, $index, $delimiter);
     }
 
-    static public function setPost($key, $value)
+    public static function setPost($key, $value)
     {
         return static::setPostRef($key, $value);
     }
 
-    static public function setPostRef($key, &$value)
+    public static function setPostRef($key, &$value)
     {
         return Arr::setRefValueRef($_POST, $key, $value);
     }
 
-    static public function setIndexPost($index, $value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexPost($index, $value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::setIndexPostRef($index, $value, $delimiter);
     }
 
-    static public function setIndexPostRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexPostRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::setIndexRefValueRef($_POST, $index, $value, $delimiter);
     }
 
-    static public function getPost($key, $else = null)
+    public static function getPost($key, $else = null)
     {
         return static::getPostRef($key, $else);
     }
 
-    static public function &getPostRef($key, &$else = null)
+    public static function &getPostRef($key, &$else = null)
     {
         return Arr::getRef($_POST, $key, $else);
     }
 
-    static public function getForcePost($key, $else = null)
+    public static function getForcePost($key, $else = null)
     {
         return static::getForcePostRef($key, $else);
     }
 
-    static public function &getForcePostRef($key, &$else = null)
+    public static function &getForcePostRef($key, &$else = null)
     {
         return Arr::getForceRef($_POST, $key, $else);
     }
 
-    static public function getArrayPost($key, $else = null)
+    public static function getArrayPost($key, $else = null)
     {
         return static::getArrayPostRef($key, $else);
     }
 
-    static public function &getArrayPostRef($key, &$else = null)
+    public static function &getArrayPostRef($key, &$else = null)
     {
         return Arr::getArrayRef($_POST, $key, $else);
     }
 
-    static public function getArrayForcePost($key, $else = null)
+    public static function getArrayForcePost($key, $else = null)
     {
         return static::getArrayForcePostRef($key, $else);
     }
 
-    static public function &getArrayForcePostRef($key, &$else = null)
+    public static function &getArrayForcePostRef($key, &$else = null)
     {
         return Arr::getArrayForceRef($_POST, $key, $else);
     }
 
-    static public function getIndexPost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexPost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexPostRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexPostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexPostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexRef($_POST, $index, $else, $delimiter);
     }
 
-    static public function getIndexForcePost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexForcePost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexForcePostRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexForcePostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexForcePostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexForceRef($_POST, $index, $else, $delimiter);
     }
 
-    static public function getIndexArrayPost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArrayPost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayPostRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayPostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayPostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayRef($_POST, $index, $else, $delimiter);
     }
 
-    static public function getIndexArrayForcePost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArrayForcePost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayForcePostRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayForcePostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayForcePostRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayForceRef($_POST, $index, $else, $delimiter);
     }
 
-    static public function delPost($key)
+    public static function delPost($key)
     {
         return Arr::delRef($_POST, $key);
     }
 
-    static public function delIndexPost($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function delIndexPost($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::delIndexRef($_POST, $index, $delimiter);
     }
 
     // End standard $_POST array methods
 
-    static public function isRequest()
+    public static function isRequest()
     {
-        return (bool)$_REQUEST;
+        return (bool) $_REQUEST;
     }
 
-    static public function allRequest()
+    public static function allRequest()
     {
         return $_REQUEST;
     }
 
-    static public function hasRequest($key)
+    public static function hasRequest($key)
     {
         return Arr::hasRef($_REQUEST, $key);
     }
 
-    static public function hasIndexRequest($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function hasIndexRequest($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::hasIndexRef($_REQUEST, $index, $delimiter);
     }
 
-    static public function setRequest($key, $value)
+    public static function setRequest($key, $value)
     {
         return static::setRequestRef($key, $value);
     }
 
-    static public function setRequestRef($key, &$value)
+    public static function setRequestRef($key, &$value)
     {
         return Arr::setRefValueRef($_REQUEST, $key, $value);
     }
 
-    static public function setIndexRequest($index, $value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexRequest($index, $value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::setIndexRequestRef($index, $value, $delimiter);
     }
 
-    static public function setIndexRequestRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexRequestRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::setIndexRefValueRef($_REQUEST, $index, $value, $delimiter);
     }
 
-    static public function getRequest($key, $else = null)
+    public static function getRequest($key, $else = null)
     {
         return static::getRequestRef($key, $else);
     }
 
-    static public function &getRequestRef($key, &$else = null)
+    public static function &getRequestRef($key, &$else = null)
     {
         return Arr::getRef($_REQUEST, $key, $else);
     }
 
-    static public function getForceRequest($key, $else = null)
+    public static function getForceRequest($key, $else = null)
     {
         return static::getForceRequestRef($key, $else);
     }
 
-    static public function &getForceRequestRef($key, &$else = null)
+    public static function &getForceRequestRef($key, &$else = null)
     {
         return Arr::getForceRef($_REQUEST, $key, $else);
     }
 
-    static public function getArrayRequest($key, $else = null)
+    public static function getArrayRequest($key, $else = null)
     {
         return static::getArrayRequestRef($key, $else);
     }
 
-    static public function &getArrayRequestRef($key, &$else = null)
+    public static function &getArrayRequestRef($key, &$else = null)
     {
         return Arr::getArrayRef($_REQUEST, $key, $else);
     }
 
-    static public function getArrayForceRequest($key, $else = null)
+    public static function getArrayForceRequest($key, $else = null)
     {
         return static::getArrayForceRequestRef($key, $else);
     }
 
-    static public function &getArrayForceRequestRef($key, &$else = null)
+    public static function &getArrayForceRequestRef($key, &$else = null)
     {
         return Arr::getArrayForceRef($_REQUEST, $key, $else);
     }
 
-    static public function getIndexRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexRequestRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexRef($_REQUEST, $index, $else, $delimiter);
     }
 
-    static public function getIndexForceRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexForceRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexForceRequestRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexForceRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexForceRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexForceRef($_REQUEST, $index, $else, $delimiter);
     }
 
-    static public function getIndexArrayRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArrayRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayRequestRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayRef($_REQUEST, $index, $else, $delimiter);
     }
 
-    static public function getIndexArrayForceRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArrayForceRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayForceRequestRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayForceRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayForceRequestRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayForceRef($_REQUEST, $index, $else, $delimiter);
     }
 
-    static public function delRequest($key)
+    public static function delRequest($key)
     {
         return Arr::delRef($_REQUEST, $key);
     }
 
-    static public function delIndexRequest($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function delIndexRequest($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::delIndexRef($_REQUEST, $index, $delimiter);
     }
@@ -647,152 +647,152 @@ class Request implements \ArrayAccess
 
     // Start standard $_FILES array methods
 
-    static public function isFiles()
+    public static function isFiles()
     {
-        return (bool)$_FILES;
+        return (bool) $_FILES;
     }
 
-    static public function allFiles()
+    public static function allFiles()
     {
         return $_FILES;
     }
 
-    static public function hasFiles($key)
+    public static function hasFiles($key)
     {
         return Arr::hasRef($_FILES, $key);
     }
 
-    static public function hasIndexFiles($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function hasIndexFiles($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::hasIndexRef($_FILES, $index, $delimiter);
     }
 
-    static public function setFiles($key, $value)
+    public static function setFiles($key, $value)
     {
         return static::setFilesRef($key, $value);
     }
 
-    static public function setFilesRef($key, &$value)
+    public static function setFilesRef($key, &$value)
     {
         return Arr::setRefValueRef($_FILES, $key, $value);
     }
 
-    static public function setIndexFiles($index, $value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexFiles($index, $value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::setIndexFilesRef($index, $value, $delimiter);
     }
 
-    static public function setIndexFilesRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexFilesRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::setIndexRefValueRef($_FILES, $index, $value, $delimiter);
     }
 
-    static public function getFiles($key, $else = null)
+    public static function getFiles($key, $else = null)
     {
         return static::getFilesRef($key, $else);
     }
 
-    static public function &getFilesRef($key, $else = null)
+    public static function &getFilesRef($key, $else = null)
     {
         return Arr::getRef($_FILES, $key, $else);
     }
 
-    static public function getForceFiles($key, $else = null)
+    public static function getForceFiles($key, $else = null)
     {
         return static::getForceFilesRef($key, $else);
     }
 
-    static public function &getForceFilesRef($key, $else = null)
+    public static function &getForceFilesRef($key, $else = null)
     {
         return Arr::getForceRef($_FILES, $key, $else);
     }
 
-    static public function getArrayFiles($key, $else = null)
+    public static function getArrayFiles($key, $else = null)
     {
         return static::getArrayFilesRef($key, $else);
     }
 
-    static public function &getArrayFilesRef($key, $else = null)
+    public static function &getArrayFilesRef($key, $else = null)
     {
         return Arr::getArrayRef($_FILES, $key, $else);
     }
 
-    static public function getArrayForceFiles($key, $else = null)
+    public static function getArrayForceFiles($key, $else = null)
     {
         return static::getArrayForceFilesRef($key, $else);
     }
 
-    static public function &getArrayForceFilesRef($key, $else = null)
+    public static function &getArrayForceFilesRef($key, $else = null)
     {
         return Arr::getArrayForceRef($_FILES, $key, $else);
     }
 
-    static public function getIndexFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexFilesRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexFilesRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexFilesRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexRef($_FILES, $index, $else, $delimiter);
     }
 
-    static public function getIndexForceFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexForceFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexForceFilesRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexForceFilesRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexForceFilesRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexForceRef($_FILES, $index, $else, $delimiter);
     }
 
-    static public function getIndexArrayFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArrayFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayFilesRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayFilesRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayFilesRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayRef($_FILES, $index, $else, $delimiter);
     }
 
-    static public function getIndexArrayForceFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function getIndexArrayForceFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return static::getIndexArrayForceFilesRef($index, $else, $delimiter);
     }
 
-    static public function &getIndexArrayForceFilesRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexArrayForceFilesRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayForceRef($_FILES, $index, $else, $delimiter);
     }
 
-    static public function delFiles($key)
+    public static function delFiles($key)
     {
         return Arr::delRef($_FILES, $key);
     }
 
-    static public function delIndexFiles($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function delIndexFiles($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::delIndexRef($_FILES, $index, $delimiter);
     }
 
     // End standard $_FILES array methods
 
-    static public function humanReadableFiles()
+    public static function humanReadableFiles()
     {
         $_FILES = static::humanReadableData($_FILES);
 
         return $_FILES;
     }
 
-    static public function humanReadableData($data)
+    public static function humanReadableData($data)
     {
-        foreach($data as &$item) {
+        foreach ($data as &$item) {
             if (is_array(current($item))) {
                 $newItem = [];
 
-                foreach($item as $key => $value) {
+                foreach ($item as $key => $value) {
                     static::addNewArrayLevel($value, $key);
 
                     $newItem = array_replace_recursive($newItem, $value);
@@ -807,7 +807,7 @@ class Request implements \ArrayAccess
         return $data;
     }
 
-    static protected function addNewArrayLevel(&$array, $key)
+    protected static function addNewArrayLevel(&$array, $key)
     {
         foreach ($array as &$item) {
             if (is_array($item)) {
@@ -822,12 +822,12 @@ class Request implements \ArrayAccess
         return true;
     }
 
-    static public function getFile($name, $mimes = [])
+    public static function getFile($name, $mimes = [])
     {
         $file = static::getFiles($name);
 
         if (!$file or !$file['tmp_name']) {
-            return null;
+            return;
         }
 
         static::checkFile($file, $mimes);
@@ -835,12 +835,12 @@ class Request implements \ArrayAccess
         return $file;
     }
 
-    static public function getIndexFile($name, $mimes = [])
+    public static function getIndexFile($name, $mimes = [])
     {
         $file = static::getIndexFiles($name);
 
         if (!$file or !$file['tmp_name']) {
-            return null;
+            return;
         }
 
         static::checkFile($file, $mimes);
@@ -848,24 +848,24 @@ class Request implements \ArrayAccess
         return $file;
     }
 
-    static public function checkFile($file, $mimes = [])
+    public static function checkFile($file, $mimes = [])
     {
         if ($file['error'] !== UPLOAD_ERR_OK) {
-            throw new \Exception('Upload file error: ' . static::UPLOAD_ERR[$file['error']]);
+            throw new \Exception('Upload file error: '.static::UPLOAD_ERR[$file['error']]);
         }
 
         if (!is_uploaded_file($file['tmp_name'])) {
             throw new \Exception('Possible file upload attack.');
         }
 
-        if ($mimes and !in_array($file['type'], (array)$mimes)) {
-            throw new \Exception('Wrong file type was uploaded. Valid types are: ' . implode(', ', $mimes));
+        if ($mimes and !in_array($file['type'], (array) $mimes)) {
+            throw new \Exception('Wrong file type was uploaded. Valid types are: '.implode(', ', $mimes));
         }
 
         return true;
     }
 
-    static public function delAll($key)
+    public static function delAll($key)
     {
         Arr::del($_GET, $key);
 

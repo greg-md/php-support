@@ -8,41 +8,41 @@ class Url
 {
     const UA = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
 
-    static public function isFull($url)
+    public static function isFull($url)
     {
         return preg_match('#^(?:https?\:)?//#i', $url);
     }
 
-    static public function full($url = '/')
+    public static function full($url = '/')
     {
         if (static::isFull($url)) {
             return $url;
         }
 
-        return static::fix(Request::clientHost() . $url, Request::isSecured());
+        return static::fix(Request::clientHost().$url, Request::isSecured());
     }
 
-    static public function fix($url, $secured = false)
+    public static function fix($url, $secured = false)
     {
         if (static::isFull($url)) {
             return $url;
         }
 
-        return ($secured ? 'https' : 'http') . '://' . $url;
+        return ($secured ? 'https' : 'http').'://'.$url;
     }
 
-    static public function fixShort($url)
+    public static function fixShort($url)
     {
         if (static::isFull($url)) {
             return $url;
         }
 
-        return '//' . $url;
+        return '//'.$url;
     }
 
-    static public function host($url, $stripWWW = true)
+    public static function host($url, $stripWWW = true)
     {
-        $url = Url::fix($url);
+        $url = self::fix($url);
 
         $host = parse_url($url, PHP_URL_HOST);
 
@@ -53,12 +53,12 @@ class Url
         return $host;
     }
 
-    static public function sameHost($url1, $url2, $level = 2)
+    public static function sameHost($url1, $url2, $level = 2)
     {
         return static::hostName($url1, $level) == static::hostName($url2, $level);
     }
 
-    static public function hostName($url, $level = 2)
+    public static function hostName($url, $level = 2)
     {
         $url = static::fix($url);
 
@@ -72,30 +72,30 @@ class Url
 
         $parts = explode('.', $host);
 
-        if ($level < sizeof($parts)) {
+        if ($level < count($parts)) {
             $host = implode('.', array_slice($parts, $level * -1, $level));
         }
 
         return $host;
     }
 
-    static public function home($url)
+    public static function home($url)
     {
-        $url = Url::fix($url);
+        $url = self::fix($url);
 
         $info = parse_url($url);
 
-        return $info['scheme'] . '://' . $info['host'];
+        return $info['scheme'].'://'.$info['host'];
     }
 
-    static public function removeQueryString($url)
+    public static function removeQueryString($url)
     {
         list($url) = explode('?', $url, 2);
 
         return $url;
     }
 
-    static public function serverRelative($url)
+    public static function serverRelative($url)
     {
         if (static::isFull($url) and parse_url($url, PHP_URL_HOST) == Request::serverHost()) {
             return parse_url($url, PHP_URL_PATH);
@@ -104,21 +104,21 @@ class Url
         return $url;
     }
 
-    static public function base($url = '/')
+    public static function base($url = '/')
     {
-        return Request::baseUri() . $url;
+        return Request::baseUri().$url;
     }
 
-    static public function addQuery($url, $query)
+    public static function addQuery($url, $query)
     {
         list($urlPath, $urlQuery) = array_pad(explode('?', $url, 2), 2, null);
 
         $allQuery = array_filter([$urlQuery, $query]);
 
-        return $urlPath . ($allQuery ? '?' . implode('&', $allQuery) : '');
+        return $urlPath.($allQuery ? '?'.implode('&', $allQuery) : '');
     }
 
-    static public function init($url, $verbose = false)
+    public static function init($url, $verbose = false)
     {
         $ch = curl_init(static::fix($url));
 
@@ -139,7 +139,7 @@ class Url
         return $ch;
     }
 
-    static public function effective($url)
+    public static function effective($url)
     {
         $ch = static::init($url);
 
@@ -148,18 +148,18 @@ class Url
         return curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
     }
 
-    static public function contents($url)
+    public static function contents($url)
     {
         $ch = static::init($url);
 
         return curl_exec($ch);
     }
 
-    static public function transform($string, $type = Str::SPINAL_CASE)
+    public static function transform($string, $type = Str::SPINAL_CASE)
     {
         $string = Str::replaceAccents($string);
 
-        $replacement = array(
+        $replacement = [
             'а' => 'a', 'А' => 'A',
             'б' => 'b', 'Б' => 'B',
             'в' => 'v', 'В' => 'V',
@@ -196,7 +196,7 @@ class Url
             'ă' => 'a', 'â' => 'a', 'î' => 'i', 'Ă' => 'A', 'Â' => 'A', 'Î' => 'I',
             'ş' => 's', 'ţ' => 't',
             'ț' => 't', 'ș' => 's', 'Ș' => 's', 'Ț' => 't',
-        );
+        ];
 
         $string = strtr($string, $replacement);
 

@@ -8,19 +8,19 @@ class IncludePath
 
     const PREPEND_PATH = 'prepend';
 
-    static public function append($path)
+    public static function append($path)
     {
         return static::add($path, static::APPEND_PATH);
     }
 
-    static public function prepend($path)
+    public static function prepend($path)
     {
         return static::add($path, static::PREPEND_PATH);
     }
 
-    static public function add($path, $type = self::APPEND_PATH)
+    public static function add($path, $type = self::APPEND_PATH)
     {
-        $path = (array)$path;
+        $path = (array) $path;
 
         $incPaths = explode(PATH_SEPARATOR, get_include_path());
 
@@ -35,12 +35,12 @@ class IncludePath
         return set_include_path(implode(PATH_SEPARATOR, $path));
     }
 
-    static public function reset()
+    public static function reset()
     {
         return set_include_path('.');
     }
 
-    static public function fileExists($file)
+    public static function fileExists($file)
     {
         return stream_resolve_include_path($file) !== false;
     }

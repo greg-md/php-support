@@ -4,7 +4,7 @@ namespace Greg\Support;
 
 class Obj
 {
-    static public function loadInstance($className, ...$args)
+    public static function loadInstance($className, ...$args)
     {
         return static::loadInstanceArgs($className, $args);
     }
@@ -12,9 +12,10 @@ class Obj
     /**
      * @param $className
      * @param array $args
+     *
      * @return object
      */
-    static public function loadInstanceArgs($className, array $args = [])
+    public static function loadInstanceArgs($className, array $args = [])
     {
         $class = new \ReflectionClass($className);
 
@@ -23,7 +24,7 @@ class Obj
         method_exists($self, '__bind') && $self->__bind();
 
         // Call all methods which starts with __bind
-        foreach(get_class_methods($self) as $methodName) {
+        foreach (get_class_methods($self) as $methodName) {
             if ($methodName[0] === '_' and $methodName !== '__bind' and Str::startsWith($methodName, '__bind')) {
                 $self->{$methodName}();
             }
@@ -36,7 +37,7 @@ class Obj
         return $self;
     }
 
-    static public function expectedArgs(callable $callable)
+    public static function expectedArgs(callable $callable)
     {
         if (Str::isScalar($callable) and strpos($callable, '::')) {
             $callable = explode('::', $callable, 2);
@@ -49,22 +50,22 @@ class Obj
         return (new \ReflectionFunction($callable))->getParameters();
     }
 
-    static public function callWith(callable $callable, ...$args)
+    public static function callWith(callable $callable, ...$args)
     {
         return static::callWithRef($callable, ...$args);
     }
 
-    static public function callWithRef(callable $callable, &...$args)
+    public static function callWithRef(callable $callable, &...$args)
     {
         return static::callWithArgs($callable, $args);
     }
 
-    static public function callWithArgs(callable $callable, array $args = [])
+    public static function callWithArgs(callable $callable, array $args = [])
     {
         return call_user_func_array($callable, static::getCallableMixedArgs($callable, $args));
     }
 
-    static public function getCallableMixedArgs(callable $callable, array $args = [])
+    public static function getCallableMixedArgs(callable $callable, array $args = [])
     {
         if ($expectedArgs = static::expectedArgs($callable)) {
             return static::fetchExpectedArgs($expectedArgs, $args);
@@ -73,13 +74,13 @@ class Obj
         return [];
     }
 
-    static public function fetchExpectedArgs(array $expectedArgs, array $customArgs = [], callable $expectedCallback = null, $allowMixed = false)
+    public static function fetchExpectedArgs(array $expectedArgs, array $customArgs = [], callable $expectedCallback = null, $allowMixed = false)
     {
         $assocArgs = [];
 
         $mixedArgs = [];
 
-        foreach($customArgs as $key => $value) {
+        foreach ($customArgs as $key => $value) {
             if (is_int($key)) {
                 if (is_object($value)) {
                     $assocArgs[get_class($value)] = $value;
@@ -100,7 +101,7 @@ class Obj
 
         $returnArgs = [];
 
-        $countMixedExpected = $allowMixed ? Arr::count($expectedArgs, function(\ReflectionParameter $expectedArg) {
+        $countMixedExpected = $allowMixed ? Arr::count($expectedArgs, function (\ReflectionParameter $expectedArg) {
             try {
                 return !$expectedArg->getClass();
             } catch (\Exception $e) {
@@ -143,11 +144,11 @@ class Obj
         return $returnArgs;
     }
 
-    static public function expectedArg(\ReflectionParameter $expectedArg)
+    public static function expectedArg(\ReflectionParameter $expectedArg)
     {
         if (!$expectedArg->isOptional()) {
-            throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `'
-                . $expectedArg->getDeclaringClass()->getName() . '::' . $expectedArg->getDeclaringFunction()->getName() . '`');
+            throw new \Exception('Argument `'.$expectedArg->getName().'` is required in `'
+                .$expectedArg->getDeclaringClass()->getName().'::'.$expectedArg->getDeclaringFunction()->getName().'`');
         }
 
         $arg = $expectedArg->getDefaultValue();
@@ -155,16 +156,16 @@ class Obj
         return $arg;
     }
 
-    static public function classExists($name, array $prefixes = [], $namePrefix = null)
+    public static function classExists($name, array $prefixes = [], $namePrefix = null)
     {
-        $name = array_map(function($name) {
+        $name = array_map(function ($name) {
             return Str::phpName($name);
-        }, (array)$name);
+        }, (array) $name);
 
         $name = implode('\\', $name);
 
-        foreach($prefixes as $prefix) {
-            $class = $prefix . $namePrefix . $name;
+        foreach ($prefixes as $prefix) {
+            $class = $prefix.$namePrefix.$name;
 
             if (class_exists($class)) {
                 return $class;
@@ -174,7 +175,7 @@ class Obj
         return false;
     }
 
-    static public function usesRecursive($class, $breakOn = null)
+    public static function usesRecursive($class, $breakOn = null)
     {
         $results = [];
 
@@ -189,7 +190,7 @@ class Obj
         return array_unique($results);
     }
 
-    static public function traitUsesRecursive($trait)
+    public static function traitUsesRecursive($trait)
     {
         $traits = class_uses($trait);
 
@@ -200,7 +201,7 @@ class Obj
         return $traits;
     }
 
-    static public function baseName($class)
+    public static function baseName($class)
     {
         $class = is_object($class) ? get_class($class) : $class;
 
