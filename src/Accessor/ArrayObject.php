@@ -4,9 +4,9 @@ namespace Greg\Support\Accessor;
 
 use Greg\Support\Arr;
 
-class ArrayObject implements ArrayAccessTraitInterface, \IteratorAggregate, \Serializable, \Countable
+class ArrayObject implements ArrayAccessInterface, \IteratorAggregate, \Serializable, \Countable
 {
-    use AccessorTrait, ArrayAccessTrait, IteratorAggregateTrait, SerializableTrait, CountableTrait;
+    use ArrayAccessTrait, IteratorAggregateTrait, SerializableTrait, CountableTrait;
 
     public function __construct($input = [], $iteratorClass = null)
     {
@@ -262,7 +262,7 @@ class ArrayObject implements ArrayAccessTraitInterface, \IteratorAggregate, \Ser
 
     public function mapRecursive(callable $callable = null, array ...$arrays)
     {
-        $this->accessor = Arr::mapRecursive($callable, $this->accessor, ...$arrays);
+        Arr::mapRecursiveRef($callable, $this->accessor, ...$arrays);
 
         return $this;
     }
@@ -276,7 +276,7 @@ class ArrayObject implements ArrayAccessTraitInterface, \IteratorAggregate, \Ser
 
     public function filterRecursive(callable $callable = null, $flag = 0)
     {
-        $this->accessor = Arr::filterRecursive($this->accessor, ...func_get_args());
+        Arr::filterRecursiveRef($this->accessor, ...func_get_args());
 
         return $this;
     }

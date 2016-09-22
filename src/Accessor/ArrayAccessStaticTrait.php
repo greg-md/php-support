@@ -2,10 +2,13 @@
 
 namespace Greg\Support\Storage;
 
+use Greg\Support\Accessor\AccessorStaticTrait;
 use Greg\Support\Arr;
 
 trait ArrayAccessStaticTrait
 {
+    use AccessorStaticTrait;
+
     public static function has($key)
     {
         return Arr::hasRef(static::$accessor, $key);

@@ -44,7 +44,7 @@ trait AccessorTrait
         return $this;
     }
 
-    protected function &accessor()
+    private function &accessor()
     {
         return $this->accessor;
     }

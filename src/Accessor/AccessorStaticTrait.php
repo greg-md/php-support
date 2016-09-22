@@ -2,6 +2,8 @@
 
 namespace Greg\Support\Accessor;
 
+use Greg\Support\Arr;
+
 trait AccessorStaticTrait
 {
     private static $accessor = [];
@@ -14,6 +16,8 @@ trait AccessorStaticTrait
     protected static function setAccessor(array $accessor)
     {
         static::$accessor = $accessor;
+
+        return true;
     }
 
     protected static function inAccessor($key)
@@ -21,13 +25,27 @@ trait AccessorStaticTrait
         return array_key_exists($key, static::$accessor);
     }
 
-    protected static function setToAccessor($key, $value)
-    {
-        static::$accessor[$key] = $value;
-    }
-
-    protected static function getFromAccessor($key)
+    protected function getFromAccessor($key)
     {
         return static::inAccessor($key) ? static::$accessor[$key] : null;
+    }
+
+    protected function setToAccessor($key, $value)
+    {
+        Arr::setRefValueRef(static::$accessor, $key, $value);
+
+        return true;
+    }
+
+    protected function addToAccessor(array $items)
+    {
+        static::$accessor = array_merge(static::$accessor, $items);
+
+        return true;
+    }
+
+    private static function &accessor()
+    {
+        return static::$accessor;
     }
 }

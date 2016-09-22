@@ -6,6 +6,8 @@ use Greg\Support\Arr;
 
 trait ArrayAccessTrait
 {
+    use AccessorTrait;
+
     public function has($key)
     {
         return Arr::hasRef($this->accessor, $key);

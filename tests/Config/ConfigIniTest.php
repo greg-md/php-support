@@ -37,7 +37,7 @@ class ConfigIniTest extends TestCase
      */
     public function testFile($section, $expected)
     {
-        $this->assertEquals($expected, ConfigIni::file(__DIR__ . '/config.ini', $section));
+        $this->assertEquals($expected, ConfigIni::file(__DIR__ . '/config.ini', $section, '.'));
     }
 
     /**
@@ -49,7 +49,7 @@ class ConfigIniTest extends TestCase
      */
     public function testString($section, $expected)
     {
-        $this->assertEquals($expected, ConfigIni::string(file_get_contents(__DIR__ . '/config.ini'), $section));
+        $this->assertEquals($expected, ConfigIni::string(file_get_contents(__DIR__ . '/config.ini'), $section, '.'));
     }
 
     /**

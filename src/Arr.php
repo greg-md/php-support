@@ -570,7 +570,7 @@ class Arr
             $array[$key] = &$value;
         }
 
-        return true;
+        return $array;
     }
 
     public static function appendIndex(array $array, $index = null, $value = null, $delimiter = self::INDEX_DELIMITER)
@@ -641,7 +641,7 @@ class Arr
             $array = [$key => &$value] + $array;
         }
 
-        return true;
+        return $array;
     }
 
     public static function prependIndex(array $array, $index = null, $value = null, $delimiter = self::INDEX_DELIMITER)
@@ -735,7 +735,7 @@ class Arr
             } else {
                 array_unshift($callArgs, $value);
 
-                $value = call_user_func_array($callable, [$callArgs]);
+                $value = call_user_func_array($callable, $callArgs);
             }
         }
         unset($value);

@@ -11,7 +11,7 @@ trait SerializableTrait
 
     public function unserialize($storage)
     {
-        $this->storage = unserialize($storage);
+        $this->accessor = unserialize($storage);
 
         return $this;
     }

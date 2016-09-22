@@ -327,7 +327,7 @@ trait RequestStaticTrait
     public static function checkFile($file, $mimes = [])
     {
         if ($file['error'] !== UPLOAD_ERR_OK) {
-            throw new \Exception('Upload file error: ' . RequestInterface::UPLOAD_ERROR[$file['error']]);
+            throw new \Exception('Upload file error: ' . Request::UPLOAD_ERROR[$file['error']]);
         }
 
         if (!is_uploaded_file($file['tmp_name'])) {
