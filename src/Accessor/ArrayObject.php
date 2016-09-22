@@ -4,7 +4,7 @@ namespace Greg\Support\Accessor;
 
 use Greg\Support\Arr;
 
-class ArrayObject implements ArrayAccessInterface, \IteratorAggregate, \Serializable, \Countable
+class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \Countable
 {
     use ArrayAccessTrait, IteratorAggregateTrait, SerializableTrait, CountableTrait;
 

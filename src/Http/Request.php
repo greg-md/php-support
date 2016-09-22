@@ -2,12 +2,12 @@
 
 namespace Greg\Support\Http;
 
-use Greg\Support\Accessor\ArrayAccessTrait;
+use Greg\Support\Accessor\AccessorTrait;
 use Greg\Support\Arr;
 
 class Request
 {
-    use ArrayAccessTrait, RequestStaticTrait;
+    use AccessorTrait, RequestStaticTrait;
 
     const URI_ALL = 'all';
 
@@ -45,71 +45,34 @@ class Request
         return $this->accessor;
     }
 
-    public function setAll(array $params)
+    public function has($key)
     {
-        $this->setAccessor($params);
-
-        return $this;
+        return Arr::hasRef($this->accessor, $key);
     }
 
-    public function &getRef($key, &$else = null)
+    public function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getRef($this->accessor, $key, $this->getRequestRef($key, $else));
+        return Arr::hasIndexRef($this->accessor, $index, $delimiter);
     }
 
-    public function &getForceRef($key, &$else = null)
+    public function get($key, $else = null)
     {
-        return Arr::getForceRef($this->accessor, $key, $this->getForceRequestRef($key, $else));
+        return Arr::getRef($this->accessor, $key, $else);
     }
 
-    public function &getArrayRef($key, &$else = null)
+    public function getArray($key, $else = null)
     {
-        return Arr::getArrayRef($this->accessor, $key, $this->getArrayRequestRef($key, $else));
+        return Arr::getArrayRef($this->accessor, $key, $else);
     }
 
-    public function &getArrayForceRef($key, &$else = null)
+    public function getIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getArrayForceRef($this->accessor, $key, $this->getArrayForceRequestRef($key, $else));
+        return Arr::getIndexRef($this->accessor, $index, $else, $delimiter);
     }
 
-    public function &getIndexRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexRef(
-            $this->accessor,
-            $index,
-            $this->getIndexRequestRef($index, $else, $delimiter),
-            $delimiter
-        );
-    }
-
-    public function &getIndexForceRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
-    {
-        return Arr::getIndexForceRef(
-            $this->accessor,
-            $index,
-            $this->getIndexForceRequestRef($index, $else, $delimiter),
-            $delimiter
-        );
-    }
-
-    public function &getIndexArrayRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
-    {
-        return Arr::getIndexArrayRef(
-            $this->accessor,
-            $index,
-            $this->getIndexArrayRequestRef($index, $else, $delimiter),
-            $delimiter
-        );
-    }
-
-    public function &getIndexArrayForceRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
-    {
-        return Arr::getIndexArrayForceRef(
-            $this->accessor,
-            $index,
-            $this->getIndexArrayForceRequestRef($index, $else, $delimiter),
-            $delimiter
-        );
+        return Arr::getIndexArrayRef($this->accessor, $index, $else, $delimiter);
     }
 
     public function __call($method, array $args)

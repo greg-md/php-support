@@ -212,7 +212,7 @@ class ArrayObjectTest extends TestCase
 
         $object->exchange([1, [2, 3]]);
 
-        $object->mapRecursive(function($value) {
+        $object->mapRecursive(function ($value) {
             return pow($value, 2);
         });
 
