@@ -8,7 +8,7 @@ class InNamespaceRegex
 
     protected $end = null;
 
-    protected $recursive = true;
+    protected $recursive = false;
 
     protected $recursiveGroup = null;
 
@@ -28,7 +28,18 @@ class InNamespaceRegex
 
     protected $trim = false;
 
-    public function __construct($start, $end = null, $recursive = null)
+    public function __construct($start, $end = null, $recursive = false)
+    {
+        $this->setIn($start, $end);
+
+        if ($recursive) {
+            $this->recursive();
+        }
+
+        return $this;
+    }
+
+    public function setIn($start, $end = null)
     {
         $this->setStart($start);
 
@@ -38,11 +49,32 @@ class InNamespaceRegex
 
         $this->setEnd($end);
 
-        if ($recursive !== null) {
-            $this->recursive($recursive);
-        }
-
         return $this;
+    }
+
+    public function getIn()
+    {
+        return [$this->getStart(), $this->getEnd()];
+    }
+
+    public function setStart($value)
+    {
+        $this->start = (string) $value;
+    }
+
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    public function setEnd($value)
+    {
+        $this->end = (string) $value;
+    }
+
+    public function getEnd()
+    {
+        return $this->end;
     }
 
     public function disableInQuotes()
@@ -65,9 +97,104 @@ class InNamespaceRegex
         return $this->disableIn;
     }
 
-    public function replaceCallback(callable $callable, $string, $flags = null)
+    public function recursive($type = true)
     {
-        return preg_replace_callback('#' . $this->toString() . '#' . $flags, $callable, $string);
+        $this->recursive = (bool) $type;
+
+        return $this;
+    }
+
+    public function isRecursive()
+    {
+        return (bool) $this->recursive;
+    }
+
+    public function setRecursiveGroup($value)
+    {
+        $this->recursiveGroup = (string) $value;
+    }
+
+    public function getRecursiveGroup()
+    {
+        return $this->recursiveGroup;
+    }
+
+    public function capture($value = true)
+    {
+        $this->capture = (bool) $value;
+
+        return $this;
+    }
+
+    public function isCaptured()
+    {
+        return (bool) $this->capture;
+    }
+
+    public function setCapturedKey($value)
+    {
+        $this->capturedKey = (string) $value;
+    }
+
+    public function getCapturedKey()
+    {
+        return $this->capturedKey;
+    }
+
+    public function allowEmpty($value = true)
+    {
+        $this->allowEmpty = (bool) $value;
+
+        return $this;
+    }
+
+    public function isAllowedEmpty()
+    {
+        return (bool) $this->allowEmpty;
+    }
+
+    public function setMath($value)
+    {
+        $this->match = (string) $value;
+    }
+
+    public function getMath()
+    {
+        return $this->match;
+    }
+
+    public function setEscape($value)
+    {
+        $this->escape = (string) $value;
+    }
+
+    public function getEscape()
+    {
+        return $this->escape;
+    }
+
+    public function newLines($value = true)
+    {
+        $this->newLines = (bool) $value;
+
+        return $this;
+    }
+
+    public function isUsingNewLines()
+    {
+        return (bool) $this->newLines;
+    }
+
+    public function trim($value = true)
+    {
+        $this->trim = (bool) $value;
+
+        return $this;
+    }
+
+    public function isTrimmed()
+    {
+        return (bool) $this->trim;
     }
 
     public function toString()
@@ -143,120 +270,5 @@ class InNamespaceRegex
     public function __toString()
     {
         return (string) $this->toString();
-    }
-
-    public function setStart($value)
-    {
-        $this->start = (string) $value;
-    }
-
-    public function getStart()
-    {
-        return $this->start;
-    }
-
-    public function setEnd($value)
-    {
-        $this->end = (string) $value;
-    }
-
-    public function getEnd()
-    {
-        return $this->end;
-    }
-
-    public function recursive($value = null)
-    {
-        if (func_num_args()) {
-            $this->recursive = (bool) $value;
-
-            return $this;
-        }
-
-        return $this->recursive;
-    }
-
-    public function setRecursiveGroup($value)
-    {
-        $this->recursiveGroup = (string) $value;
-    }
-
-    public function getRecursiveGroup()
-    {
-        return $this->recursiveGroup;
-    }
-
-    public function capture($value = null)
-    {
-        if (func_num_args()) {
-            $this->capture = (bool) $value;
-
-            return $this;
-        }
-
-        return $this->capture;
-    }
-
-    public function setCapturedKey($value)
-    {
-        $this->capturedKey = (string) $value;
-    }
-
-    public function getCapturedKey()
-    {
-        return $this->capturedKey;
-    }
-
-    public function allowEmpty($value = null)
-    {
-        if (func_num_args()) {
-            $this->allowEmpty = (bool) $value;
-
-            return $this;
-        }
-
-        return $this->allowEmpty;
-    }
-
-    public function setMath($value)
-    {
-        $this->match = (string) $value;
-    }
-
-    public function getMath()
-    {
-        return $this->match;
-    }
-
-    public function setEscape($value)
-    {
-        $this->escape = (string) $value;
-    }
-
-    public function getEscape()
-    {
-        return $this->escape;
-    }
-
-    public function newLines($value = null)
-    {
-        if (func_num_args()) {
-            $this->newLines = (bool) $value;
-
-            return $this;
-        }
-
-        return $this->newLines;
-    }
-
-    public function trim($value = null)
-    {
-        if (func_num_args()) {
-            $this->trim = (bool) $value;
-
-            return $this;
-        }
-
-        return $this->trim;
     }
 }
