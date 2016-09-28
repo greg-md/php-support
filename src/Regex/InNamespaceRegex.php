@@ -242,7 +242,7 @@ class InNamespaceRegex
             $this->getMath() ?: '(?:' . implode('|', $allows) . ')',
         ];
 
-        if ($this->recursive()) {
+        if ($this->isRecursive()) {
             if ($recursiveGroup = $this->getRecursiveGroup()) {
                 $matches[] = '\g\'' . $recursiveGroup . '\'';
             } else {

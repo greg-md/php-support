@@ -16,6 +16,7 @@ class InNamespaceRegexTest extends TestCase
     {
         $request = $this->newInstance();
 
+        die($request->toString());
         $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).))*?)\}\}', $request->toString());
     }
 
@@ -32,7 +33,16 @@ class InNamespaceRegexTest extends TestCase
     {
         $request = $this->newInstance();
 
-        $request->recursive(true);
+        $request->recursive();
+
+        $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).)|(?R))*?)\}\}', $request->toString());
+    }
+
+    public function testRecursiveGroup()
+    {
+        $request = $this->newInstance();
+
+        $request->recursive()->setRecursiveGroup('foo');
 
         $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).)|(?R))*?)\}\}', $request->toString());
     }
