@@ -12,7 +12,7 @@ class RequestTest extends TestCase
     protected static $data = [
         'foo' => 'FOO',
         'bar' => 'BAR',
-        'a' => ['b' => 'c'],
+        'a'   => ['b' => 'c'],
     ];
 
     protected static $files = [
@@ -39,37 +39,37 @@ class RequestTest extends TestCase
             ],
         ],
         'file3' => [
-            'name' => 'file3.png',
-            'type' => 'image/png',
-            'size' => '4096',
+            'name'     => 'file3.png',
+            'type'     => 'image/png',
+            'size'     => '4096',
             'tmp_name' => '/tmp/upload_file3',
-            'error' => 0,
+            'error'    => 0,
         ],
     ];
 
     protected static $humanFiles = [
         'files' => [
             'file1' => [
-                'name' => 'file1.png',
-                'type' => 'image/png',
-                'size' => '1024',
+                'name'     => 'file1.png',
+                'type'     => 'image/png',
+                'size'     => '1024',
                 'tmp_name' => '/tmp/upload_file1',
-                'error' => 0,
+                'error'    => 0,
             ],
             'file2' => [
-                'name' => 'file2.png',
-                'type' => 'image/png',
-                'size' => '2048',
+                'name'     => 'file2.png',
+                'type'     => 'image/png',
+                'size'     => '2048',
                 'tmp_name' => '/tmp/upload_file2',
-                'error' => 0,
+                'error'    => 0,
             ],
         ],
         'file3' => [
-            'name' => 'file3.png',
-            'type' => 'image/png',
-            'size' => '4096',
+            'name'     => 'file3.png',
+            'type'     => 'image/png',
+            'size'     => '4096',
             'tmp_name' => '/tmp/upload_file3',
-            'error' => 0,
+            'error'    => 0,
         ],
     ];
 
@@ -218,7 +218,7 @@ class RequestTest extends TestCase
             [''],
             ['Get'],
             ['Post'],
-            ['Request']
+            ['Request'],
         ];
     }
 

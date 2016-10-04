@@ -8,6 +8,7 @@ class Minify
      * Better don't use it. It is very slow with big data.
      *
      * @param $html
+     *
      * @return mixed
      */
     public static function html($html)
