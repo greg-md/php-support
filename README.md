@@ -1,4 +1,4 @@
-# php-support
+# Greg PHP Support
 
 [![StyleCI](https://styleci.io/repos/66374374/shield?style=flat)](https://styleci.io/repos/66374374)
 [![Build Status](https://travis-ci.org/greg-md/php-support.svg)](https://travis-ci.org/greg-md/php-support)
