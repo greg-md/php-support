@@ -341,7 +341,7 @@ trait RequestStaticTrait
         return call_user_func_array([RequestTypeHelper::class, $method], $args);
     }
 
-    protected function callType(array $types, $method, array $args)
+    protected static function callType(array $types, $method, array $args)
     {
         foreach ($types as $type => &$storage) {
             if (strpos($method, $type) > 0) {
