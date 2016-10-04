@@ -4,17 +4,18 @@ namespace Greg\Support\Tests\Http;
 
 use Greg\Support\Arr;
 use Greg\Support\Http\Request;
+use Greg\Support\Http\RequestException;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase
 {
-    protected $data = [
+    protected static $data = [
         'foo' => 'FOO',
         'bar' => 'BAR',
         'a' => ['b' => 'c'],
     ];
 
-    protected $files = [
+    protected static $files = [
         'files' => [
             'name' => [
                 'file1' => 'file1.png',
@@ -46,7 +47,7 @@ class RequestTest extends TestCase
         ],
     ];
 
-    protected $humanFiles = [
+    protected static $humanFiles = [
         'files' => [
             'file1' => [
                 'name' => 'file1.png',
@@ -72,15 +73,15 @@ class RequestTest extends TestCase
         ],
     ];
 
-    protected function setUp()
+    public static function setUpBeforeClass()
     {
-        $_GET = $this->data;
+        $_GET = static::$data;
 
-        $_POST = $this->data;
+        $_POST = static::$data;
 
-        $_REQUEST = $this->data;
+        $_REQUEST = static::$data;
 
-        $_FILES = $this->files;
+        $_FILES = static::$files;
 
         $_SERVER['SERVER_PROTOCOL'] = 'http';
         $_SERVER['HTTP_HOST'] = 'localhost';
@@ -98,7 +99,7 @@ class RequestTest extends TestCase
 
     protected function newInstance()
     {
-        return new Request($this->data);
+        return new Request(static::$data);
     }
 
     public function testHasParams()
@@ -112,7 +113,7 @@ class RequestTest extends TestCase
     {
         $request = $this->newInstance();
 
-        $this->assertEquals($this->data, $request->getAll());
+        $this->assertEquals(static::$data, $request->getAll());
     }
 
     /**
@@ -136,7 +137,7 @@ class RequestTest extends TestCase
     {
         $request = $this->newInstance();
 
-        $this->assertEquals($this->data, $request->{'getAll' . $type}());
+        $this->assertEquals(static::$data, $request->{'getAll' . $type}());
     }
 
     /**
@@ -223,7 +224,7 @@ class RequestTest extends TestCase
 
     /**
      * @param $type
-     * @param $serverKey
+     * @param $key
      *
      * @dataProvider serverDataProvider
      */
@@ -295,7 +296,9 @@ class RequestTest extends TestCase
 
     public function testHumanReadableFiles()
     {
-        $this->assertEquals($this->humanFiles, Request::humanReadableFiles());
+        Request::humanReadableFiles();
+
+        $this->assertEquals(static::$humanFiles, $_FILES);
     }
 
     /**
@@ -303,7 +306,11 @@ class RequestTest extends TestCase
      */
     public function testGetFile()
     {
-        $this->assertEquals($this->humanFiles['file3'], Request::getFile('file3'));
+        $this->expectException(RequestException::class);
+
+        Request::humanReadableFiles();
+
+        Request::getFile('file3');
     }
 
     /**
@@ -311,6 +318,10 @@ class RequestTest extends TestCase
      */
     public function testGetIndexFile()
     {
-        $this->assertEquals($this->humanFiles['files']['file1'], Request::getIndexFile('files.file1'));
+        $this->expectException(RequestException::class);
+
+        Request::humanReadableFiles();
+
+        Request::getIndexFile('files.file1');
     }
 }

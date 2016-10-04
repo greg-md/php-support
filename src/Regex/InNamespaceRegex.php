@@ -153,12 +153,12 @@ class InNamespaceRegex
         return (bool) $this->allowEmpty;
     }
 
-    public function setMath($value)
+    public function setMatch($value)
     {
         $this->match = (string) $value;
     }
 
-    public function getMath()
+    public function getMatch()
     {
         return $this->match;
     }
@@ -201,7 +201,7 @@ class InNamespaceRegex
     {
         $captureS = $captureE = null;
 
-        if ($this->capture()) {
+        if ($this->isCaptured()) {
             $captureS = '(';
 
             if ($capturedKey = $this->getCapturedKey()) {
@@ -217,10 +217,8 @@ class InNamespaceRegex
 
         $allows = [];
 
-        if ($this->disableIn) {
-            foreach ($this->disableIn as $capture) {
-                $allows[] = preg_quote($capture[0]) . '.*?' . preg_quote($capture[1]);
-            }
+        foreach ($this->disableIn as $capture) {
+            $allows[] = preg_quote($capture[0]) . '.*?' . preg_quote($capture[1]);
         }
 
         if ($escape = $this->getEscape()) {
@@ -234,12 +232,12 @@ class InNamespaceRegex
         // Allow all instead of start and end
         $allows[] = "(?!{$start})(?!{$end}).";
 
-        if ($this->newLines()) {
+        if ($this->isUsingNewLines()) {
             $allows[] = '\r?\n';
         }
 
         $matches = [
-            $this->getMath() ?: '(?:' . implode('|', $allows) . ')',
+            $this->getMatch() ?: '(?:' . implode('|', $allows) . ')',
         ];
 
         if ($this->isRecursive()) {
@@ -252,9 +250,9 @@ class InNamespaceRegex
 
         $matches = implode('|', $matches);
 
-        $flag = ($this->allowEmpty() ? '*' : '+') . '?';
+        $flag = ($this->isAllowedEmpty() ? '*' : '+') . '?';
 
-        $trim = $this->trim() ? '\s*' : '';
+        $trim = $this->isTrimmed() ? '\s*' : '';
 
         $noEscaped = null;
 
