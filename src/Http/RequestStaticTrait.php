@@ -271,7 +271,7 @@ trait RequestStaticTrait
 
     protected static function checkHumanReadableFiles(array $files, $mimes = [])
     {
-        foreach($files as &$file) {
+        foreach ($files as &$file) {
             if (!is_array($file)) {
                 throw new RequestException('Requested file is not an array of files.');
             }
@@ -298,11 +298,11 @@ trait RequestStaticTrait
 
         foreach ($files['error'] as $key => $error) {
             static::checkFile([
-                'name' => $files['name'][$key],
-                'type' => $files['type'][$key],
-                'size' => $files['size'][$key],
+                'name'     => $files['name'][$key],
+                'type'     => $files['type'][$key],
+                'size'     => $files['size'][$key],
                 'tmp_name' => $files['tmp_name'][$key],
-                'error' => $files['error'][$key],
+                'error'    => $files['error'][$key],
             ], $mimes);
         }
 
