@@ -6,7 +6,7 @@ use Greg\Support\Accessor\AccessorTrait;
 
 class Binder
 {
-    use AccessorTrait, InternalTrait;
+    use AccessorTrait;
 
     public function loadInstance($className, ...$args)
     {
@@ -113,11 +113,7 @@ class Binder
         if ($expectedType = $expectedArg->getClass()) {
             $className = $expectedType->getName();
 
-            $arg = $this->get($className);
-
-            if (!$arg and !$expectedArg->isOptional()) {
-                throw new \Exception('Object `' . $className . '` is not registered in binder.');
-            }
+            $arg = $expectedArg->isOptional() ? $this->get($className) : $this->getExpected($className);
         } else {
             $arg = Obj::expectedArg($expectedArg);
         }
@@ -164,7 +160,7 @@ class Binder
             } else {
                 $object = (array) $object;
 
-                $object = $this->loadClassInstance(...$object);
+                $object = Obj::loadInstance(...$object);
             }
 
             $this->setToAccessor($name, $object);

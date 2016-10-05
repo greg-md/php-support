@@ -66,43 +66,31 @@ class Session
         return $flash;
     }
 
-    public static function ini($var, $value = null)
-    {
-        if (is_array($var)) {
-            foreach (($param = $var) as $var => $value) {
-                static::iniSet($var, $value);
-            }
-
-            return true;
-        }
-
-        if (func_num_args() > 1) {
-            return static::iniSet($var, $value);
-        }
-
-        return static::iniGet($var);
-    }
-
-    public static function iniSet($var, $value)
+    public static function setIni($var, $value)
     {
         return ServerIni::set('session.' . $var, $value);
     }
 
-    public static function iniGet($var)
+    public static function getIni($var)
     {
         return ServerIni::get('session.' . $var);
     }
 
-    public static function id($id = null)
+    public static function hasId()
     {
-        return session_id(...func_get_args());
+        return (boolean) session_id();
     }
 
     public static function getId()
     {
         static::start();
 
-        return static::id();
+        return session_id();
+    }
+
+    public static function setId($id)
+    {
+        return session_id($id);
     }
 
     public static function persistent($value = null)
@@ -114,9 +102,14 @@ class Session
         return static::$persistent;
     }
 
-    public static function name($name = null)
+    public static function setName($name)
     {
-        return session_name(...func_get_args());
+        return session_name($name);
+    }
+
+    public static function getName()
+    {
+        return session_name();
     }
 
     public static function start()
@@ -129,7 +122,7 @@ class Session
             }
         }
 
-        return true;
+        return session_id();
     }
 
     public static function unserialize($data)
@@ -166,42 +159,41 @@ class Session
     public static function resetLifetime($time = null, $path = null, $domain = null, $secure = null, $httpOnly = null)
     {
         if ($time === null) {
-            $time = ini_get('session.cookie_lifetime');
+            $time = static::getIni('cookie_lifetime');
         }
 
         if ($path === null) {
-            $path = ini_get('session.cookie_path');
+            $path = static::getIni('cookie_path');
         }
 
         if ($domain === null) {
-            $domain = ini_get('session.cookie_domain');
+            $domain = static::getIni('cookie_domain');
         }
 
         if ($secure === null) {
-            $secure = ini_get('session.cookie_secure');
+            $secure = static::getIni('cookie_secure');
         }
 
         if ($httpOnly === null) {
-            $httpOnly = ini_get('session.cookie_httponly');
+            $httpOnly = static::getIni('cookie_httponly');
         }
 
         if ($time > 0) {
             $time += time();
         }
 
-        setcookie(static::name(), static::getId(), $time, $path, $domain, $secure, $httpOnly);
-
-        return true;
+        return setcookie(static::getName(), static::getId(), $time, $path, $domain, $secure, $httpOnly);
     }
 
-    public static function saveHandler($handler = null)
+    public static function setSaveHandler(\SessionHandlerInterface $handler, $registerShutdown = true)
     {
-        if ($handler !== null) {
-            session_set_save_handler($handler);
+        session_set_save_handler($handler, $registerShutdown);
 
-            static::$handler = $handler;
-        }
+        return static::$handler = $handler;
+    }
 
+    public static function getSaveHandler()
+    {
         return static::$handler;
     }
 

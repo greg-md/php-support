@@ -17,7 +17,7 @@ trait AccessorStaticTrait
     {
         static::$accessor = $accessor;
 
-        return true;
+        return static::$accessor;
     }
 
     protected static function inAccessor($key)
@@ -34,14 +34,14 @@ trait AccessorStaticTrait
     {
         Arr::setRefValueRef(static::$accessor, $key, $value);
 
-        return true;
+        return static::$accessor;
     }
 
     protected function addToAccessor(array $items)
     {
         static::$accessor = array_merge(static::$accessor, $items);
 
-        return true;
+        return static::$accessor;
     }
 
     private static function &accessor()

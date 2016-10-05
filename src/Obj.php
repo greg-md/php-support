@@ -207,4 +207,14 @@ class Obj
 
         return basename(str_replace('\\', '/', $class));
     }
+
+    public static function callCallable(callable $callable, ...$args)
+    {
+        return call_user_func_array($callable, $args);
+    }
+
+    public static function callCallableWith(callable $callable, ...$args)
+    {
+        return call_user_func_array($callable, static::getCallableMixedArgs($callable, $args));
+    }
 }

@@ -1,8 +1,7 @@
 <?php
 
-namespace Greg\Support\Storage;
+namespace Greg\Support\Accessor;
 
-use Greg\Support\Accessor\AccessorStaticTrait;
 use Greg\Support\Arr;
 
 trait ArrayAccessStaticTrait
@@ -21,22 +20,22 @@ trait ArrayAccessStaticTrait
 
     public static function set($key, $value)
     {
-        Arr::setRefValueRef(static::$accessor, $key, $value);
+        return Arr::setRefValueRef(static::$accessor, $key, $value);
     }
 
     public static function setValueRef($key, &$value)
     {
-        Arr::setRefValueRef(static::$accessor, $key, $value);
+        return Arr::setRefValueRef(static::$accessor, $key, $value);
     }
 
     public static function setIndex($index, $value, $delimiter = Arr::INDEX_DELIMITER)
     {
-        Arr::setIndexRefValueRef(static::$accessor, $index, $value, $delimiter);
+        return Arr::setIndexRefValueRef(static::$accessor, $index, $value, $delimiter);
     }
 
     public static function setIndexValueRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
-        Arr::setIndexRefValueRef(static::$accessor, $index, $value, $delimiter);
+        return Arr::setIndexRefValueRef(static::$accessor, $index, $value, $delimiter);
     }
 
     public static function get($key, $else = null)
@@ -121,11 +120,11 @@ trait ArrayAccessStaticTrait
 
     public static function del($key)
     {
-        Arr::delRef(static::$accessor, $key);
+        return Arr::delRef(static::$accessor, $key);
     }
 
     public static function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        Arr::delIndexRef(static::$accessor, $index, $delimiter);
+        return Arr::delIndexRef(static::$accessor, $index, $delimiter);
     }
 }

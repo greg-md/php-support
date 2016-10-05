@@ -9,9 +9,9 @@ trait SerializableTrait
         return serialize($this->accessor);
     }
 
-    public function unserialize($storage)
+    public function unserialize($accessor)
     {
-        $this->accessor = unserialize($storage);
+        $this->accessor = unserialize($accessor);
 
         return $this;
     }
