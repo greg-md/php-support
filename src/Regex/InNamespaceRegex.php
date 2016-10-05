@@ -197,6 +197,11 @@ class InNamespaceRegex
         return (bool) $this->trim;
     }
 
+    public function replaceCallback(callable $callable, $string, $flags = null)
+    {
+        return preg_replace_callback('#' . $this->toString() . '#' . $flags, $callable, $string);
+    }
+
     public function toString()
     {
         $captureS = $captureE = null;
