@@ -22,7 +22,7 @@ class Binder
         method_exists($self, '__bind') && $this->call([$self, '__bind']);
 
         // Call all methods which starts with __bind
-        foreach(get_class_methods($self) as $methodName) {
+        foreach (get_class_methods($self) as $methodName) {
             if ($methodName[0] === '_' and $methodName !== '__bind' and Str::startsWith($methodName, '__bind')) {
                 $this->call([$self, $methodName]);
             }
@@ -81,7 +81,7 @@ class Binder
     public function getCallableMixedArgs(callable $callable, array $args = [])
     {
         if ($expectedArgs = Obj::expectedArgs($callable)) {
-            return Obj::fetchExpectedArgs($expectedArgs, $args, function(\ReflectionParameter $expectedArg) {
+            return Obj::fetchExpectedArgs($expectedArgs, $args, function (\ReflectionParameter $expectedArg) {
                 return $this->expectedArg($expectedArg);
             }, true);
         }
@@ -94,10 +94,10 @@ class Binder
         /* @var $expectedArgs \ReflectionParameter[] */
 
         if ($args) {
-            $expectedArgs = array_slice($expectedArgs, sizeof($args));
+            $expectedArgs = array_slice($expectedArgs, count($args));
         }
 
-        $newArgs = Obj::fetchExpectedArgs($expectedArgs, [], function(\ReflectionParameter $expectedArg) {
+        $newArgs = Obj::fetchExpectedArgs($expectedArgs, [], function (\ReflectionParameter $expectedArg) {
             return $this->expectedArg($expectedArg);
         });
 
@@ -162,7 +162,7 @@ class Binder
             if (is_callable($object)) {
                 $object = $this->call($object);
             } else {
-                $object = (array)$object;
+                $object = (array) $object;
 
                 $object = $this->loadClassInstance(...$object);
             }
