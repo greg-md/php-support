@@ -66,6 +66,13 @@ class Session
         return $flash;
     }
 
+    public static function setIniMore(array $config)
+    {
+        foreach ($config as $key => $value) {
+            static::setIni($key, $value);
+        }
+    }
+
     public static function setIni($var, $value)
     {
         return ServerIni::set('session.' . $var, $value);

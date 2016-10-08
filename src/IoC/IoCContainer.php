@@ -1,10 +1,12 @@
 <?php
 
-namespace Greg\Support;
+namespace Greg\Support\IoC;
 
 use Greg\Support\Accessor\AccessorTrait;
+use Greg\Support\Obj;
+use Greg\Support\Str;
 
-class Binder
+class IoCContainer
 {
     use AccessorTrait;
 
