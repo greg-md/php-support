@@ -85,7 +85,7 @@ class Session
 
     public static function hasId()
     {
-        return (boolean) session_id();
+        return (bool) session_id();
     }
 
     public static function getId()
