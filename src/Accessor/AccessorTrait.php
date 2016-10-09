@@ -44,6 +44,20 @@ trait AccessorTrait
         return $this;
     }
 
+    protected function removeFromAccessor($key)
+    {
+        unset($this->accessor[$key]);
+
+        return $this;
+    }
+
+    protected function clearAccessor()
+    {
+        $this->accessor = [];
+
+        return $this;
+    }
+
     private function &accessor()
     {
         return $this->accessor;

@@ -3,12 +3,14 @@
 namespace Greg\Support\IoC;
 
 use Greg\Support\Accessor\AccessorTrait;
+use Greg\Support\Arr;
 use Greg\Support\Obj;
-use Greg\Support\Str;
 
 class IoCContainer
 {
     use AccessorTrait;
+
+    protected $prefixes = [];
 
     public function loadInstance($className, ...$args)
     {
@@ -21,6 +23,7 @@ class IoCContainer
 
         $self = $class->newInstanceWithoutConstructor();
 
+        /*
         method_exists($self, '__bind') && $this->call([$self, '__bind']);
 
         // Call all methods which starts with __bind
@@ -29,6 +32,7 @@ class IoCContainer
                 $this->call([$self, $methodName]);
             }
         }
+        */
 
         if ($constructor = $class->getConstructor()) {
             if ($expectedArgs = $constructor->getParameters()) {
@@ -123,6 +127,46 @@ class IoCContainer
         return $arg;
     }
 
+    public function setForce($name, $object = null)
+    {
+        $this->setToAccessor($name, $object ?: $name);
+
+        return $this;
+    }
+
+    public function set($name, $object = null)
+    {
+        if ($this->inAccessor($name)) {
+            throw new \Exception('Object `' . $name . '` is already in use in IoC Container.');
+        }
+
+        return $this->setForce($name, $object);
+    }
+
+    public function setMore(array $objects)
+    {
+        foreach ($objects as $name => $object) {
+            if (is_int($name)) {
+                $name = $object;
+
+                $object = null;
+            }
+
+            $this->set($name, $object);
+        }
+
+        return $this;
+    }
+
+    public function setIfNotExists($name, $object = null)
+    {
+        if (!$this->inAccessor($name)) {
+            $this->setForce($name, $object);
+        }
+
+        return $this;
+    }
+
     public function setObject($object)
     {
         if (!is_object($object)) {
@@ -132,42 +176,69 @@ class IoCContainer
         return $this->set(get_class($object), $object);
     }
 
-    public function set($name, $object)
+    public function setObjectForce($object)
     {
-        if ($this->inAccessor($name)) {
-            throw new \Exception('Object `' . $name . '` is already in use in binder.');
+        if (!is_object($object)) {
+            throw new \Exception('Item is not an object.');
         }
 
-        $this->setToAccessor($name, $object);
-
-        return $this;
-    }
-
-    public function getExpected($name)
-    {
-        if (!$object = $this->get($name)) {
-            throw new \Exception('Object `' . $name . '` is not registered in binder.');
-        }
-
-        return $object;
+        return $this->setForce(get_class($object), $object);
     }
 
     public function get($name)
     {
         $object = $this->getFromAccessor($name);
 
-        if ($object and !is_object($object)) {
-            if (is_callable($object)) {
-                $object = $this->call($object);
-            } else {
-                $object = (array) $object;
+        if (!$object and $this->prefixIsRegistered($name)) {
+            $object = $name;
+        }
 
-                $object = Obj::loadInstance(...$object);
-            }
+        if (is_callable($object)) {
+            $object = $this->call($object);
+
+            $this->setToAccessor($name, $object);
+        } elseif ($object and !is_object($object)) {
+            $object = (array) $object;
+
+            $object = $this->loadInstance(...$object);
 
             $this->setToAccessor($name, $object);
         }
 
         return $object;
+    }
+
+    public function getExpected($name)
+    {
+        if (!$object = $this->get($name)) {
+            throw new \Exception('Object `' . $name . '` is not registered in IoC Container.');
+        }
+
+        return $object;
+    }
+
+    public function addPrefixes(array $prefixes)
+    {
+        $this->prefixes = array_merge($this->prefixes, $prefixes);
+
+        return $this;
+    }
+
+    public function addPrefix($prefix)
+    {
+        $this->prefixes[] = $prefix;
+
+        return $this;
+    }
+
+    public function prefixIsRegistered($className)
+    {
+        foreach($this->prefixes as $prefix) {
+            if (strpos($className, $prefix) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
