@@ -3,7 +3,6 @@
 namespace Greg\Support\IoC;
 
 use Greg\Support\Accessor\AccessorTrait;
-use Greg\Support\Arr;
 use Greg\Support\Obj;
 
 class IoCContainer
@@ -233,7 +232,7 @@ class IoCContainer
 
     public function prefixIsRegistered($className)
     {
-        foreach($this->prefixes as $prefix) {
+        foreach ($this->prefixes as $prefix) {
             if (strpos($className, $prefix) === 0) {
                 return true;
             }
