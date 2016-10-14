@@ -128,7 +128,13 @@ class IoCContainer
 
     public function setForce($name, $object = null)
     {
-        $this->setToAccessor($name, $object ?: $name);
+        if (!$object) {
+            $object = function() use ($name) {
+                return $this->loadInstance($name);
+            };
+        }
+
+        $this->setToAccessor($name, $object);
 
         return $this;
     }
@@ -189,17 +195,19 @@ class IoCContainer
         $object = $this->getFromAccessor($name);
 
         if (!$object and $this->prefixIsRegistered($name)) {
-            $object = $name;
-        }
+            $object = $this->loadInstance($name);
 
-        if (is_callable($object)) {
+            $this->setToAccessor($name, $object);
+        } elseif (is_callable($object)) {
             $object = $this->call($object);
 
             $this->setToAccessor($name, $object);
         } elseif ($object and !is_object($object)) {
-            $object = (array) $object;
-
-            $object = $this->loadInstance(...$object);
+            if (is_array($object)) {
+                $object = $this->loadInstance(...$object);
+            } else {
+                $object = $this->getExpected($object);
+            }
 
             $this->setToAccessor($name, $object);
         }
