@@ -129,7 +129,7 @@ class IoCContainer
     public function setForce($name, $object = null)
     {
         if (!$object) {
-            $object = function() use ($name) {
+            $object = function () use ($name) {
                 return $this->loadInstance($name);
             };
         }
