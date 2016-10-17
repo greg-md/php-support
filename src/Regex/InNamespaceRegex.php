@@ -112,6 +112,8 @@ class InNamespaceRegex
     public function setRecursiveGroup($value)
     {
         $this->recursiveGroup = (string) $value;
+
+        return $this;
     }
 
     public function getRecursiveGroup()
