@@ -263,7 +263,7 @@ trait RequestStaticTrait
     public static function getIndexMultiFiles($name, $mimes = [])
     {
         if (!static::$isHumanReadableFiles) {
-            throw new RequestException('You can not get multiple files by index if `humanReadableFiles` are off.');
+            throw new RequestException('You cannot get multiple files by index if `humanReadableFiles` are off.');
         }
 
         return static::checkHumanReadableFiles(static::getIndexFiles($name), $mimes);

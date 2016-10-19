@@ -28,7 +28,7 @@ class ServerIni
     public static function set($var, $value)
     {
         if (($oldValue = ini_set($var, $value)) === false) {
-            throw new \Exception('Server option `' . $var . '` can not be set.');
+            throw new \Exception('Server option `' . $var . '` cannot be set.');
         }
 
         return $oldValue;
