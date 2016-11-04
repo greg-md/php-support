@@ -68,4 +68,31 @@ class Debug
 
         return $return;
     }
+
+    public static function exception(\Exception $e, $showTracing = true)
+    {
+        $format = [
+            'error' => $e->getMessage(),
+            'code'  => $e->getCode(),
+            'file'  => $e->getFile(),
+            'line'  => $e->getLine(),
+            'trace' => $e->getTraceAsString(),
+        ];
+
+        $html = ['<div class="exception-name">{error}</div>'];
+
+        if ($showTracing) {
+            $html[] = '<div class="exception-path">File: {file} (Line: {line})</div>';
+
+            $html[] = '<pre class="exception-trace">{trace}</pre>';
+        }
+
+        $html = '<div class="exception">' . implode('', $html) . '</div>';
+
+        echo preg_replace_callback('#\{(.+?)\}#', function ($matches) use ($format) {
+            return array_key_exists($matches[1], $format) ? $format[$matches[1]] : null;
+        }, $html);
+
+        return null;
+    }
 }
