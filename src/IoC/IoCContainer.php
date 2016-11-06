@@ -3,13 +3,16 @@
 namespace Greg\Support\IoC;
 
 use Greg\Support\Accessor\AccessorTrait;
+use Greg\Support\Arr;
 use Greg\Support\Obj;
 
 class IoCContainer
 {
     use AccessorTrait;
-
+    
     protected $prefixes = [];
+
+    protected $concrete = [];
 
     public function loadInstance($className, ...$args)
     {
@@ -21,17 +24,6 @@ class IoCContainer
         $class = new \ReflectionClass($className);
 
         $self = $class->newInstanceWithoutConstructor();
-
-        /*
-        method_exists($self, '__bind') && $this->call([$self, '__bind']);
-
-        // Call all methods which starts with __bind
-        foreach (get_class_methods($self) as $methodName) {
-            if ($methodName[0] === '_' and $methodName !== '__bind' and Str::startsWith($methodName, '__bind')) {
-                $this->call([$self, $methodName]);
-            }
-        }
-        */
 
         if ($constructor = $class->getConstructor()) {
             if ($expectedArgs = $constructor->getParameters()) {
@@ -118,7 +110,7 @@ class IoCContainer
         if ($expectedType = $expectedArg->getClass()) {
             $className = $expectedType->getName();
 
-            $arg = $expectedArg->isOptional() ? $this->get($className) : $this->getExpected($className);
+            $arg = $expectedArg->isOptional() ? $this->get($className) : $this->expect($className);
         } else {
             $arg = Obj::expectedArg($expectedArg);
         }
@@ -126,102 +118,83 @@ class IoCContainer
         return $arg;
     }
 
-    public function setForce($name, $object = null)
+    public function inject($abstract, $loader = null)
     {
-        if (!$object) {
-            $object = function () use ($name) {
-                return $this->loadInstance($name);
+        if ($this->inAccessor($abstract)) {
+            throw new \Exception('`' . $abstract . '` is already in use in IoC Container.');
+        }
+
+        if (!$loader) {
+            $loader = function () use ($abstract) {
+                return $this->loadInstance($abstract);
             };
         }
 
-        $this->setToAccessor($name, $object);
-
-        return $this;
+        return $this->register($abstract, null, $loader);
     }
 
-    public function set($name, $object = null)
+    public function concrete($abstract, $concrete)
     {
-        if ($this->inAccessor($name)) {
-            throw new \Exception('Object `' . $name . '` is already in use in IoC Container.');
+        if ($this->inAccessor($abstract)) {
+            throw new \Exception('`' . $abstract . '` is already in use in IoC Container.');
         }
 
-        return $this->setForce($name, $object);
+        return $this->register($abstract, $concrete);
     }
 
-    public function setMore(array $objects)
-    {
-        foreach ($objects as $name => $object) {
-            if (is_int($name)) {
-                $name = $object;
-
-                $object = null;
-            }
-
-            $this->set($name, $object);
-        }
-
-        return $this;
-    }
-
-    public function setIfNotExists($name, $object = null)
-    {
-        if (!$this->inAccessor($name)) {
-            $this->setForce($name, $object);
-        }
-
-        return $this;
-    }
-
-    public function setObject($object)
+    public function object($object)
     {
         if (!is_object($object)) {
             throw new \Exception('Item is not an object.');
         }
 
-        return $this->set(get_class($object), $object);
+        return $this->concrete(get_class($object), $object);
     }
 
-    public function setObjectForce($object)
+    protected function register($abstract, $concrete = null, $loader = null)
     {
-        if (!is_object($object)) {
-            throw new \Exception('Item is not an object.');
-        }
-
-        return $this->setForce(get_class($object), $object);
+        return $this->setToAccessor($abstract, [
+            'concrete' => $concrete,
+            'loader' => $loader,
+        ]);
     }
 
-    public function get($name)
+    public function get($abstract)
     {
-        $object = $this->getFromAccessor($name);
+        if (!$this->inConcrete($abstract)) {
+            if ($item = $this->getFromAccessor($abstract)) {
+                if ($loader = $item['loader']) {
+                    if (is_callable($loader)) {
+                        $this->setToConcrete($abstract, $this->call($loader));
+                    } elseif (!is_object($loader)) {
+                        if (is_array($loader)) {
+                            $concrete = $this->loadInstance(...$loader);
+                        } else {
+                            $concrete = $this->expect($loader);
+                        }
 
-        if (!$object and $this->prefixIsRegistered($name)) {
-            $object = $this->loadInstance($name);
+                        $this->setToConcrete($abstract, $concrete);
+                    }
+                } else {
+                    $this->setToConcrete($abstract, $item['concrete']);
+                }
+            } elseif ($this->prefixIsRegistered($abstract)) {
+                $concrete = $this->loadInstance($abstract);
 
-            $this->setToAccessor($name, $object);
-        } elseif (is_callable($object)) {
-            $object = $this->call($object);
-
-            $this->setToAccessor($name, $object);
-        } elseif ($object and !is_object($object)) {
-            if (is_array($object)) {
-                $object = $this->loadInstance(...$object);
-            } else {
-                $object = $this->getExpected($object);
+                $this->setToConcrete($abstract, $concrete);
             }
-
-            $this->setToAccessor($name, $object);
         }
 
-        return $object;
+        return $this->getFromConcrete($abstract);
     }
 
-    public function getExpected($name)
+    public function expect($abstract)
     {
-        if (!$object = $this->get($name)) {
-            throw new \Exception('Object `' . $name . '` is not registered in IoC Container.');
+        if (!$concrete = $this->get($abstract)) {
+            throw new \Exception('`' . $abstract . '` is not registered in IoC Container.');
         }
 
-        return $object;
+        return $concrete;
     }
 
     public function addPrefixes(array $prefixes)
@@ -247,5 +220,22 @@ class IoCContainer
         }
 
         return false;
+    }
+
+    protected function inConcrete($abstract)
+    {
+        return array_key_exists($abstract, $this->concrete);
+    }
+
+    protected function getFromConcrete($abstract)
+    {
+        return $this->inConcrete($abstract) ? $this->concrete[$abstract] : null;
+    }
+
+    protected function setToConcrete($abstract, $concrete)
+    {
+        Arr::setRefValueRef($this->concrete, $abstract, $concrete);
+
+        return $this;
     }
 }
