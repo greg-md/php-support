@@ -9,7 +9,7 @@ use Greg\Support\Obj;
 class IoCContainer
 {
     use AccessorTrait;
-    
+
     protected $prefixes = [];
 
     protected $concrete = [];
@@ -155,7 +155,7 @@ class IoCContainer
     {
         return $this->setToAccessor($abstract, [
             'concrete' => $concrete,
-            'loader' => $loader,
+            'loader'   => $loader,
         ]);
     }
 
