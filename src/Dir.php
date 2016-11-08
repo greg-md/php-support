@@ -33,21 +33,21 @@ class Dir
         return true;
     }
 
-    public static function copy($source, $dest, $permissions = 0755)
+    public static function copy($source, $destination, $permissions = 0755)
     {
         // Check for symlinks
         if (is_link($source)) {
-            return symlink(readlink($source), $dest);
+            return symlink(readlink($source), $destination);
         }
 
         // Simple copy for a file
         if (is_file($source)) {
-            return copy($source, $dest);
+            return copy($source, $destination);
         }
 
         // Make destination directory
-        if (!is_dir($dest)) {
-            mkdir($dest, $permissions);
+        if (!is_dir($destination)) {
+            mkdir($destination, $permissions);
         }
 
         // Loop through the folder
@@ -60,7 +60,7 @@ class Dir
             }
 
             // Deep copy directories
-            static::copy("$source/$entry", "$dest/$entry", $permissions);
+            static::copy("$source/$entry", "$destination/$entry", $permissions);
         }
 
         // Clean up

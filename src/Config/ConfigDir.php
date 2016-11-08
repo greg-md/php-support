@@ -4,7 +4,9 @@ namespace Greg\Support\Config;
 
 class ConfigDir
 {
-    public static function path($path, array $params = [], $ext = 'php')
+    const EXTENSION = 'php';
+
+    public static function path($path, $main = null)
     {
         $config = [];
 
@@ -12,11 +14,11 @@ class ConfigDir
             $settings = null;
 
             if (is_dir($file)) {
-                $settings = static::path($file, $params, $ext);
+                $settings = static::path($file);
             }
 
-            if (is_file($file) and pathinfo($file, PATHINFO_EXTENSION) == $ext) {
-                $settings = ___gregRequireFile($file, $params);
+            if (is_file($file) and pathinfo($file, PATHINFO_EXTENSION) == static::EXTENSION) {
+                $settings = ___gregRequireFile($file);
             }
 
             if ($settings !== null) {
@@ -24,6 +26,18 @@ class ConfigDir
 
                 $config[$fileName] = isset($config[$fileName]) ? array_merge($config[$fileName], $settings) : $settings;
             }
+        }
+
+        if ($main) {
+            if (!array_key_exists($main, $config)) {
+                throw new \Exception('Main config `' . $main . '` not found.');
+            }
+
+            $mainConfig = $config[$main];
+
+            unset($config[$main]);
+
+            $config = array_merge($mainConfig, $config);
         }
 
         return $config;
@@ -36,10 +50,8 @@ class ConfigDir
  * Prevents access to $this/self from included files.
  */
 if (!function_exists('___gregRequireFile')) {
-    function ___gregRequireFile($___file, array $___params = [])
+    function ___gregRequireFile($file)
     {
-        extract($___params);
-
-        return require $___file;
+        return require $file;
     }
 }

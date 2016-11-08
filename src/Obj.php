@@ -68,7 +68,7 @@ class Obj
     public static function getCallableMixedArgs(callable $callable, array $args = [])
     {
         if ($expectedArgs = static::expectedArgs($callable)) {
-            return static::fetchExpectedArgs($expectedArgs, $args);
+            return static::fetchExpectedArgs($expectedArgs, $args, null, true);
         }
 
         return [];

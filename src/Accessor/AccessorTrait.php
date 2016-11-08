@@ -8,58 +8,53 @@ trait AccessorTrait
 {
     private $accessor = [];
 
-    protected function getAccessor()
+    private function &getAccessor()
     {
         return $this->accessor;
     }
 
-    protected function setAccessor(array $accessor)
+    private function setAccessor(array $accessor)
     {
         $this->accessor = $accessor;
 
         return $this;
     }
 
-    protected function inAccessor($key)
+    private function inAccessor($key)
     {
         return array_key_exists($key, $this->accessor);
     }
 
-    protected function getFromAccessor($key)
+    private function getFromAccessor($key)
     {
         return $this->inAccessor($key) ? $this->accessor[$key] : null;
     }
 
-    protected function setToAccessor($key, $value)
+    private function setToAccessor($key, $value)
     {
         Arr::setRefValueRef($this->accessor, $key, $value);
 
         return $this;
     }
 
-    protected function addToAccessor(array $items)
+    private function addToAccessor(array $array)
     {
-        $this->accessor = array_merge($this->accessor, $items);
+        $this->accessor = array_merge($this->accessor, $array);
 
         return $this;
     }
 
-    protected function removeFromAccessor($key)
+    private function removeFromAccessor($key)
     {
         unset($this->accessor[$key]);
 
         return $this;
     }
 
-    protected function clearAccessor()
+    private function clearAccessor()
     {
         $this->accessor = [];
 
         return $this;
-    }
-
-    private function &accessor()
-    {
-        return $this->accessor;
     }
 }
