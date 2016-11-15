@@ -84,6 +84,10 @@ class Obj
             if (is_int($key)) {
                 if (is_object($value)) {
                     $assocArgs[get_class($value)] = $value;
+
+                    foreach(class_implements($value) as $interface) {
+                        $assocArgs[$interface] = $value;
+                    }
                 } else {
                     if ($allowMixed) {
                         $mixedArgs[] = $value;
