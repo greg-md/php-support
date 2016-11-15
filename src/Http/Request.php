@@ -9,6 +9,24 @@ class Request
 {
     use AccessorTrait, RequestStaticTrait;
 
+    const TYPE_GET = 'GET';
+
+    const TYPE_HEAD = 'HEAD';
+
+    const TYPE_POST = 'POST';
+
+    const TYPE_PUT = 'PUT';
+
+    const TYPE_DELETE = 'DELETE';
+
+    const TYPE_CONNECT = 'CONNECT';
+
+    const TYPE_OPTIONS = 'OPTIONS';
+
+    const TYPE_TRACE = 'TRACE';
+
+    const TYPE_PATCH = 'PATCH';
+
     const URI_ALL = 'all';
 
     const URI_PATH = 'path';

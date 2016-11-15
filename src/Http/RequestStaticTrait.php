@@ -106,6 +106,11 @@ trait RequestStaticTrait
         return Server::get('REQUEST_URI');
     }
 
+    public static function method()
+    {
+        return Server::get('REQUEST_METHOD');
+    }
+
     public static function baseUri()
     {
         $scriptName = Server::scriptName();
