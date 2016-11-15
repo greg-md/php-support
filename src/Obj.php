@@ -85,7 +85,7 @@ class Obj
                 if (is_object($value)) {
                     $assocArgs[get_class($value)] = $value;
 
-                    foreach(class_implements($value) as $interface) {
+                    foreach (class_implements($value) as $interface) {
                         $assocArgs[$interface] = $value;
                     }
                 } else {
