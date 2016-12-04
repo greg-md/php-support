@@ -53,14 +53,14 @@ class Request
         return $this;
     }
 
-    public function hasParams()
-    {
-        return (bool) $this->accessor;
-    }
-
     public function getAll()
     {
         return $this->accessor;
+    }
+
+    public function hasParams()
+    {
+        return (bool) $this->accessor;
     }
 
     public function has($key)
@@ -91,6 +91,46 @@ class Request
     public function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexArrayRef($this->accessor, $index, $else, $delimiter);
+    }
+
+    public function getAllParam()
+    {
+        return $this->accessor + $this->getAllRequest();
+    }
+
+    public function hasParamParams()
+    {
+        return (bool) $this->getAllParam();
+    }
+
+    public function hasParam($key)
+    {
+        return Arr::has($this->getAllParam(), $key);
+    }
+
+    public function hasIndexParam($index, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::hasIndex($this->getAllParam(), $index, $delimiter);
+    }
+
+    public function getParam($key, $else = null)
+    {
+        return Arr::get($this->getAllParam(), $key, $else);
+    }
+
+    public function getArrayParam($key, $else = null)
+    {
+        return Arr::getArray($this->getAllParam(), $key, $else);
+    }
+
+    public function getIndexParam($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::getIndex($this->getAllParam(), $index, $else, $delimiter);
+    }
+
+    public function getIndexArrayParam($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::getIndexArray($this->getAllParam(), $index, $else, $delimiter);
     }
 
     public function __call($method, array $args)

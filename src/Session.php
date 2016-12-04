@@ -90,9 +90,7 @@ class Session
 
     public static function getId()
     {
-        static::start();
-
-        return session_id();
+        return static::start();
     }
 
     public static function setId($id)
@@ -208,21 +206,29 @@ class Session
 
     public static function is()
     {
+        static::start();
+
         return (bool) $_SESSION;
     }
 
     public static function all()
     {
+        static::start();
+
         return $_SESSION;
     }
 
     public static function has($key)
     {
+        static::start();
+
         return Arr::hasRef($_SESSION, $key);
     }
 
     public static function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
+        static::start();
+
         return Arr::hasIndexRef($_SESSION, $index, $delimiter);
     }
 
@@ -233,6 +239,8 @@ class Session
 
     public static function setRef($key, &$value)
     {
+        static::start();
+
         return Arr::setRefValueRef($_SESSION, $key, $value);
     }
 
@@ -243,6 +251,8 @@ class Session
 
     public static function setIndexRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
+        static::start();
+
         return Arr::setIndexRefValueRef($_SESSION, $index, $value, $delimiter);
     }
 
@@ -253,6 +263,8 @@ class Session
 
     public static function &getRef($key, $else = null)
     {
+        static::start();
+
         return Arr::getRef($_SESSION, $key, $else);
     }
 
@@ -263,6 +275,8 @@ class Session
 
     public static function &getForceRef($key, $else = null)
     {
+        static::start();
+
         return Arr::getForceRef($_SESSION, $key, $else);
     }
 
@@ -273,6 +287,8 @@ class Session
 
     public static function &getArrayRef($key, $else = null)
     {
+        static::start();
+
         return Arr::getArrayRef($_SESSION, $key, $else);
     }
 
@@ -283,6 +299,8 @@ class Session
 
     public static function &getArrayForceRef($key, $else = null)
     {
+        static::start();
+
         return Arr::getArrayForceRef($_SESSION, $key, $else);
     }
 
@@ -293,6 +311,8 @@ class Session
 
     public static function &getIndexRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
+        static::start();
+
         return Arr::getIndexRef($_SESSION, $index, $else, $delimiter);
     }
 
@@ -303,6 +323,8 @@ class Session
 
     public static function &getIndexForceRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
+        static::start();
+
         return Arr::getIndexForceRef($_SESSION, $index, $else, $delimiter);
     }
 
@@ -313,6 +335,8 @@ class Session
 
     public static function &getIndexArrayRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
+        static::start();
+
         return Arr::getIndexArrayRef($_SESSION, $index, $else, $delimiter);
     }
 
@@ -323,16 +347,22 @@ class Session
 
     public static function &getIndexArrayForceRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
+        static::start();
+
         return Arr::getIndexArrayForceRef($_SESSION, $index, $else, $delimiter);
     }
 
     public static function del($key)
     {
+        static::start();
+
         return Arr::delRef($_SESSION, $key);
     }
 
     public static function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
+        static::start();
+
         return Arr::delIndexRef($_SESSION, $index, $delimiter);
     }
 
