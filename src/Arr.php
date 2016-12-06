@@ -102,13 +102,15 @@ class Arr
             $else = (array) $else;
 
             foreach ($keys = $key as $kv => $kk) {
-                if (array_key_exists($kk, $else)) {
-                    $value = static::get($array, $kk, $else[$kk]);
+                $kKey = is_int($kv) ? $kk : $kv;
+
+                if (array_key_exists($kKey, $else)) {
+                    $value = static::get($array, $kk, $else[$kKey]);
                 } else {
                     $value = static::get($array, $kk);
                 }
 
-                $return[is_int($kv) ? $kk : $kv] = $value;
+                $return[$kKey] = $value;
             }
 
             return $return;
