@@ -281,7 +281,9 @@ class Response
 
     public static function sendCode($code)
     {
-        if (Str::isNaturalNumber($code) and Arr::has(static::CODES, $code)) {
+        $codes = static::CODES;
+
+        if (Str::isNaturalNumber($code) and Arr::has($codes, $code)) {
             $code .= ' ' . static::CODES[$code];
         }
 
