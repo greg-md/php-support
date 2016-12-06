@@ -18,31 +18,31 @@ class RequestTypeHelper
 
     public static function hasType(array &$type, $key)
     {
-        return Arr::hasRef($type, $key);
+        return Arr::has($type, $key);
     }
 
     public static function hasIndexType(array &$type, $index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::hasIndexRef($type, $index, $delimiter);
+        return Arr::hasIndex($type, $index, $delimiter);
     }
 
     public static function getType(array &$type, $key, $else = null)
     {
-        return Arr::getRef($type, $key, $else);
+        return Arr::get($type, $key, $else);
     }
 
     public static function getArrayType(array &$type, $key, $else = null)
     {
-        return Arr::getArrayRef($type, $key, $else);
+        return Arr::getArray($type, $key, $else);
     }
 
     public static function getIndexType(array &$type, $index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexRef($type, $index, $else, $delimiter);
+        return Arr::getIndex($type, $index, $else, $delimiter);
     }
 
     public static function getIndexArrayType(array &$type, $index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexArrayRef($type, $index, $else, $delimiter);
+        return Arr::getIndexArray($type, $index, $else, $delimiter);
     }
 }

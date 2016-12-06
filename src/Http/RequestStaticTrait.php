@@ -297,7 +297,7 @@ trait RequestStaticTrait
             return static::checkHumanReadableFiles($files, $mimes);
         }
 
-        if (!Arr::hasRef($files, ['name', 'type', 'size', 'tmp_name', 'error'])) {
+        if (!Arr::has($files, ['name', 'type', 'size', 'tmp_name', 'error'])) {
             throw new RequestException('Requested file is not a request file.');
         }
 
@@ -316,7 +316,7 @@ trait RequestStaticTrait
 
     protected static function checkFile(array $file, $mimes = [])
     {
-        if (!Arr::hasRef($file, ['name', 'type', 'size', 'tmp_name', 'error'])) {
+        if (!Arr::has($file, ['name', 'type', 'size', 'tmp_name', 'error'])) {
             throw new RequestException('Requested file is not a request file.');
         }
 
@@ -341,7 +341,7 @@ trait RequestStaticTrait
 
     protected static function callTypeMethod(&$storage, $method, array $args)
     {
-        Arr::prependRefValueRef($args, $storage);
+        Arr::prependRef($args, $storage);
 
         return call_user_func_array([RequestTypeHelper::class, $method], $args);
     }

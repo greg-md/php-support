@@ -38,35 +38,35 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
         return $this->accessor;
     }
 
-    public function append($value = null, ...$values)
+    public function append($value, ...$values)
     {
-        array_push($this->accessor, $value, ...$values);
+        Arr::append($this->accessor, $value, ...$values);
 
         return $this;
     }
 
-    public function appendRef(&$value = null, &...$values)
+    public function appendRef(&$value, &...$values)
     {
-        Arr::appendRefValueRef($this->accessor, $value, ...$values);
+        Arr::appendRef($this->accessor, $value, ...$values);
 
         return $this;
     }
 
-    public function appendKey($key = null, $value = null)
+    public function appendKey($key, $value = null)
     {
-        Arr::appendKeyRefValueRef($this->accessor, $key, $value);
+        Arr::appendKey($this->accessor, $key, $value);
 
         return $this;
     }
 
-    public function appendKeyRef($key = null, &$value = null)
+    public function appendKeyRef($key, &$value = null)
     {
-        Arr::appendKeyRefValueRef($this->accessor, $key, $value);
+        Arr::appendKeyRef($this->accessor, $key, $value);
 
         return $this;
     }
 
-    public function prepend($value = null, ...$values)
+    public function prepend($value, ...$values)
     {
         array_unshift($this->accessor, $value, ...$values);
 
@@ -75,21 +75,21 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
 
     public function prependRef(&$value, &...$values)
     {
-        Arr::prependRefValueRef($this->accessor, $value, ...$values);
+        Arr::prependRef($this->accessor, $value, ...$values);
 
         return $this;
     }
 
-    public function prependKey($key = null, $value = null)
+    public function prependKey($key, $value = null)
     {
-        Arr::prependKeyRefValueRef($this->accessor, $key, $value);
+        Arr::prependKey($this->accessor, $key, $value);
 
         return $this;
     }
 
-    public function prependKeyRef($key = null, &$value = null)
+    public function prependKeyRef($key, &$value = null)
     {
-        Arr::prependKeyRefValueRef($this->accessor, $key, $value);
+        Arr::prependKeyRef($this->accessor, $key, $value);
 
         return $this;
     }
@@ -157,7 +157,7 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
 
     public function inArrayValues(array $values, $strict = false)
     {
-        return Arr::inArrayValuesRef($this->accessor, $values, $strict);
+        return Arr::inArrayValues($this->accessor, $values, $strict);
     }
 
     public function merge(array $array, array ...$arrays)
@@ -255,28 +255,28 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
 
     public function map(callable $callable = null, array ...$arrays)
     {
-        $this->accessor = array_map($callable, $this->accessor, ...$arrays);
+        $this->accessor = Arr::map($callable, $this->accessor, ...$arrays);
 
         return $this;
     }
 
     public function mapRecursive(callable $callable = null, array ...$arrays)
     {
-        Arr::mapRecursiveRef($callable, $this->accessor, ...$arrays);
+        $this->accessor = Arr::mapRecursive($callable, $this->accessor, ...$arrays);
 
         return $this;
     }
 
     public function filter(callable $callable = null, $flag = 0)
     {
-        $this->accessor = array_filter($this->accessor, ...func_get_args());
+        $this->accessor = Arr::filter($this->accessor, ...func_get_args());
 
         return $this;
     }
 
     public function filterRecursive(callable $callable = null, $flag = 0)
     {
-        Arr::filterRecursiveRef($this->accessor, ...func_get_args());
+        $this->accessor = Arr::filterRecursive($this->accessor, ...func_get_args());
 
         return $this;
     }

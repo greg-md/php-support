@@ -119,7 +119,7 @@ class Obj
             if ($allowMixed and !$expectedType) {
                 --$countMixedExpected;
 
-                if (Arr::hasRef($mixedArgs, $countMixedExpected)) {
+                if (Arr::has($mixedArgs, $countMixedExpected)) {
                     $returnArgs[] = $mixedArgs[$countMixedExpected];
                 } else {
                     if (!$returnArgs and $expectedArg->isOptional()) {
@@ -133,7 +133,7 @@ class Obj
                     continue;
                 }
 
-                if ($assocArgs and Arr::hasRef($assocArgs, $expectedType->getName())) {
+                if ($assocArgs and Arr::has($assocArgs, $expectedType->getName())) {
                     $returnArgs[] = $assocArgs[$expectedType->getName()];
                 } elseif (is_callable($expectedCallback)) {
                     $returnArgs[] = call_user_func_array($expectedCallback, [$expectedArg]);

@@ -10,37 +10,37 @@ trait ArrayAccessStaticTrait
 
     public static function has($key)
     {
-        return Arr::hasRef(static::$accessor, $key);
+        return Arr::has(static::$accessor, $key);
     }
 
     public static function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::hasIndexRef(static::$accessor, $index, $delimiter);
+        return Arr::hasIndex(static::$accessor, $index, $delimiter);
     }
 
     public static function set($key, $value)
     {
-        return Arr::setRefValueRef(static::$accessor, $key, $value);
+        return static::setRef($key, $value);
     }
 
-    public static function setValueRef($key, &$value)
+    public static function setRef($key, &$value)
     {
-        return Arr::setRefValueRef(static::$accessor, $key, $value);
+        return Arr::setRef(static::$accessor, $key, $value);
     }
 
     public static function setIndex($index, $value, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::setIndexRefValueRef(static::$accessor, $index, $value, $delimiter);
+        return static::setIndexRef($index, $value, $delimiter);
     }
 
-    public static function setIndexValueRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
+    public static function setIndexRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::setIndexRefValueRef(static::$accessor, $index, $value, $delimiter);
+        return Arr::setIndexRef(static::$accessor, $index, $value, $delimiter);
     }
 
     public static function get($key, $else = null)
     {
-        return Arr::getRef(static::$accessor, $key, $else);
+        return static::getRef($key, $else);
     }
 
     public static function &getRef($key, $else = null)
@@ -60,71 +60,71 @@ trait ArrayAccessStaticTrait
 
     public static function getArray($key, $else = null)
     {
-        return Arr::getArrayRef(static::$accessor, $key, $else);
+        return static::getArrayRef($key, $else);
     }
 
-    public static function &getArrayRef($key, $else = null)
+    public static function &getArrayRef($key, &$else = null)
     {
         return Arr::getArrayRef(static::$accessor, $key, $else);
     }
 
     public static function getArrayForce($key, $else = null)
     {
-        return Arr::getArrayForceRef(static::$accessor, $key, $else);
+        return static::getArrayForceRef($key, $else);
     }
 
-    public static function &getArrayForceRef($key, $else = null)
+    public static function &getArrayForceRef($key, &$else = null)
     {
         return Arr::getArrayForceRef(static::$accessor, $key, $else);
     }
 
     public static function getIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexRef(static::$accessor, $index, $else, $delimiter);
+        return static::getIndexRef($index, $else, $delimiter);
     }
 
-    public static function &getIndexRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexRef(static::$accessor, $index, $else, $delimiter);
     }
 
     public static function getIndexForce($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexForceRef(static::$accessor, $index, $else, $delimiter);
+        return static::getIndexForceRef($index, $else, $delimiter);
     }
 
-    public static function &getIndexForceRef($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function &getIndexForceRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         return Arr::getIndexForceRef(static::$accessor, $index, $else, $delimiter);
     }
 
     public static function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexArrayRef(static::$accessor, $index, $else, $delimiter);
+        return static::getIndexArrayRef($index, $else, $delimiter);
     }
 
-    public static function &getIndexArrayRef($index, $else = null)
+    public static function &getIndexArrayRef($index, &$else = null)
     {
         return Arr::getIndexArrayRef(static::$accessor, $index, $else);
     }
 
     public static function getIndexArrayForce($index, $else = null)
     {
-        return Arr::getIndexArrayForceRef(static::$accessor, $index, $else);
+        return static::getIndexArrayForceRef($index, $else);
     }
 
-    public static function &getIndexArrayForceRef($index, $else = null)
+    public static function &getIndexArrayForceRef($index, &$else = null)
     {
         return Arr::getIndexArrayForceRef(static::$accessor, $index, $else);
     }
 
     public static function del($key)
     {
-        return Arr::delRef(static::$accessor, $key);
+        return Arr::del(static::$accessor, $key);
     }
 
     public static function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::delIndexRef(static::$accessor, $index, $delimiter);
+        return Arr::delIndex(static::$accessor, $index, $delimiter);
     }
 }

@@ -32,7 +32,7 @@ trait AccessorStaticTrait
 
     protected function setToAccessor($key, $value)
     {
-        Arr::setRefValueRef(static::$accessor, $key, $value);
+        Arr::set(static::$accessor, $key, $value);
 
         return static::$accessor;
     }

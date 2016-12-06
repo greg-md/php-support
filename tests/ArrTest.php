@@ -11,20 +11,20 @@ class ArrTest extends TestCase
     {
         $array = ['foo' => true];
 
-        $this->assertTrue(Arr::hasRef($array, 'foo'));
+        $this->assertTrue(Arr::has($array, 'foo'));
     }
 
     public function testHasIndex()
     {
         $array = ['foo' => ['bar' => true]];
 
-        $this->assertTrue(Arr::hasIndexRef($array, 'foo.bar'));
+        $this->assertTrue(Arr::hasIndex($array, 'foo.bar'));
     }
 
     public function testSet()
     {
         $array = ['foo' => true];
 
-        $this->assertArrayHasKey('bar', Arr::setRef($array, 'bar', 'BAR'));
+        $this->assertArrayHasKey('bar', Arr::set($array, 'bar', 'BAR'));
     }
 }

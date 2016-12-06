@@ -31,11 +31,11 @@ class Server
 
     public static function has($key)
     {
-        return Arr::hasRef($_SERVER, $key);
+        return Arr::has($_SERVER, $key);
     }
 
     public static function get($key, $else = null)
     {
-        return Arr::getRef($_SERVER, $key, $else);
+        return Arr::get($_SERVER, $key, $else);
     }
 }

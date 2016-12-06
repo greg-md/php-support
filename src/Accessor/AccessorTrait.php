@@ -32,7 +32,7 @@ trait AccessorTrait
 
     private function setToAccessor($key, $value)
     {
-        Arr::setRefValueRef($this->accessor, $key, $value);
+        Arr::set($this->accessor, $key, $value);
 
         return $this;
     }

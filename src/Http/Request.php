@@ -65,32 +65,32 @@ class Request
 
     public function has($key)
     {
-        return Arr::hasRef($this->accessor, $key);
+        return Arr::has($this->accessor, $key);
     }
 
     public function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::hasIndexRef($this->accessor, $index, $delimiter);
+        return Arr::hasIndex($this->accessor, $index, $delimiter);
     }
 
     public function get($key, $else = null)
     {
-        return Arr::getRef($this->accessor, $key, $else);
+        return Arr::get($this->accessor, $key, $else);
     }
 
     public function getArray($key, $else = null)
     {
-        return Arr::getArrayRef($this->accessor, $key, $else);
+        return Arr::getArray($this->accessor, $key, $else);
     }
 
     public function getIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexRef($this->accessor, $index, $else, $delimiter);
+        return Arr::getIndex($this->accessor, $index, $else, $delimiter);
     }
 
     public function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexArrayRef($this->accessor, $index, $else, $delimiter);
+        return Arr::getIndexArray($this->accessor, $index, $else, $delimiter);
     }
 
     public function getAllParam()
@@ -105,22 +105,30 @@ class Request
 
     public function hasParam($key)
     {
-        return Arr::has($this->getAllParam(), $key);
+        $params = $this->getAllParam();
+
+        return Arr::has($params, $key);
     }
 
     public function hasIndexParam($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::hasIndex($this->getAllParam(), $index, $delimiter);
+        $params = $this->getAllParam();
+
+        return Arr::hasIndex($params, $index, $delimiter);
     }
 
     public function getParam($key, $else = null)
     {
-        return Arr::get($this->getAllParam(), $key, $else);
+        $params = $this->getAllParam();
+
+        return Arr::get($params, $key, $else);
     }
 
     public function getArrayParam($key, $else = null)
     {
-        return Arr::getArray($this->getAllParam(), $key, $else);
+        $params = $this->getAllParam();
+
+        return Arr::getArray($params, $key, $else);
     }
 
     public function getIndexParam($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
@@ -130,7 +138,9 @@ class Request
 
     public function getIndexArrayParam($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::getIndexArray($this->getAllParam(), $index, $else, $delimiter);
+        $params = $this->getAllParam();
+
+        return Arr::getIndexArray($params, $index, $else, $delimiter);
     }
 
     public function __call($method, array $args)

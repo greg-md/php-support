@@ -10,12 +10,12 @@ trait ArrayAccessTrait
 
     public function has($key)
     {
-        return Arr::hasRef($this->accessor, $key);
+        return Arr::has($this->accessor, $key);
     }
 
     public function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::hasIndexRef($this->accessor, $index, $delimiter);
+        return Arr::hasIndex($this->accessor, $index, $delimiter);
     }
 
     public function set($key, $value)
@@ -25,7 +25,7 @@ trait ArrayAccessTrait
 
     public function setRef($key, &$value)
     {
-        Arr::setRefValueRef($this->accessor, $key, $value);
+        Arr::setRef($this->accessor, $key, $value);
 
         return $this;
     }
@@ -37,7 +37,7 @@ trait ArrayAccessTrait
 
     public function setIndexRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
-        Arr::setIndexRefValueRef($this->accessor, $index, $value, $delimiter);
+        Arr::setIndexRef($this->accessor, $index, $value, $delimiter);
 
         return $this;
     }
@@ -124,14 +124,14 @@ trait ArrayAccessTrait
 
     public function del($key)
     {
-        Arr::delRef($this->accessor, $key);
+        Arr::del($this->accessor, $key);
 
         return $this;
     }
 
     public function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        Arr::delIndexRef($this->accessor, $index, $delimiter);
+        Arr::delIndex($this->accessor, $index, $delimiter);
 
         return $this;
     }
