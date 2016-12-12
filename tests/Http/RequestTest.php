@@ -97,129 +97,11 @@ class RequestTest extends TestCase
         $_SERVER['SCRIPT_NAME'] = '/admin/index.php';
     }
 
-    protected function newInstance()
-    {
-        return new Request();
-        //return new Request(static::$data);
-    }
-
-    public function testHasParams()
-    {
-        $request = $this->newInstance();
-
-        $this->assertTrue($request->hasRequestParams());
-    }
-
-    public function testGetAll()
-    {
-        $request = $this->newInstance();
-
-        $this->assertEquals(static::$data, $request->getAllRequest());
-    }
-
-    /**
-     * @param $type
-     *
-     * @dataProvider typesProvider
-     */
-    public function testHasTypeParams($type)
-    {
-        $request = $this->newInstance();
-
-        $this->assertTrue($request->{'has' . $type . 'Params'}());
-    }
-
-    /**
-     * @param $type
-     *
-     * @dataProvider typesProvider
-     */
-    public function testGetAllType($type)
-    {
-        $request = $this->newInstance();
-
-        $this->assertEquals(static::$data, $request->{'getAll' . $type}());
-    }
-
-    /**
-     * @param $type
-     *
-     * @dataProvider typesProvider
-     */
-    public function testHasType($type)
-    {
-        $request = $this->newInstance();
-
-        $this->assertTrue($request->{'has' . $type}('foo'));
-    }
-
-    /**
-     * @param $type
-     *
-     * @dataProvider typesProvider
-     */
-    public function testHasIndexType($type)
-    {
-        $request = $this->newInstance();
-
-        $this->assertTrue($request->{'hasIndex' . $type}('a.b'));
-    }
-
-    /**
-     * @param $type
-     *
-     * @dataProvider typesProvider
-     */
-    public function testGetType($type)
-    {
-        $request = $this->newInstance();
-
-        $this->assertEquals('FOO', $request->{'get' . $type}('foo'));
-    }
-
-    /**
-     * @param $type
-     *
-     * @dataProvider typesProvider
-     */
-    public function testGetArrayType($type)
-    {
-        $request = $this->newInstance();
-
-        $this->assertEquals(['FOO'], $request->{'getArray' . $type}('foo'));
-    }
-
-    /**
-     * @param $type
-     *
-     * @dataProvider typesProvider
-     */
-    public function testGetIndexType($type)
-    {
-        $request = $this->newInstance();
-
-        $this->assertEquals('c', $request->{'getIndex' . $type}('a.b'));
-    }
-
-    /**
-     * @param $type
-     *
-     * @dataProvider typesProvider
-     */
-    public function testGetIndexArrayType($type)
-    {
-        $request = $this->newInstance();
-
-        $this->assertEquals(['c'], $request->{'getIndexArray' . $type}('a.b'));
-    }
-
     public function typesProvider()
     {
         return [
-            [''],
-            ['Get'],
-            ['Post'],
-            ['Request'],
+            ['get'],
+            ['post'],
         ];
     }
 
@@ -311,7 +193,7 @@ class RequestTest extends TestCase
 
         Request::humanReadableFiles();
 
-        Request::getFile('file3');
+        Request::file('file3');
     }
 
     /**
@@ -323,6 +205,6 @@ class RequestTest extends TestCase
 
         Request::humanReadableFiles();
 
-        Request::getIndexFile('files.file1');
+        Request::fileIndex('files.file1');
     }
 }
