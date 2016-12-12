@@ -5,48 +5,6 @@ namespace Greg\Support\Http;
 use Greg\Support\Arr;
 use Greg\Support\Server;
 
-/**
- * Class RequestStaticTrait.
- *
- * @method static bool hasGetParams()
- * @method static bool hasGet($key)
- * @method static bool hasIndexGet($index, $delimiter = Arr::INDEX_DELIMITER)
- * @method static array getAllGet()
- * @method static string getGet($key, $else = null)
- * @method static string getArrayGet($key, $else = null)
- * @method static string getIndexGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
- * @method static string getIndexArrayGet($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
- *
- * $_POST Methods
- * @method static bool hasPostParams()
- * @method static bool hasPost($key)
- * @method static bool hasIndexPost($index, $delimiter = Arr::INDEX_DELIMITER)
- * @method static array getAllPost()
- * @method static string getPost($key, $else = null)
- * @method static string getArrayPost($key, $else = null)
- * @method static string getIndexPost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
- * @method static string getIndexArrayPost($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
- *
- * $_REQUEST Methods
- * @method static bool hasRequestParams()
- * @method static bool hasRequest($key)
- * @method static bool hasIndexRequest($index, $delimiter = Arr::INDEX_DELIMITER)
- * @method static array getAllRequest()
- * @method static string getRequest($key, $else = null)
- * @method static string getArrayRequest($key, $else = null)
- * @method static string getIndexRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
- * @method static string getIndexArrayRequest($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
- *
- * $_FILES Methods
- * @method static bool hasFilesParams()
- * @method static bool hasFiles($key)
- * @method static bool hasIndexFiles($index, $delimiter = Arr::INDEX_DELIMITER)
- * @method static array getAllFiles()
- * @method static string getFiles($key, $else = null)
- * @method static string getArrayFiles($key, $else = null)
- * @method static string getIndexFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
- * @method static string getIndexArrayFiles($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
- */
 trait RequestStaticTrait
 {
     private static $isHumanReadableFiles = false;
@@ -250,28 +208,172 @@ trait RequestStaticTrait
         return true;
     }
 
-    public static function getFile($name, $mimes = [])
+    // $_REQUEST
+
+    public static function has($key = null)
     {
-        return static::checkFile(static::getFiles($name), $mimes);
+        return func_num_args() ? Arr::has($_REQUEST, $key) : (bool) $_REQUEST;
     }
 
-    public static function getIndexFile($name, $mimes = [])
+    public static function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return static::checkFile(static::getIndexFiles($name), $mimes);
+        return Arr::hasIndex($_REQUEST, $index, $delimiter);
     }
 
-    public static function getMultiFiles($name, $mimes = [])
+    public static function param($key = null, $else = null)
     {
-        return static::checkFiles(static::getFiles($name), $mimes);
+        return func_num_args() ? Arr::get($_REQUEST, $key, $else) : $_REQUEST;
     }
 
-    public static function getIndexMultiFiles($name, $mimes = [])
+    public static function paramArray($key, $else = null)
+    {
+        return Arr::getArray($_REQUEST, $key, $else);
+    }
+
+    public static function paramIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::getIndex($_REQUEST, $index, $else, $delimiter);
+    }
+
+    public static function paramIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::getIndexArray($_REQUEST, $index, $else, $delimiter);
+    }
+
+    // $_GET
+
+    public static function hasGet($key = null)
+    {
+        return func_num_args() ? Arr::has($_GET, $key) : (bool) $_GET;
+    }
+
+    public static function hasIndexGet($index, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::hasIndex($_GET, $index, $delimiter);
+    }
+
+    public static function get($key = null, $else = null)
+    {
+        return func_num_args() ? Arr::get($_GET, $key, $else) : $_GET;
+    }
+
+    public static function getArray($key, $else = null)
+    {
+        return Arr::getArray($_GET, $key, $else);
+    }
+
+    public static function getIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::getIndex($_GET, $index, $else, $delimiter);
+    }
+
+    public static function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::getIndexArray($_GET, $index, $else, $delimiter);
+    }
+
+    // $_POST
+
+    public static function hasPost($key = null)
+    {
+        return func_num_args() ? Arr::has($_POST, $key) : (bool) $_POST;
+    }
+
+    public static function hasIndexPost($index, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::hasIndex($_POST, $index, $delimiter);
+    }
+
+    public static function post($key = null, $else = null)
+    {
+        return func_num_args() ? Arr::get($_POST, $key, $else) : $_POST;
+    }
+
+    public static function postArray($key, $else = null)
+    {
+        return Arr::getArray($_POST, $key, $else);
+    }
+
+    public static function postIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::getIndex($_POST, $index, $else, $delimiter);
+    }
+
+    public static function postIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        return Arr::getIndexArray($_POST, $index, $else, $delimiter);
+    }
+
+    // $_FILES
+
+    public static function hasFile($key = null)
+    {
+        return func_num_args() ? Arr::has($_FILES, $key) : (bool) $_FILES;
+    }
+
+    public static function hasIndexFile($index, $delimiter = Arr::INDEX_DELIMITER)
     {
         if (!static::$isHumanReadableFiles) {
-            throw new RequestException('You cannot get multiple files by index if `humanReadableFiles` are off.');
+            throw new RequestException('You cannot use indexes for $_FILES if `humanReadableFiles` method is not enabled.');
         }
 
-        return static::checkHumanReadableFiles(static::getIndexFiles($name), $mimes);
+        return Arr::hasIndex($_FILES, $index, $delimiter);
+    }
+
+    public static function file($key = null, $else = null)
+    {
+        if (func_num_args()) {
+            $file = Arr::get($_FILES, $key, $else);
+
+            if (is_array($key)) {
+                return static::checkFiles($file);
+            }
+
+            return static::checkFile($file);
+        }
+
+        return static::checkFiles($_FILES);
+    }
+
+    public static function fileArray($key, $else = null)
+    {
+        $files = Arr::get($_FILES, $key, $else);
+
+        if (array_key_exists('name', $files)) {
+            $files = [$files];
+        }
+
+        return static::checkFiles($files);
+    }
+
+    public static function fileIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        if (!static::$isHumanReadableFiles) {
+            throw new RequestException('You cannot use indexes for $_FILES if `humanReadableFiles` method is disabled.');
+        }
+
+        $file = Arr::getIndex($_FILES, $index, $else, $delimiter);
+
+        if (is_array($index)) {
+            return static::checkFiles($file);
+        }
+
+        return static::checkFile($file);
+    }
+
+    public static function fileIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    {
+        if (!static::$isHumanReadableFiles) {
+            throw new RequestException('You cannot use indexes for $_FILES if `humanReadableFiles` method is disabled.');
+        }
+
+        $files = Arr::getIndex($_FILES, $index, $else, $delimiter);
+
+        if (array_key_exists('name', $files)) {
+            $files = [$files];
+        }
+
+        return $files;
     }
 
     protected static function checkHumanReadableFiles(array $files, $mimes = [])
@@ -291,7 +393,7 @@ trait RequestStaticTrait
         return $files;
     }
 
-    protected static function checkFiles(array &$files, $mimes = [])
+    protected static function checkFiles(array $files, $mimes = [])
     {
         if (static::$isHumanReadableFiles) {
             return static::checkHumanReadableFiles($files, $mimes);
@@ -337,34 +439,5 @@ trait RequestStaticTrait
         }
 
         return $file;
-    }
-
-    protected static function callTypeMethod(&$storage, $method, array $args)
-    {
-        Arr::prependRef($args, $storage);
-
-        return call_user_func_array([RequestTypeHelper::class, $method], $args);
-    }
-
-    protected static function callType(array $types, $method, array $args)
-    {
-        foreach ($types as $type => &$storage) {
-            if (strpos($method, $type) > 0) {
-                return static::callTypeMethod($storage, str_replace($type, 'Type', $method), $args);
-            }
-        }
-        unset($storage);
-
-        throw new RequestException('Call to undefined request method.');
-    }
-
-    public static function __callStatic($method, array $args)
-    {
-        return static::callType([
-            'Get'     => &$_GET,
-            'Post'    => &$_POST,
-            'Request' => &$_REQUEST,
-            'Files'   => &$_FILES,
-        ], $method, $args);
     }
 }

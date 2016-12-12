@@ -99,21 +99,22 @@ class RequestTest extends TestCase
 
     protected function newInstance()
     {
-        return new Request(static::$data);
+        return new Request();
+        //return new Request(static::$data);
     }
 
     public function testHasParams()
     {
         $request = $this->newInstance();
 
-        $this->assertTrue($request->hasParams());
+        $this->assertTrue($request->hasRequestParams());
     }
 
     public function testGetAll()
     {
         $request = $this->newInstance();
 
-        $this->assertEquals(static::$data, $request->getAll());
+        $this->assertEquals(static::$data, $request->getAllRequest());
     }
 
     /**

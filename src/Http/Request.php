@@ -3,7 +3,6 @@
 namespace Greg\Support\Http;
 
 use Greg\Support\Accessor\AccessorTrait;
-use Greg\Support\Arr;
 
 class Request
 {
@@ -39,112 +38,13 @@ class Request
         UPLOAD_ERR_FORM_SIZE  => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
         UPLOAD_ERR_PARTIAL    => 'The uploaded file was only partially uploaded.',
         UPLOAD_ERR_NO_FILE    => 'No file was uploaded.',
-        UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder.', // Introduced in PHP 4.3.10 and PHP 5.0.3.
-        UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.', // Introduced in PHP 5.1.0.
-        UPLOAD_ERR_EXTENSION  => 'A PHP extension stopped the file upload.', // Introduced in PHP 5.2.0.
-        // PHP does not provide a way to ascertain which extension caused the file upload to stop;
-        // examining the list of loaded extensions with phpinfo() may help.
+        UPLOAD_ERR_NO_TMP_DIR => 'Missing the temporary folder.',
+        UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.',
+        UPLOAD_ERR_EXTENSION  => 'A PHP extension stopped the file upload.',
     ];
 
-    public function __construct(array $params = [])
+    public function __construct(array $validators = [])
     {
-        $this->setAccessor($params);
 
-        return $this;
-    }
-
-    public function getAll()
-    {
-        return $this->accessor;
-    }
-
-    public function hasParams()
-    {
-        return (bool) $this->accessor;
-    }
-
-    public function has($key)
-    {
-        return Arr::has($this->accessor, $key);
-    }
-
-    public function hasIndex($index, $delimiter = Arr::INDEX_DELIMITER)
-    {
-        return Arr::hasIndex($this->accessor, $index, $delimiter);
-    }
-
-    public function get($key, $else = null)
-    {
-        return Arr::get($this->accessor, $key, $else);
-    }
-
-    public function getArray($key, $else = null)
-    {
-        return Arr::getArray($this->accessor, $key, $else);
-    }
-
-    public function getIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
-    {
-        return Arr::getIndex($this->accessor, $index, $else, $delimiter);
-    }
-
-    public function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
-    {
-        return Arr::getIndexArray($this->accessor, $index, $else, $delimiter);
-    }
-
-    public function getAllParam()
-    {
-        return $this->accessor + $this->getAllRequest();
-    }
-
-    public function hasParamParams()
-    {
-        return (bool) $this->getAllParam();
-    }
-
-    public function hasParam($key)
-    {
-        $params = $this->getAllParam();
-
-        return Arr::has($params, $key);
-    }
-
-    public function hasIndexParam($index, $delimiter = Arr::INDEX_DELIMITER)
-    {
-        $params = $this->getAllParam();
-
-        return Arr::hasIndex($params, $index, $delimiter);
-    }
-
-    public function getParam($key, $else = null)
-    {
-        $params = $this->getAllParam();
-
-        return Arr::get($params, $key, $else);
-    }
-
-    public function getArrayParam($key, $else = null)
-    {
-        $params = $this->getAllParam();
-
-        return Arr::getArray($params, $key, $else);
-    }
-
-    public function getIndexParam($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
-    {
-        return Arr::getIndex($this->getAllParam(), $index, $else, $delimiter);
-    }
-
-    public function getIndexArrayParam($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
-    {
-        $params = $this->getAllParam();
-
-        return Arr::getIndexArray($params, $index, $else, $delimiter);
-    }
-
-    public function __call($method, array $args)
-    {
-        return $this->__callStatic($method, $args);
     }
 }
