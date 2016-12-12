@@ -45,6 +45,5 @@ class Request
 
     public function __construct(array $validators = [])
     {
-
     }
 }
