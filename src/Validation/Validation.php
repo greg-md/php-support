@@ -91,8 +91,10 @@ class Validation
 
     /**
      * @param $validator
-     * @return ValidatorStrategy
+     *
      * @throws \Exception
+     *
+     * @return ValidatorStrategy
      */
     protected function fetchValidator($validator)
     {

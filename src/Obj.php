@@ -91,7 +91,7 @@ class Obj
                         $assocArgs[$interface] = $value;
                     }
 
-                    foreach(static::parentClasses($value) as $class) {
+                    foreach (static::parentClasses($value) as $class) {
                         $assocArgs[$class] = $value;
                     }
                 } else {
