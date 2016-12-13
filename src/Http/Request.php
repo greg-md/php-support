@@ -3,6 +3,7 @@
 namespace Greg\Support\Http;
 
 use Greg\Support\Accessor\AccessorTrait;
+use Greg\Support\Validation\Validation;
 
 class Request
 {
@@ -45,5 +46,26 @@ class Request
 
     public function __construct(array $validators = [])
     {
+        if ($validators = array_merge((array) $this->validators(), $validators)) {
+            $this->validate($validators);
+        }
+
+        return $this;
+    }
+
+    protected function validators()
+    {
+        return [];
+    }
+
+    public function validate(array $validators)
+    {
+        $validation = new Validation($validators);
+
+        if ($errors = $validation->validate($_REQUEST)) {
+            throw (new RequestException('Invalid request.', 403))->setInputErrors($errors);
+        }
+
+        return $this;
     }
 }

@@ -21,14 +21,16 @@ class Obj
 
         $self = $class->newInstanceWithoutConstructor();
 
-        method_exists($self, '__bind') && $self->__bind();
+        //method_exists($self, '__bind') && $self->__bind();
 
         // Call all methods which starts with __bind
+        /*
         foreach (get_class_methods($self) as $methodName) {
             if ($methodName[0] === '_' and $methodName !== '__bind' and Str::startsWith($methodName, '__bind')) {
                 $self->{$methodName}();
             }
         }
+        */
 
         if ($constructor = $class->getConstructor()) {
             $constructor->invokeArgs($self, $args);
@@ -88,6 +90,10 @@ class Obj
                     foreach (class_implements($value) as $interface) {
                         $assocArgs[$interface] = $value;
                     }
+
+                    foreach(static::parentClasses($value) as $class) {
+                        $assocArgs[$class] = $value;
+                    }
                 } else {
                     if ($allowMixed) {
                         $mixedArgs[] = $value;
@@ -105,15 +111,25 @@ class Obj
 
         $returnArgs = [];
 
-        $countMixedExpected = $allowMixed ? Arr::count($expectedArgs, function (\ReflectionParameter $expectedArg) {
-            try {
-                return !$expectedArg->getClass();
-            } catch (\Exception $e) {
-                return false;
-            }
-        }) : 0;
+        $countMixedExpected = 0;
+
+        if ($allowMixed) {
+            $countMixedExpected = Arr::count($expectedArgs, function (\ReflectionParameter $expectedArg) {
+                try {
+                    return !$expectedArg->getClass();
+                } catch (\Exception $e) {
+                    return false;
+                }
+            });
+        }
 
         foreach ($expectedArgs as $expectedArg) {
+            if ($expectedArg->isVariadic()) {
+                $returnArgs = array_merge($returnArgs, array_reverse(array_slice($customArgs, $expectedArg->getPosition())));
+
+                continue;
+            }
+
             $expectedType = $expectedArg->getClass();
 
             if ($allowMixed and !$expectedType) {
@@ -126,7 +142,11 @@ class Obj
                         continue;
                     }
 
-                    $returnArgs[] = static::expectedArg($expectedArg);
+                    if (Arr::has($customArgs, $expectedArg->getPosition())) {
+                        $returnArgs[] = $customArgs[$expectedArg->getPosition()];
+                    } else {
+                        $returnArgs[] = static::expectedArg($expectedArg);
+                    }
                 }
             } else {
                 if (!$returnArgs and !$expectedType and $expectedArg->isOptional()) {
@@ -151,8 +171,11 @@ class Obj
     public static function expectedArg(\ReflectionParameter $expectedArg)
     {
         if (!$expectedArg->isOptional()) {
-            throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `'
-                . $expectedArg->getDeclaringClass()->getName() . '::' . $expectedArg->getDeclaringFunction()->getName() . '`');
+            if ($function = $expectedArg->getDeclaringFunction() and $class = $expectedArg->getDeclaringClass()) {
+                throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `' . $class->getName() . '::' . $function->getName() . '`.');
+            }
+
+            throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `' . $function->getName() . '`.');
         }
 
         $arg = $expectedArg->getDefaultValue();
@@ -203,6 +226,22 @@ class Obj
         }
 
         return $traits;
+    }
+
+    public static function parentClasses($className)
+    {
+        return static::fetchParentClasses(new \ReflectionClass($className));
+    }
+
+    protected static function fetchParentClasses(\ReflectionClass $class, &$classes = [])
+    {
+        if ($parent = $class->getParentClass()) {
+            $classes[] = $parent->getName();
+
+            return static::fetchParentClasses($parent, $classes);
+        }
+
+        return $classes;
     }
 
     public static function baseName($class)
