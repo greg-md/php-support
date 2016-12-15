@@ -171,6 +171,7 @@ class ArrayObjectTest extends TestCase
             if ($a == $b) {
                 return 0;
             }
+
             return ($a < $b) ? -1 : 1;
         });
 
@@ -217,6 +218,7 @@ class ArrayObjectTest extends TestCase
      * @depends testCurrent
      *
      * @param ArrayObject $arrayObject
+     *
      * @return ArrayObject
      */
     public function testKey(ArrayObject $arrayObject)
@@ -232,6 +234,7 @@ class ArrayObjectTest extends TestCase
      * @depends testKey
      *
      * @param ArrayObject $arrayObject
+     *
      * @return ArrayObject
      */
     public function testNext(ArrayObject $arrayObject)
@@ -261,6 +264,7 @@ class ArrayObjectTest extends TestCase
      * @depends testReset
      *
      * @param ArrayObject $arrayObject
+     *
      * @return ArrayObject
      */
     public function testFirst(ArrayObject $arrayObject)
@@ -278,6 +282,7 @@ class ArrayObjectTest extends TestCase
      * @depends testReset
      *
      * @param ArrayObject $arrayObject
+     *
      * @return ArrayObject
      */
     public function testLast(ArrayObject $arrayObject)
