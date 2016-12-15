@@ -41,7 +41,8 @@ class ArrayAccessTraitTest extends TestCase
 
         //
 
-        $accessor = &TestingArrayAccessStatic::accessor(); $accessor = [];
+        $accessor = &TestingArrayAccessStatic::accessor();
+        $accessor = [];
     }
 
     public function testHas()

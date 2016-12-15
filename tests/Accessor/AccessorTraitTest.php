@@ -121,7 +121,8 @@ class AccessorTraitTest extends TestCase
 
         //
 
-        $accessor = &TestingAccessorStatic::accessor(); $accessor = [];
+        $accessor = &TestingAccessorStatic::accessor();
+        $accessor = [];
     }
 
     public function testNewAccessor()
