@@ -1,0 +1,18 @@
+var gulp = require('gulp');
+var phpunit = require('gulp-phpunit');
+var argv = require('yargs').argv;
+
+gulp.task('test', function() {
+    gulp.src('tests/**/*.php')
+        .pipe(phpunit('', {
+            notify: true,
+            testClass: argv.class,
+            testSuite: argv.suite
+        }));
+});
+
+gulp.task('watch', function() {
+    gulp.watch(['tests/**/*.php', 'src/**/*.php'], ['test']);
+});
+
+gulp.task('default', ['test', 'watch']);

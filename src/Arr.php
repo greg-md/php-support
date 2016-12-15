@@ -361,16 +361,20 @@ class Arr
 
         $has = true;
 
-        foreach (explode($delimiter, $index) as $index) {
-            if (!(is_array($myRef) and array_key_exists($index, $myRef))) {
+        $keys = explode($delimiter, $index);
+
+        $keysCount = count($keys);
+
+        foreach ($keys as $k => $key) {
+            if (!(is_array($myRef) and array_key_exists($key, $myRef))) {
                 $has = false;
             }
 
-            $myRef = &$myRef[$index];
-        }
+            if (!$has && ($k + 1) === $keysCount) {
+                $myRef[$key] = &$else;
+            }
 
-        if (!$has) {
-            $myRef = &$else;
+            $myRef = &$myRef[$key];
         }
 
         return $myRef;

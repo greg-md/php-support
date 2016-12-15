@@ -51,7 +51,7 @@ trait AccessorTrait
         return $this;
     }
 
-    private function clearAccessor()
+    private function resetAccessor()
     {
         $this->accessor = [];
 
