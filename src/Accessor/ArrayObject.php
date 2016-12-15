@@ -19,9 +19,18 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
         return $this;
     }
 
+    public function toArray()
+    {
+        return $this->accessor;
+    }
+
     public function exchange($input)
     {
-        return $this->exchangeRef($input);
+        $input = (array) $input;
+
+        $this->accessor = $input;
+
+        return $this;
     }
 
     public function exchangeRef(&$input)
@@ -31,11 +40,6 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
         $this->accessor = &$input;
 
         return $this;
-    }
-
-    public function toArray()
-    {
-        return $this->accessor;
     }
 
     public function append($value, ...$values)
@@ -136,11 +140,38 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
         return $this;
     }
 
+    public function current()
+    {
+        return current($this->accessor);
+    }
+
+    public function key()
+    {
+        return key($this->accessor);
+    }
+
+    public function next()
+    {
+        return next($this->accessor);
+    }
+
     public function reset()
     {
         reset($this->accessor);
 
         return $this;
+    }
+
+    public function first()
+    {
+        reset($this->accessor);
+
+        return current($this->accessor);
+    }
+
+    public function last()
+    {
+        return end($this->accessor);
     }
 
     public function clear()
@@ -313,28 +344,6 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
     public function pop()
     {
         return array_pop($this->accessor);
-    }
-
-    public function first()
-    {
-        reset($this->accessor);
-
-        return current($this->accessor);
-    }
-
-    public function last()
-    {
-        return end($this->accessor);
-    }
-
-    public function current()
-    {
-        return key($this->accessor);
-    }
-
-    public function next()
-    {
-        return next($this->accessor);
     }
 
     public function group($maxLevel = 1, $replaceLast = true, $removeGroupedKey = false)
