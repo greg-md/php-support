@@ -20,31 +20,27 @@ trait ArrayAccessTrait
 
     public function set($key, $value)
     {
-        return $this->setRef($key, $value);
+        return Arr::set($this->accessor, $key, $value);
     }
 
     public function setRef($key, &$value)
     {
-        Arr::setRef($this->accessor, $key, $value);
-
-        return $this;
+        return Arr::setRef($this->accessor, $key, $value);
     }
 
     public function setIndex($index, $value, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return $this->setIndexRef($index, $value, $delimiter);
+        return Arr::setIndex($this->accessor, $index, $value, $delimiter);
     }
 
     public function setIndexRef($index, &$value, $delimiter = Arr::INDEX_DELIMITER)
     {
-        Arr::setIndexRef($this->accessor, $index, $value, $delimiter);
-
-        return $this;
+        return Arr::setIndexRef($this->accessor, $index, $value, $delimiter);
     }
 
     public function get($key, $else = null)
     {
-        return $this->getRef($key, $else);
+        return Arr::get($this->accessor, $key, $else);
     }
 
     public function &getRef($key, &$else = null)
@@ -54,7 +50,7 @@ trait ArrayAccessTrait
 
     public function getForce($key, $else = null)
     {
-        return $this->getForceRef($key, $else);
+        return Arr::getForce($this->accessor, $key, $else);
     }
 
     public function &getForceRef($key, &$else = null)
@@ -64,7 +60,7 @@ trait ArrayAccessTrait
 
     public function getArray($key, $else = null)
     {
-        return $this->getArrayRef($key, $else);
+        return Arr::getArray($this->accessor, $key, $else);
     }
 
     public function &getArrayRef($key, &$else = null)
@@ -74,7 +70,7 @@ trait ArrayAccessTrait
 
     public function getArrayForce($key, $else = null)
     {
-        return $this->getArrayForceRef($key, $else);
+        return Arr::getArrayForce($this->accessor, $key, $else);
     }
 
     public function &getArrayForceRef($key, &$else = null)
@@ -84,7 +80,7 @@ trait ArrayAccessTrait
 
     public function getIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return $this->getIndexRef($index, $else, $delimiter);
+        return Arr::getIndex($this->accessor, $index, $else, $delimiter);
     }
 
     public function &getIndexRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
@@ -94,7 +90,7 @@ trait ArrayAccessTrait
 
     public function getIndexForce($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return $this->getIndexForceRef($index, $else, $delimiter);
+        return Arr::getIndexForce($this->accessor, $index, $else, $delimiter);
     }
 
     public function &getIndexForceRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
@@ -104,7 +100,7 @@ trait ArrayAccessTrait
 
     public function getIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return $this->getIndexArrayRef($index, $else, $delimiter);
+        return Arr::getIndexArray($this->accessor, $index, $else, $delimiter);
     }
 
     public function &getIndexArrayRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
@@ -114,7 +110,7 @@ trait ArrayAccessTrait
 
     public function getIndexArrayForce($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return $this->getIndexArrayForceRef($index, $else, $delimiter);
+        return Arr::getIndexArrayForce($this->accessor, $index, $else, $delimiter);
     }
 
     public function &getIndexArrayForceRef($index, &$else = null, $delimiter = Arr::INDEX_DELIMITER)
@@ -124,16 +120,12 @@ trait ArrayAccessTrait
 
     public function del($key)
     {
-        Arr::del($this->accessor, $key);
-
-        return $this;
+        return Arr::del($this->accessor, $key);
     }
 
     public function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        Arr::delIndex($this->accessor, $index, $delimiter);
-
-        return $this;
+        return Arr::delIndex($this->accessor, $index, $delimiter);
     }
 
     /* Magic methods for ArrayAccess interface */
@@ -148,20 +140,9 @@ trait ArrayAccessTrait
         return $this->set($key, $value);
     }
 
-    /**
-     * Leave this alone! It should return direct reference of accessor to be able to add recursive values.
-     * It may return a warning of undefined key.
-     * Bug: It will create new empty key in array if it does not exists.
-     * Fix: I think this will not be a problem. You can use "has" method instead of getting by undefined keys.
-     *
-     * @param $key
-     *
-     * @return array|null
-     */
     public function &offsetGet($key)
     {
         return $this->accessor[$key];
-        //return $this->getRef($key);
     }
 
     public function offsetUnset($key)

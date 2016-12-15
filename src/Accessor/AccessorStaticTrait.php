@@ -15,33 +15,27 @@ trait AccessorStaticTrait
 
     private static function setAccessor(array $accessor)
     {
-        static::$accessor = $accessor;
-
-        return static::$accessor;
+        return static::$accessor = $accessor;
     }
 
     private static function inAccessor($key)
     {
-        return array_key_exists($key, static::$accessor);
+        return Arr::has(static::$accessor, $key);
     }
 
-    private static function getFromAccessor($key)
+    private static function getFromAccessor($key, $else = null)
     {
-        return static::inAccessor($key) ? static::$accessor[$key] : null;
+        return Arr::get(static::$accessor, $key, $else);
     }
 
     private static function setToAccessor($key, $value)
     {
-        Arr::set(static::$accessor, $key, $value);
-
-        return static::$accessor;
+        return Arr::set(static::$accessor, $key, $value);
     }
 
     private static function addToAccessor(array $items)
     {
-        static::$accessor = array_merge(static::$accessor, $items);
-
-        return static::$accessor;
+        return static::$accessor = array_merge(static::$accessor, $items);
     }
 
     private static function removeFromAccessor($key)
@@ -53,8 +47,6 @@ trait AccessorStaticTrait
 
     private static function resetAccessor()
     {
-        static::$accessor = [];
-
-        return static::$accessor;
+        return static::$accessor = [];
     }
 }

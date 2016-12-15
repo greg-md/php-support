@@ -2,10 +2,11 @@
 
 namespace Greg\Support\Tests\Accessor;
 
+use Greg\Support\Accessor\AccessorStaticTrait;
 use Greg\Support\Accessor\AccessorTrait;
 use PHPUnit\Framework\TestCase;
 
-abstract class TestingAccessorTrait
+class TestingAccessor
 {
     use AccessorTrait;
 
@@ -48,15 +49,68 @@ abstract class TestingAccessorTrait
     {
         return $this->resetAccessor();
     }
+
+    public function &accessor()
+    {
+        return $this->accessor;
+    }
 }
 
-class TestingAccessor extends TestingAccessorTrait
+class TestingAccessorStatic
 {
+    use AccessorStaticTrait;
+
+    public static function &_getAccessor()
+    {
+        return static::getAccessor();
+    }
+
+    public static function _setAccessor(array $accessor)
+    {
+        return static::setAccessor($accessor);
+    }
+
+    public static function _inAccessor($key)
+    {
+        return static::inAccessor($key);
+    }
+
+    public static function _getFromAccessor($key)
+    {
+        return static::getFromAccessor($key);
+    }
+
+    public static function _setToAccessor($key, $value)
+    {
+        return static::setToAccessor($key, $value);
+    }
+
+    public static function _addToAccessor(array $items)
+    {
+        return static::addToAccessor($items);
+    }
+
+    public static function _removeFromAccessor($key)
+    {
+        return static::removeFromAccessor($key);
+    }
+
+    public static function _resetAccessor()
+    {
+        return static::resetAccessor();
+    }
+
+    public static function &accessor()
+    {
+        return static::$accessor;
+    }
 }
 
 class AccessorTraitTest extends TestCase
 {
-    /** @var TestingAccessor */
+    /**
+     * @var TestingAccessor
+     */
     private $accessor = null;
 
     public function setUp()
@@ -64,100 +118,124 @@ class AccessorTraitTest extends TestCase
         parent::setUp();
 
         $this->accessor = new TestingAccessor();
+
+        //
+
+        $accessor = &TestingAccessorStatic::accessor(); $accessor = [];
     }
 
-    public function testEmptyAccessor()
+    public function testNewAccessor()
     {
-        $this->assertEquals([], $this->accessor->_getAccessor());
+        $this->assertEquals([], $this->accessor->accessor());
+
+        //
+
+        $this->assertEquals([], TestingAccessorStatic::accessor());
     }
 
-    /**
-     * @depends testEmptyAccessor
-     */
     public function testReferenceAccessor()
     {
         $this->accessor->_getAccessor()['foo'] = 'bar';
 
-        $this->assertEquals(['foo' => 'bar'], $this->accessor->_getAccessor());
+        $this->assertEquals(['foo' => 'bar'], $this->accessor->accessor());
+
+        //
+
+        TestingAccessorStatic::_getAccessor()['foo'] = 'bar';
+
+        $this->assertEquals(['foo' => 'bar'], TestingAccessorStatic::accessor());
     }
 
-    /**
-     * @depends testEmptyAccessor
-     */
     public function testSetAccessor()
     {
-        $accessor = [1, 2, 3];
+        $this->assertEquals([1], $this->accessor->_setAccessor([1]));
 
-        $this->accessor->_setAccessor($accessor);
+        //
 
-        $this->assertEquals($accessor, $this->accessor->_getAccessor());
+        $this->assertEquals([1], TestingAccessorStatic::_setAccessor([1]));
     }
 
-    /**
-     * @depends testEmptyAccessor
-     */
     public function testInAccessor()
     {
-        $this->accessor->_setAccessor(['foo' => 'bar']);
+        $this->assertArrayHasKey('foo', $this->accessor->_setAccessor(['foo' => 'bar']));
 
-        $this->assertArrayHasKey('foo', $this->accessor->_getAccessor());
+        //
+
+        $this->assertArrayHasKey('foo', TestingAccessorStatic::_setAccessor(['foo' => 'bar']));
     }
 
-    /**
-     * @depends testEmptyAccessor
-     */
     public function testGetFromAccessor()
     {
-        $this->accessor->_setAccessor(['foo' => 'bar']);
+        $this->accessor->accessor()['foo'] = 'bar';
 
         $this->assertEquals('bar', $this->accessor->_getFromAccessor('foo'));
+
+        //
+
+        TestingAccessorStatic::accessor()['foo'] = 'bar';
+
+        $this->assertEquals('bar', TestingAccessorStatic::_getFromAccessor('foo'));
     }
 
-    /**
-     * @depends testEmptyAccessor
-     */
     public function testSetToAccessor()
     {
-        $this->accessor->_setAccessor(['foo' => 'bar']);
+        $this->accessor->accessor()['foo'] = 'bar';
 
-        $this->accessor->_setToAccessor('foo1', 'bar1');
+        $this->assertEquals(['foo' => 'bar', 'foo1' => 'bar1'], $this->accessor->_setToAccessor('foo1', 'bar1'));
 
-        $this->assertEquals(['foo' => 'bar', 'foo1' => 'bar1'], $this->accessor->_getAccessor());
+        //
+
+        TestingAccessorStatic::accessor()['foo'] = 'bar';
+
+        $this->assertEquals(['foo' => 'bar', 'foo1' => 'bar1'], TestingAccessorStatic::_setToAccessor('foo1', 'bar1'));
     }
 
-    /**
-     * @depends testEmptyAccessor
-     */
     public function testAddToAccessor()
     {
-        $this->accessor->_setAccessor(['foo' => 'bar', 'foo1' => 'bar1']);
+        $this->accessor->accessor()['foo'] = 'bar';
 
-        $this->accessor->_addToAccessor(['foo' => 'bar', 'foo2' => 'bar2']);
+        $this->accessor->accessor()['foo1'] = 'bar1';
 
-        $this->assertEquals(['foo' => 'bar', 'foo1' => 'bar1', 'foo2' => 'bar2'], $this->accessor->_getAccessor());
+        $this->assertEquals(
+            ['foo' => 'bar', 'foo1' => 'bar1', 'foo2' => 'bar2'],
+            $this->accessor->_addToAccessor(['foo' => 'bar', 'foo2' => 'bar2'])
+        );
+
+        //
+
+        TestingAccessorStatic::accessor()['foo'] = 'bar';
+
+        TestingAccessorStatic::accessor()['foo1'] = 'bar1';
+
+        $this->assertEquals(
+            ['foo' => 'bar', 'foo1' => 'bar1', 'foo2' => 'bar2'],
+            TestingAccessorStatic::_addToAccessor(['foo' => 'bar', 'foo2' => 'bar2'])
+        );
     }
 
-    /**
-     * @depends testEmptyAccessor
-     */
     public function testRemoveFromAccessor()
     {
-        $this->accessor->_setAccessor(['foo' => 'bar']);
+        $this->accessor->accessor()['foo'] = 'bar';
 
-        $this->accessor->_removeFromAccessor('foo');
+        $this->assertEquals([], $this->accessor->_removeFromAccessor('foo'));
 
-        $this->assertEquals([], $this->accessor->_getAccessor());
+        //
+
+        TestingAccessorStatic::accessor()['foo'] = 'bar';
+
+        $this->assertEquals([], TestingAccessorStatic::_removeFromAccessor('foo'));
     }
 
-    /**
-     * @depends testEmptyAccessor
-     */
     public function testResetAccessor()
     {
-        $this->accessor->_setAccessor(['foo' => 'bar']);
+        $this->accessor->accessor()['foo'] = 'bar';
 
-        $this->accessor->_resetAccessor();
+        $this->assertEquals([], $this->accessor->_resetAccessor());
 
-        $this->assertEquals([], $this->accessor->_getAccessor());
+        //
+
+        TestingAccessorStatic::accessor()['foo'] = 'bar';
+
+        $this->assertEquals([], TestingAccessorStatic::_resetAccessor());
     }
 }

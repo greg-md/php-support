@@ -15,46 +15,38 @@ trait AccessorTrait
 
     private function setAccessor(array $accessor)
     {
-        $this->accessor = $accessor;
-
-        return $this;
+        return $this->accessor = $accessor;
     }
 
     private function inAccessor($key)
     {
-        return array_key_exists($key, $this->accessor);
+        return Arr::has($this->accessor, $key);
     }
 
-    private function getFromAccessor($key)
+    private function getFromAccessor($key, $else = null)
     {
-        return $this->inAccessor($key) ? $this->accessor[$key] : null;
+        return Arr::get($this->accessor, $key, $else);
     }
 
     private function setToAccessor($key, $value)
     {
-        Arr::set($this->accessor, $key, $value);
-
-        return $this;
+        return Arr::set($this->accessor, $key, $value);
     }
 
-    private function addToAccessor(array $array)
+    private function addToAccessor(array $data)
     {
-        $this->accessor = array_merge($this->accessor, $array);
-
-        return $this;
+        return $this->accessor = array_merge($this->accessor, $data);
     }
 
     private function removeFromAccessor($key)
     {
         unset($this->accessor[$key]);
 
-        return $this;
+        return $this->accessor;
     }
 
     private function resetAccessor()
     {
-        $this->accessor = [];
-
-        return $this;
+        return $this->accessor = [];
     }
 }

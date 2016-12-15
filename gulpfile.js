@@ -8,7 +8,10 @@ gulp.task('test', function() {
             notify: true,
             testClass: argv.class,
             testSuite: argv.suite
-        }));
+        }))
+        .on('error', function() {
+
+        });
 });
 
 gulp.task('watch', function() {
