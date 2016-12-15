@@ -52,7 +52,6 @@ abstract class TestingAccessorTrait
 
 class TestingAccessor extends TestingAccessorTrait
 {
-
 }
 
 class AccessorTraitTest extends TestCase
