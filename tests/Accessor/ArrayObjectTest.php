@@ -24,6 +24,9 @@ class ArrayObjectTest extends TestCase
         $this->assertEquals([], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testNew
+     */
     public function testExchange()
     {
         $this->arrayObject->exchange(1);
@@ -31,6 +34,9 @@ class ArrayObjectTest extends TestCase
         $this->assertEquals([1], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testNew
+     */
     public function testExchangeRef()
     {
         $new = [1];
@@ -42,6 +48,9 @@ class ArrayObjectTest extends TestCase
         $this->assertEquals([1, 2], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testNew
+     */
     public function testAppend()
     {
         $this->arrayObject->append(1, 2, 3);
@@ -49,6 +58,9 @@ class ArrayObjectTest extends TestCase
         $this->assertEquals([1, 2, 3], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testNew
+     */
     public function testAppendRef()
     {
         $a = 1;
@@ -62,6 +74,9 @@ class ArrayObjectTest extends TestCase
         $this->assertEquals([1, 2, $c], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testNew
+     */
     public function testAppendKey()
     {
         $this->arrayObject->appendKey(null, 1);
@@ -71,6 +86,9 @@ class ArrayObjectTest extends TestCase
         $this->assertEquals([0 => 1, 'b' => 2], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testNew
+     */
     public function testAppendKeyRef()
     {
         $a = 1;
@@ -82,6 +100,9 @@ class ArrayObjectTest extends TestCase
         $this->assertEquals(['a' => $a], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testNew
+     */
     public function testPrependKey()
     {
         $this->arrayObject->prependKey(null, 1);
@@ -91,6 +112,9 @@ class ArrayObjectTest extends TestCase
         $this->assertEquals(['b' => 2, 0 => 1], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testNew
+     */
     public function testPrependKeyRef()
     {
         $a = 1;
@@ -250,6 +274,7 @@ class ArrayObjectTest extends TestCase
      * @depends testNext
      *
      * @param ArrayObject $arrayObject
+     * @return ArrayObject
      */
     public function testReset(ArrayObject $arrayObject)
     {
@@ -513,14 +538,40 @@ class ArrayObjectTest extends TestCase
         $this->arrayObject->exchange([1, 2, 3]);
 
         $this->assertEquals('1,2,3', $this->arrayObject->implode(','));
+
+        $this->assertEquals('1,2,3', $this->arrayObject->join(','));
     }
 
-    /*
+    /**
+     * @depends testExchange
+     */
+    public function testShift()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->assertEquals(1, $this->arrayObject->shift());
+
+        $this->assertEquals([2, 3], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testPop()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->assertEquals(3, $this->arrayObject->pop());
+
+        $this->assertEquals([1, 2], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
     public function testGroup()
     {
-        $object = $this->newObject();
-
-        $object->exchange([
+        $this->arrayObject->exchange([
             [
                 'a' => '1',
                 'b' => '2',
@@ -531,7 +582,7 @@ class ArrayObjectTest extends TestCase
             ],
         ]);
 
-        $object->group('a', true, true);
+        $this->arrayObject->group('a', true, true);
 
         $this->assertEquals([
             1 => [
@@ -540,9 +591,98 @@ class ArrayObjectTest extends TestCase
             3 => [
                 'b' => '4',
             ],
-        ], $object->toArray());
-
-        return $object;
+        ], $this->arrayObject->toArray());
     }
-    */
+
+    /**
+     * @depends testExchange
+     */
+    public function testColumn()
+    {
+        $this->arrayObject->exchange([['a' => 1], ['a' => 2], ['a' => 3]]);
+
+        $this->assertEquals([1, 2, 3], $this->arrayObject->column('a'));
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testWalk()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->arrayObject->walk(function(&$item) {
+            $item *= 2;
+        });
+
+        $this->assertEquals([2, 4, 6], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testShuffle()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->arrayObject->shuffle();
+
+        $this->assertNotEquals([1, 2, 3], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testSort()
+    {
+        $this->arrayObject->exchange([2, 1, 3]);
+
+        $this->arrayObject->sort();
+
+        $this->assertEquals([1, 2, 3], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testArsort()
+    {
+        $this->arrayObject->exchange([2, 1, 3]);
+
+        $this->arrayObject->arsort();
+
+        $this->assertEquals([2 => 3, 0 => 2, 1 => 1], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testKrsort()
+    {
+        $this->arrayObject->exchange([2, 1, 3]);
+
+        $this->arrayObject->krsort();
+
+        $this->assertEquals([2 => 3, 1 => 1, 0 => 2], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testKeys()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->assertEquals([0, 1, 2], $this->arrayObject->keys());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testValues()
+    {
+        $this->arrayObject->exchange(['a' => 1, 'b' => 2, 'c' => 3]);
+
+        $this->assertEquals([1, 2, 3], $this->arrayObject->values());
+    }
 }
