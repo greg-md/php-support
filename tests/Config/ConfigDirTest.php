@@ -7,7 +7,8 @@ use Greg\Support\Config\ConfigException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ConfigDirTest
+ * Class ConfigDirTest.
+ *
  * @coversDefaultClass Greg\Support\Config\ConfigDir
  */
 class ConfigDirTest extends TestCase
@@ -35,8 +36,8 @@ class ConfigDirTest extends TestCase
         $config = ConfigDir::path(__DIR__ . '/config', 'c3');
 
         $this->assertEquals([
-            'c' => 3,
-            'd' => 4,
+            'c'  => 3,
+            'd'  => 4,
             'c1' => [
                 'c2' => [
                     'a' => 1,

@@ -14,10 +14,10 @@ use PHPUnit\Framework\TestCase;
 class ConfigIniTest extends TestCase
 {
     private $config = [
-        'foo' => 'f',
-        'bar.a' => 1,
-        'bar.' => 2,
-        'bar.b.c' => 3
+        'foo'     => 'f',
+        'bar.a'   => 1,
+        'bar.'    => 2,
+        'bar.b.c' => 3,
     ];
 
     private $configIndex = [
@@ -26,9 +26,9 @@ class ConfigIniTest extends TestCase
             'a' => 1,
             2,
             'b' => [
-                'c' => 3
-            ]
-        ]
+                'c' => 3,
+            ],
+        ],
     ];
 
     public function testFile()

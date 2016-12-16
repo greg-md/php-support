@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class ArrayObjectArrayIterator extends \ArrayIterator
 {
-
 }
 
 class ArrayObjectTest extends TestCase
