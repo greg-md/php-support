@@ -229,7 +229,7 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
 
     public function mergeValues()
     {
-        $this->accessor = array_merge(...$this->accessor);
+        $this->accessor = array_merge(...array_values($this->accessor));
 
         return $this;
     }
@@ -272,7 +272,7 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
 
     public function replaceValues()
     {
-        $this->accessor = array_replace(...$this->accessor);
+        $this->accessor = array_replace(...array_values($this->accessor));
 
         return $this;
     }

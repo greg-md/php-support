@@ -313,73 +313,209 @@ class ArrayObjectTest extends TestCase
 
         $this->assertTrue($this->arrayObject->inArrayValues([1, 2]));
 
-        $this->assertFalse($this->arrayObject->inArray([1, '2'], true));
+        $this->assertFalse($this->arrayObject->inArrayValues([1, '2'], true));
     }
 
-    /*
+    public function testMerge()
+    {
+        $this->arrayObject->merge([1, 2]);
+
+        $this->arrayObject->merge([3, 4]);
+
+        $this->assertEquals([1, 2, 3, 4], $this->arrayObject->toArray());
+    }
+
+    public function testMergeRecursive()
+    {
+        $this->arrayObject->mergeRecursive([1, 2, 'a' => [3]]);
+
+        $this->arrayObject->mergeRecursive([5, 'a' => [4]]);
+
+        $this->assertEquals([1, 2, 'a' => [3, 4], 5], $this->arrayObject->toArray());
+    }
+
     public function testMergePrepend()
     {
-        $object = $this->newObject();
+        $this->arrayObject->mergePrepend([1, 2]);
 
-        $object->mergePrepend(['-b'], ['-c']);
+        $this->arrayObject->mergePrepend([3, 4]);
 
-        $this->assertEquals(['-c', '-b', 'a'], $object->toArray());
-
-        return $object;
+        $this->assertEquals([3, 4, 1, 2], $this->arrayObject->toArray());
     }
 
     public function testMergePrependRecursive()
     {
-        $object = $this->newObject();
+        $this->arrayObject->mergePrependRecursive([1, 2, 'a' => [3]]);
 
-        $object->merge(['b' => ['b1', 'b2']]);
+        $this->arrayObject->mergePrependRecursive([5, 'a' => [4]]);
 
-        $object->mergePrependRecursive(['b' => ['-b2']]);
+        $this->assertEquals([5, 'a' => [4, 3], 1, 2], $this->arrayObject->toArray());
+    }
 
-        $this->assertEquals(['b' => ['-b2', 'b1', 'b2'], 'a'], $object->toArray());
+    /**
+     * @depends testMerge
+     */
+    public function testMergeValues()
+    {
+        $this->arrayObject->merge(['a' => [1, 2]]);
+        $this->arrayObject->merge(['b' => [3, 4]]);
 
-        return $object;
+        $this->arrayObject->mergeValues();
+
+        $this->assertEquals([1, 2, 3, 4], $this->arrayObject->toArray());
+    }
+
+    public function testReplace()
+    {
+        $this->arrayObject->replace([1, 2]);
+
+        $this->arrayObject->replace([3, 4]);
+
+        $this->assertEquals([3, 4], $this->arrayObject->toArray());
+    }
+
+    public function testReplaceRecursive()
+    {
+        $this->arrayObject->replaceRecursive([1, 2, 'a' => [3]]);
+
+        $this->arrayObject->replaceRecursive([5, 'a' => [4]]);
+
+        $this->assertEquals([5, 2, 'a' => [4]], $this->arrayObject->toArray());
     }
 
     public function testReplacePrepend()
     {
-        $object = $this->newObject();
+        $this->arrayObject->replacePrepend([1, 2]);
 
-        $object->replacePrepend(['-b'], ['-c']);
+        $this->arrayObject->replacePrepend([3, 4]);
 
-        $this->assertEquals(['a'], $object->toArray());
-
-        return $object;
+        $this->assertEquals([1, 2], $this->arrayObject->toArray());
     }
 
-    public function testMapRecursive()
+    public function testReplacePrependRecursive()
     {
-        $object = $this->newObject();
+        $this->arrayObject->replacePrependRecursive([1, 2, 'a' => [3]]);
 
-        $object->exchange([1, [2, 3]]);
+        $this->arrayObject->replacePrependRecursive([5, 'a' => [4]]);
 
-        $object->mapRecursive(function ($value) {
-            return pow($value, 2);
+        $this->assertEquals([1, 'a' => [3], 2], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testReplaceValues()
+    {
+        $this->arrayObject->exchange(['a' => [1, 2], 'b' => [3, 4]]);
+
+        $this->arrayObject->replaceValues();
+
+        $this->assertEquals([3, 4], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testDiff()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->arrayObject->diff([2, 3, 4]);
+
+        $this->assertEquals([1], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testMap()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->arrayObject->map(function($n) {
+            return pow($n, 2);
         });
 
-        $this->assertEquals([1, [4, 9]], $object->toArray());
-
-        return $object;
+        $this->assertEquals([1, 4, 9], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testExchange
+     */
+    public function testMapRecursive()
+    {
+        $this->arrayObject->exchange([1, [2, 3]]);
+
+        $this->arrayObject->mapRecursive(function($n) {
+            return pow($n, 2);
+        });
+
+        $this->assertEquals([1, [4, 9]], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testFilter()
+    {
+        $this->arrayObject->exchange([1, 2, null, 0, 3, '']);
+
+        $this->arrayObject->filter();
+
+        $this->assertEquals([0 => 1, 1 => 2, 4 => 3], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
     public function testFilterRecursive()
     {
-        $object = $this->newObject();
+        $this->arrayObject->exchange([1, 2, null, [0, 3, '']]);
 
-        $object->append(['b', '', 'c']);
+        $this->arrayObject->filterRecursive();
 
-        $object->filterRecursive();
-
-        $this->assertEquals(['a', [0 => 'b', 2 => 'c']], $object->toArray());
-
-        return $object;
+        $this->assertEquals([0 => 1, 1 => 2, 3 => [1 => 3]], $this->arrayObject->toArray());
     }
 
+    /**
+     * @depends testExchange
+     */
+    public function testReverse()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->arrayObject->reverse();
+
+        $this->assertEquals([3, 2, 1], $this->arrayObject->toArray());
+
+        $this->arrayObject->reverse(true);
+
+        $this->assertEquals([2 => 1, 1 => 2, 0 => 3], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testChunk()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->arrayObject->chunk(1);
+
+        $this->assertEquals([[1], [2], [3]], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testImplode()
+    {
+        $this->arrayObject->exchange([1, 2, 3]);
+
+        $this->assertEquals('1,2,3', $this->arrayObject->implode(','));
+    }
+
+    /*
     public function testGroup()
     {
         $object = $this->newObject();

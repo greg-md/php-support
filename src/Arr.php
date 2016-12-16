@@ -648,7 +648,7 @@ class Arr
     {
         $copy = $array;
 
-        return static::_mapRecursive($callable, $copy, $arrays);
+        return static::_mapRecursive($callable, $copy, ...$arrays);
     }
 
     public static function &_mapRecursive(callable $callable, array &$array, array &...$arrays)
@@ -686,9 +686,11 @@ class Arr
 
     public static function filterRecursive(array &$array, callable $callable = null, $flag = 0)
     {
-        $copy = $array;
+        $args = func_get_args();
 
-        return static::_filterRecursive($copy, $callable, $flag);
+        $copy = array_shift($args);
+
+        return static::_filterRecursive($copy, ...$args);
     }
 
     protected static function _filterRecursive(array &$array, callable $callable = null, $flag = 0)
