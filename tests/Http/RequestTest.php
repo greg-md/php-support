@@ -2,7 +2,6 @@
 
 namespace Greg\Support\Tests\Http;
 
-use Greg\Support\Arr;
 use Greg\Support\Http\Request;
 use Greg\Support\Http\RequestException;
 use PHPUnit\Framework\TestCase;
@@ -73,13 +72,11 @@ class RequestTest extends TestCase
         ],
     ];
 
-    public static function setUpBeforeClass()
+    public function setUp()
     {
-        $_GET = static::$data;
+        parent::setUp();
 
-        $_POST = static::$data;
-
-        $_REQUEST = static::$data;
+        $_GET = $_POST = $_REQUEST = static::$data;
 
         $_FILES = static::$files;
 
@@ -95,14 +92,10 @@ class RequestTest extends TestCase
         $_SERVER['REQUEST_URI'] = '/admin/?foo=bar';
 
         $_SERVER['SCRIPT_NAME'] = '/admin/index.php';
-    }
 
-    public function typesProvider()
-    {
-        return [
-            ['get'],
-            ['post'],
-        ];
+        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = null;
+        $_SERVER['HTTP_IF_NONE_MATCH'] = null;
+        $_SERVER['HTTP_REFERER'] = null;
     }
 
     /**
@@ -113,7 +106,7 @@ class RequestTest extends TestCase
      */
     public function testServerData($type, $key)
     {
-        $this->assertEquals(Arr::get($_SERVER, $key), call_user_func_array([Request::class, $type], []));
+        $this->assertEquals($_SERVER[$key], call_user_func_array([Request::class, $type], []));
     }
 
     public function serverDataProvider()

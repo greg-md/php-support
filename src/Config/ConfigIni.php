@@ -6,66 +6,80 @@ class ConfigIni
 {
     public static function file($file, $section = null, $indexDelimiter = null)
     {
-        return static::fetchContents(static::parseFile($file), $section, $indexDelimiter);
+        return static::contents(static::parseFile($file), $section, $indexDelimiter);
     }
 
     public static function string($string, $section = null, $indexDelimiter = null)
     {
-        return static::fetchContents(static::parseString($string), $section, $indexDelimiter);
+        return static::contents(static::parseString($string), $section, $indexDelimiter);
     }
 
-    protected static function parseFile($file)
+    protected static function contents(array $contents, $section = null, $indexDelimiter = null)
     {
-        return parse_ini_file($file, true);
+        if (static::hasSections($contents)) {
+            return static::contentsWithSections($contents, $section, $indexDelimiter);
+        }
+
+        if ($section) {
+            throw new ConfigException('You don\'t have any sections in the config.');
+        }
+
+        if ($indexDelimiter) {
+            return static::parseIndexes($contents, $indexDelimiter);
+        }
+
+        return $contents;
     }
 
-    protected static function parseString($string)
+    protected static function contentsWithSections(array $contents, $section = null, $indexDelimiter = null)
     {
-        return parse_ini_string($string, true);
-    }
+        $contents = static::parseContentsWithSections($contents);
 
-    protected static function fetchContents($contents, $section = null, $indexDelimiter = null)
-    {
-        $return = [];
+        if ($indexDelimiter) {
+            foreach ($contents as $key => &$values) {
+                $values = static::parseIndexes($values, $indexDelimiter);
+            }
+            unset($values);
+        }
 
-        if ($contents) {
-            if ($section) {
-                $partsParam = [];
-
-                foreach ($contents as $key => $value) {
-                    $parts = array_map('trim', explode(':', $key));
-
-                    $partsParam[$key] = $parts;
-
-                    $primary = array_shift($parts);
-
-                    $return[$primary] = $indexDelimiter ? static::fetchIndexes($value, $indexDelimiter) : $value;
-                }
-
-                foreach ($partsParam as $parts) {
-                    $primary = array_shift($parts);
-
-                    foreach ($parts as $part) {
-                        $return[$primary] = array_replace_recursive($return[$part], $return[$primary]);
-                    }
-                }
-            } else {
-                $return = $indexDelimiter ? static::fetchIndexes($contents, $indexDelimiter) : $contents;
+        if ($section) {
+            if (!array_key_exists($section, $contents)) {
+                throw new ConfigException('Config ini section `' . $section . '` not found.');
             }
 
-            if ($section) {
-                if (!array_key_exists($section, $return)) {
-                    throw new ConfigException('Config ini section `' . $section . '` not found.');
-                }
+            return $contents[$section];
+        }
 
-                $return = $return[$section];
+        return $contents;
+    }
+
+    protected static function hasSections(array &$contents)
+    {
+        return is_array(current($contents));
+    }
+
+    protected static function parseContentsWithSections(&$contents)
+    {
+        $return = $keysParts = [];
+
+        foreach ($contents as $key => $value) {
+            $keysParts[$key] = array_map('trim', explode(':', $key));
+
+            $return[$keysParts[$key][0]] = $value;
+        }
+
+        foreach ($keysParts as $parts) {
+            $primary = array_shift($parts);
+
+            foreach ($parts as $part) {
+                $return[$primary] = array_replace($return[$part], $return[$primary]);
             }
         }
 
         return $return;
     }
 
-    protected static function fetchIndexes($contents, $indexDelimiter)
+    protected static function parseIndexes($contents, $indexDelimiter)
     {
         $fetchedSection = [];
 
@@ -83,12 +97,22 @@ class ConfigIni
             }
 
             if (is_array($value)) {
-                $value = static::fetchIndexes($value, $indexDelimiter);
+                $value = static::parseIndexes($value, $indexDelimiter);
             }
 
             $contentsLevel = $value;
         }
 
         return $fetchedSection;
+    }
+
+    protected static function parseFile($file)
+    {
+        return parse_ini_file($file, true) ?: [];
+    }
+
+    protected static function parseString($string)
+    {
+        return parse_ini_string($string, true) ?: [];
     }
 }

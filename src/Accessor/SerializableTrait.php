@@ -6,13 +6,17 @@ trait SerializableTrait
 {
     public function serialize()
     {
-        return serialize($this->accessor);
+        return serialize($this->getAccessor());
     }
 
     public function unserialize($accessor)
     {
-        $this->accessor = unserialize($accessor);
+        $this->setAccessor(unserialize($accessor));
 
         return $this;
     }
+
+    abstract function &getAccessor();
+
+    abstract function setAccessor(array $accessor);
 }

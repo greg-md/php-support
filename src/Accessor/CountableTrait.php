@@ -6,6 +6,8 @@ trait CountableTrait
 {
     public function count()
     {
-        return count($this->accessor);
+        return count($this->getAccessor());
     }
+
+    abstract function &getAccessor();
 }
