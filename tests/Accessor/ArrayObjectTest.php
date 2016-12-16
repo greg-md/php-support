@@ -274,6 +274,7 @@ class ArrayObjectTest extends TestCase
      * @depends testNext
      *
      * @param ArrayObject $arrayObject
+     *
      * @return ArrayObject
      */
     public function testReset(ArrayObject $arrayObject)
@@ -611,7 +612,7 @@ class ArrayObjectTest extends TestCase
     {
         $this->arrayObject->exchange([1, 2, 3]);
 
-        $this->arrayObject->walk(function(&$item) {
+        $this->arrayObject->walk(function (&$item) {
             $item *= 2;
         });
 
