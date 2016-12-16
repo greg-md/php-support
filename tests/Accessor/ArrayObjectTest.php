@@ -432,7 +432,7 @@ class ArrayObjectTest extends TestCase
     {
         $this->arrayObject->exchange([1, 2, 3]);
 
-        $this->arrayObject->map(function($n) {
+        $this->arrayObject->map(function ($n) {
             return pow($n, 2);
         });
 
@@ -446,7 +446,7 @@ class ArrayObjectTest extends TestCase
     {
         $this->arrayObject->exchange([1, [2, 3]]);
 
-        $this->arrayObject->mapRecursive(function($n) {
+        $this->arrayObject->mapRecursive(function ($n) {
             return pow($n, 2);
         });
 
