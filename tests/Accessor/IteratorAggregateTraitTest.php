@@ -19,7 +19,6 @@ class TestingIteratorAggregate
 
 class CustomArrayIterator extends \ArrayIterator
 {
-
 }
 
 class IteratorAggregateTraitTest extends TestCase

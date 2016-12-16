@@ -16,7 +16,7 @@ trait SerializableTrait
         return $this;
     }
 
-    abstract function &getAccessor();
+    abstract public function &getAccessor();
 
-    abstract function setAccessor(array $accessor);
+    abstract public function setAccessor(array $accessor);
 }

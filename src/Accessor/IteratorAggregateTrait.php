@@ -27,5 +27,5 @@ trait IteratorAggregateTrait
         return $this;
     }
 
-    abstract function &getAccessor();
+    abstract public function &getAccessor();
 }
