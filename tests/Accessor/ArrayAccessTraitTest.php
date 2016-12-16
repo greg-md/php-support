@@ -6,7 +6,7 @@ use Greg\Support\Accessor\ArrayAccessStaticTrait;
 use Greg\Support\Accessor\ArrayAccessTrait;
 use PHPUnit\Framework\TestCase;
 
-class TestingArrayAccess
+class TestingArrayAccess implements \ArrayAccess
 {
     use ArrayAccessTrait;
 
@@ -42,6 +42,7 @@ class ArrayAccessTraitTest extends TestCase
         //
 
         $accessor = &TestingArrayAccessStatic::accessor();
+
         $accessor = [];
     }
 
@@ -579,5 +580,28 @@ class ArrayAccessTraitTest extends TestCase
         TestingArrayAccessStatic::accessor()['foo'] = ['bar' => 'biz'];
 
         $this->assertEquals(['foo' => []], TestingArrayAccessStatic::delIndex('foo.bar'));
+    }
+
+    public function testOffsetExists()
+    {
+        $this->arrayAccess->accessor()['foo'] = 'bar';
+
+        $this->assertTrue(isset($this->arrayAccess['foo']));
+    }
+
+    public function testOffsetSet()
+    {
+        $this->arrayAccess['foo'] = 'bar';
+
+        $this->assertEquals('bar', $this->arrayAccess['foo']);
+    }
+
+    public function testOffsetUnset()
+    {
+        $this->arrayAccess->accessor()['foo'] = 'bar';
+
+        unset($this->arrayAccess['foo']);
+
+        $this->assertEquals([], $this->arrayAccess->accessor());
     }
 }

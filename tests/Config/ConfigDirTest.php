@@ -3,20 +3,15 @@
 namespace Greg\Support\Tests\Config;
 
 use Greg\Support\Config\ConfigDir;
+use Greg\Support\Config\ConfigException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ConfigDirTest.
- *
+ * Class ConfigDirTest
  * @coversDefaultClass Greg\Support\Config\ConfigDir
- *
- * @covers \Greg\Support\Config\___gregRequireFile
  */
 class ConfigDirTest extends TestCase
 {
-    /**
-     * @covers ::path
-     */
     public function testParse()
     {
         $config = ConfigDir::path(__DIR__ . '/config');
@@ -33,5 +28,28 @@ class ConfigDirTest extends TestCase
                 'd' => 4,
             ],
         ], $config);
+    }
+
+    public function testParseMain()
+    {
+        $config = ConfigDir::path(__DIR__ . '/config', 'c3');
+
+        $this->assertEquals([
+            'c' => 3,
+            'd' => 4,
+            'c1' => [
+                'c2' => [
+                    'a' => 1,
+                    'b' => 2,
+                ],
+            ],
+        ], $config);
+    }
+
+    public function testException()
+    {
+        $this->expectException(ConfigException::class);
+
+        ConfigDir::path(__DIR__ . '/config', 'c4');
     }
 }

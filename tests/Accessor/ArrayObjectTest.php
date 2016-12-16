@@ -5,6 +5,11 @@ namespace Greg\Support\Tests\Accessor;
 use Greg\Support\Accessor\ArrayObject;
 use PHPUnit\Framework\TestCase;
 
+class ArrayObjectArrayIterator extends \ArrayIterator
+{
+
+}
+
 class ArrayObjectTest extends TestCase
 {
     /**
@@ -16,7 +21,7 @@ class ArrayObjectTest extends TestCase
     {
         parent::setUp();
 
-        $this->arrayObject = new ArrayObject();
+        $this->arrayObject = new ArrayObject([], ArrayObjectArrayIterator::class);
     }
 
     public function testNew()
@@ -103,6 +108,40 @@ class ArrayObjectTest extends TestCase
     /**
      * @depends testNew
      */
+    public function testPrepend()
+    {
+        $this->arrayObject->prepend(1);
+
+        $this->arrayObject->prepend(2);
+
+        $this->arrayObject->prepend(3);
+
+        $this->assertEquals([3, 2, 1], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testNew
+     */
+    public function testPrependRef()
+    {
+        $a = 1;
+        $b = 2;
+        $c = 3;
+
+        $this->arrayObject->prependRef($a);
+
+        $this->arrayObject->prependRef($b);
+
+        $this->arrayObject->prependRef($c);
+
+        $c = 4;
+
+        $this->assertEquals([$c, 2, 1], $this->arrayObject->toArray());
+    }
+
+    /**
+     * @depends testNew
+     */
     public function testPrependKey()
     {
         $this->arrayObject->prependKey(null, 1);
@@ -161,7 +200,7 @@ class ArrayObjectTest extends TestCase
     {
         $this->arrayObject->exchange(['IMG0.png', 'img12.png', 'img10.png', 'img2.png', 'img1.png', 'IMG3.png']);
 
-        $this->arrayObject->ksort();
+        $this->arrayObject->natcasesort();
 
         $this->assertEquals(
             [0 => 'IMG0.png', 4 => 'img1.png', 3 => 'img2.png', 5 => 'IMG3.png', 2 => 'img10.png', 1 => 'img12.png'],
@@ -176,7 +215,7 @@ class ArrayObjectTest extends TestCase
     {
         $this->arrayObject->exchange(['img12.png', 'img10.png', 'img2.png', 'img1.png']);
 
-        $this->arrayObject->ksort();
+        $this->arrayObject->natsort();
 
         $this->assertEquals(
             [3 => 'img1.png', 2 => 'img2.png', 1 => 'img10.png', 0 => 'img12.png'],
@@ -316,6 +355,18 @@ class ArrayObjectTest extends TestCase
         $this->assertEquals('step four', $arrayObject->last());
 
         return $arrayObject;
+    }
+
+    /**
+     * @depends testExchange
+     */
+    public function testClear()
+    {
+        $this->arrayObject->exchange([1, 2]);
+
+        $this->arrayObject->clear();
+
+        $this->assertEquals([], $this->arrayObject->toArray());
     }
 
     /**

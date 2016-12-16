@@ -122,6 +122,7 @@ class AccessorTraitTest extends TestCase
         //
 
         $accessor = &TestingAccessorStatic::accessor();
+
         $accessor = [];
     }
 
@@ -158,11 +159,15 @@ class AccessorTraitTest extends TestCase
 
     public function testInAccessor()
     {
-        $this->assertArrayHasKey('foo', $this->accessor->_setAccessor(['foo' => 'bar']));
+        $this->accessor->accessor()['foo'] = 'bar';
+
+        $this->assertTrue($this->accessor->_inAccessor('foo'));
 
         //
 
-        $this->assertArrayHasKey('foo', TestingAccessorStatic::_setAccessor(['foo' => 'bar']));
+        TestingAccessorStatic::accessor()['foo'] = 'bar';
+
+        $this->assertTrue(TestingAccessorStatic::_inAccessor('foo'));
     }
 
     public function testGetFromAccessor()

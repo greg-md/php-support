@@ -96,10 +96,6 @@ class ConfigIni
                 }
             }
 
-            if (is_array($value)) {
-                $value = static::parseIndexes($value, $indexDelimiter);
-            }
-
             $contentsLevel = $value;
         }
 

@@ -10,21 +10,49 @@ use PHPUnit\Framework\TestCase;
  * Class ConfigIniTest.
  *
  * @coversDefaultClass Greg\Support\Config\ConfigIni
- *
- * @covers ::parseFile
- * @covers ::parseString
- * @covers ::fetchContents
- * @covers ::fetchIndexes
  */
 class ConfigIniTest extends TestCase
 {
+    private $config = [
+        'foo' => 'f',
+        'bar.a' => 1,
+        'bar.' => 2,
+        'bar.b.c' => 3
+    ];
+
+    private $configIndex = [
+        'foo' => 'f',
+        'bar' => [
+            'a' => 1,
+            2,
+            'b' => [
+                'c' => 3
+            ]
+        ]
+    ];
+
+    public function testFile()
+    {
+        $this->assertEquals($this->config, ConfigIni::file(__DIR__ . '/config.ini'));
+    }
+
+    public function testFileIndex()
+    {
+        $this->assertEquals($this->configIndex, ConfigIni::file(__DIR__ . '/config.ini', null, '.'));
+    }
+
+    public function testNoSectionException()
+    {
+        $this->expectException(ConfigException::class);
+
+        ConfigIni::file(__DIR__ . '/config.ini', 'test');
+    }
+
     public function dataProvider()
     {
-        $test = ['foo' => 'f', 'bar' => ['a' => 1, 2]];
-
         return [
-            [null, ['test' => $test]],
-            ['test', $test],
+            [null, ['test' => $this->configIndex]],
+            ['test', $this->configIndex],
         ];
     }
 
@@ -33,11 +61,10 @@ class ConfigIniTest extends TestCase
      * @param $expected
      *
      * @dataProvider dataProvider
-     * @covers ::file
      */
-    public function testFile($section, $expected)
+    public function testSectionFile($section, $expected)
     {
-        $this->assertEquals($expected, ConfigIni::file(__DIR__ . '/config.ini', $section, '.'));
+        $this->assertEquals($expected, ConfigIni::file(__DIR__ . '/config.section.ini', $section, '.'));
     }
 
     /**
@@ -45,20 +72,16 @@ class ConfigIniTest extends TestCase
      * @param $expected
      *
      * @dataProvider dataProvider
-     * @covers ::string
      */
-    public function testString($section, $expected)
+    public function testSectionString($section, $expected)
     {
-        $this->assertEquals($expected, ConfigIni::string(file_get_contents(__DIR__ . '/config.ini'), $section, '.'));
+        $this->assertEquals($expected, ConfigIni::string(file_get_contents(__DIR__ . '/config.section.ini'), $section, '.'));
     }
 
-    /**
-     * @covers ::file
-     */
-    public function testException()
+    public function testSectionException()
     {
         $this->expectException(ConfigException::class);
 
-        ConfigIni::file(__DIR__ . '/config.ini', 'undevined section');
+        ConfigIni::file(__DIR__ . '/config.section.ini', 'undefined section');
     }
 }

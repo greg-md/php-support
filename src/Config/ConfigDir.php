@@ -17,10 +17,10 @@ class ConfigDir
         return $config;
     }
 
-    protected function parseMainConfig(array $config, $main)
+    protected static function parseMainConfig(array $config, $main)
     {
         if (!array_key_exists($main, $config)) {
-            throw new \Exception('Main config `' . $main . '` not found.');
+            throw new ConfigException('Main config `' . $main . '` not found.');
         }
 
         $mainConfig = $config[$main];

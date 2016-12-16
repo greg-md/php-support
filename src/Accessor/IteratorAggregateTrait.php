@@ -8,10 +8,6 @@ trait IteratorAggregateTrait
 
     public function getIterator()
     {
-        if (!$this->iteratorClass) {
-            throw new \Exception('Undefined iterator.');
-        }
-
         return new $this->iteratorClass($this->getAccessor());
     }
 
@@ -20,7 +16,7 @@ trait IteratorAggregateTrait
         return $this->iteratorClass;
     }
 
-    public function setIteratorClass($name = null)
+    public function setIteratorClass($name)
     {
         $this->iteratorClass = (string) $name;
 

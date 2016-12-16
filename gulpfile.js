@@ -6,6 +6,9 @@ gulp.task('test', function() {
     gulp.src('tests/**/*.php')
         .pipe(phpunit('', {
             notify: true,
+            clear: true,
+            noCoverage: true,
+            coverageHtml: 'coverage',
             testClass: argv.class,
             testSuite: argv.suite
         }))

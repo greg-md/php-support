@@ -540,14 +540,14 @@ class Arr
 
     public static function &prependRef(array &$array, &$value, &...$values)
     {
-        static::prependKeyRef($array, null, $value);
+        array_unshift($values, null);
 
-        if ($values) {
-            foreach ($values as &$v) {
-                static::prependKeyRef($array, null, $v);
-            }
-            unset($v);
+        $values[0] = &$value;
+
+        foreach (array_reverse($values) as &$v) {
+            static::prependKeyRef($array, null, $v);
         }
+        unset($v);
 
         return $array;
     }
