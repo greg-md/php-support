@@ -384,6 +384,7 @@ class ArrayObjectTest extends TestCase
     public function testMergeValues()
     {
         $this->arrayObject->merge(['a' => [1, 2]]);
+
         $this->arrayObject->merge(['b' => [3, 4]]);
 
         $this->arrayObject->mergeValues();
@@ -624,11 +625,11 @@ class ArrayObjectTest extends TestCase
      */
     public function testShuffle()
     {
-        $this->arrayObject->exchange([1, 2, 3]);
+        $this->arrayObject->exchange($array = range(1, 100));
 
         $this->arrayObject->shuffle();
 
-        $this->assertNotEquals([1, 2, 3], $this->arrayObject->toArray());
+        $this->assertNotEquals($array, $this->arrayObject->toArray());
     }
 
     /**
