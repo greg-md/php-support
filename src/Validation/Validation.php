@@ -17,14 +17,14 @@ class Validation
      */
     protected $validators = [];
 
-    public function __construct(array $validators = [], array $namespaces = [], $suffix = null)
+    public function __construct($validators = [], $namespaces = [], $suffix = null)
     {
         if ($num = func_num_args()) {
-            $this->addValidators($validators);
+            $this->addValidators((array) $validators);
         }
 
         if ($num > 1) {
-            $this->addNamespaces($namespaces);
+            $this->addNamespaces((array) $namespaces);
         }
 
         if ($num > 2) {
@@ -86,13 +86,13 @@ class Validation
             }
         }
 
-        throw new \Exception('Validator `' . $name . '` not found.');
+        throw new ValidationException('Validator `' . $name . '` not found.');
     }
 
     /**
      * @param $validator
      *
-     * @throws \Exception
+     * @throws ValidationException
      *
      * @return ValidatorStrategy
      */
@@ -117,7 +117,7 @@ class Validation
         }
 
         if (!($validator instanceof ValidatorStrategy)) {
-            throw new \Exception('Validator should be an instance of `' . ValidatorStrategy::class . '`.');
+            throw new ValidationException('Validator should be an instance of `' . ValidatorStrategy::class . '`.');
         }
 
         return $validator;
