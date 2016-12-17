@@ -236,7 +236,11 @@ class ResponseTest extends TestCase
 
     private function sendAndCheck($data = '', Response $response = null)
     {
-        ($response ?: $this->response)->send();
+        if (!$response) {
+            $response = $this->response;
+        }
+
+        $response->send();
 
         $this->data = $data;
     }
