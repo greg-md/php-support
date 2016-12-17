@@ -12,11 +12,11 @@ class ValidationTest extends TestCase
     public function it_should_validate_params()
     {
         $validation = new Validation([
-            'foo' => 'required',
+            'foo'  => 'required',
             'foo2' => ['required', ['min', 10]],
         ], 'Greg\\Support\\Validation', 'Validator');
 
-        $this->assertTrue(! $validation->validate(['foo' => 'bar', 'foo2' => 20]));
+        $this->assertTrue(!$validation->validate(['foo' => 'bar', 'foo2' => 20]));
     }
 
     /** @test */
@@ -28,6 +28,6 @@ class ValidationTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        $this->assertTrue(! $validation->validate(['foo' => 'bar']));
+        $this->assertTrue(!$validation->validate(['foo' => 'bar']));
     }
 }
