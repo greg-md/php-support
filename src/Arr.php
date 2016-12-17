@@ -653,7 +653,7 @@ class Arr
 
     public static function &_mapRecursive($until, callable $callable, array &$array, array &...$arrays)
     {
-        $until = (int)$until;
+        $until = (int) $until;
 
         foreach ($array as $key => &$value) {
             $callArgs = [];

@@ -128,7 +128,7 @@ class ResponseTest extends TestCase
 
         $this->assertEquals('foo', $this->response->toString());
 
-        $this->assertEquals('foo', (string)$this->response);
+        $this->assertEquals('foo', (string) $this->response);
     }
 
     public function testSendLocation()

@@ -292,7 +292,7 @@ trait RequestStaticTrait
             $file = Arr::get($_FILES, $key, $else);
 
             if (is_array($key)) {
-                return Arr::mapRecursive(1, function($file) {
+                return Arr::mapRecursive(1, function ($file) {
                     return static::checkFile($file);
                 }, $file);
             }
@@ -303,7 +303,7 @@ trait RequestStaticTrait
         if (!static::$isHumanReadableFiles) {
             $files = [];
 
-            foreach($_FILES as $key => $value) {
+            foreach ($_FILES as $key => $value) {
                 if (is_array($value['name'])) {
                     $files[$key] = static::checkFiles($value);
                 } else {
@@ -327,11 +327,11 @@ trait RequestStaticTrait
             }
         } else {
             if (!is_array($files['name'])) {
-                $files['name'] = (array)$files['name'];
-                $files['type'] = (array)$files['type'];
-                $files['size'] = (array)$files['size'];
-                $files['tmp_name'] = (array)$files['tmp_name'];
-                $files['error'] = (array)$files['error'];
+                $files['name'] = (array) $files['name'];
+                $files['type'] = (array) $files['type'];
+                $files['size'] = (array) $files['size'];
+                $files['tmp_name'] = (array) $files['tmp_name'];
+                $files['error'] = (array) $files['error'];
             }
         }
 
@@ -403,7 +403,7 @@ trait RequestStaticTrait
 
         $indexFiles = [];
 
-        foreach($names as $index => $name) {
+        foreach ($names as $index => $name) {
             $indexFiles['name'][$index] = $name;
             $indexFiles['type'][$index] = $types[$index];
             $indexFiles['size'][$index] = $sizes[$index];

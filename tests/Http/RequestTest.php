@@ -304,11 +304,11 @@ class RequestTest extends TestCase
         $this->assertEquals([$this->data['foo']], TestingRequest::postArray('foo'));
 
         $this->assertEquals([
-            'name' => [$this->files['file3']['name']],
-            'type' => [$this->files['file3']['type']],
-            'size' => [$this->files['file3']['size']],
+            'name'     => [$this->files['file3']['name']],
+            'type'     => [$this->files['file3']['type']],
+            'size'     => [$this->files['file3']['size']],
             'tmp_name' => [$this->files['file3']['tmp_name']],
-            'error' => [$this->files['file3']['error']],
+            'error'    => [$this->files['file3']['error']],
         ], TestingRequest::fileArray('file3'));
 
         TestingRequest::humanReadableFiles();
