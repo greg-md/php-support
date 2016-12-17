@@ -6,11 +6,6 @@ use Greg\Support\Config\ConfigException;
 use Greg\Support\Config\ConfigIni;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ConfigIniTest.
- *
- * @coversDefaultClass Greg\Support\Config\ConfigIni
- */
 class ConfigIniTest extends TestCase
 {
     private $config = [

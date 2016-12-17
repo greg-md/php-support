@@ -644,25 +644,45 @@ class Arr
         return array_map($callable, $array, ...$arrays);
     }
 
-    public static function mapRecursive(callable $callable, array &$array, array &...$arrays)
+    public static function mapRecursive($until, callable $callable, array &$array, array &...$arrays)
     {
         $copy = $array;
 
-        return static::_mapRecursive($callable, $copy, ...$arrays);
+        return static::_mapRecursive($until, $callable, $copy, ...$arrays);
     }
 
-    public static function &_mapRecursive(callable $callable, array &$array, array &...$arrays)
+    public static function &_mapRecursive($until, callable $callable, array &$array, array &...$arrays)
     {
+        $until = (int)$until;
+
         foreach ($array as $key => &$value) {
             $callArgs = [];
 
-            if (is_array($value)) {
+            $breakThis = false;
+
+            if ($until and is_array($value)) {
+                $lastValue = &$value;
+
+                reset($lastValue);
+
+                for ($k = 0; $k < $until; ++$k) {
+                    $lastValue = &$lastValue[key($lastValue)];
+
+                    if (!is_array($lastValue)) {
+                        $breakThis = true;
+
+                        break;
+                    }
+                }
+            }
+
+            if (!$breakThis and is_array($value)) {
                 foreach ($arrays as &$arr) {
                     $callArgs[] = &$arr[$key];
                 }
                 unset($arr);
 
-                static::_mapRecursive($callable, $value, ...$callArgs);
+                static::_mapRecursive($until, $callable, $value, ...$callArgs);
             } else {
                 $callArgs[] = $value;
 

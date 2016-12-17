@@ -9,6 +9,8 @@ trait RequestStaticTrait
 {
     private static $isHumanReadableFiles = false;
 
+    private static $checkFileUpload = true;
+
     public static function protocol()
     {
         return Server::get('SERVER_PROTOCOL');
@@ -172,42 +174,6 @@ trait RequestStaticTrait
         return $_FILES;
     }
 
-    protected static function humanReadableData($data)
-    {
-        foreach ($data as &$item) {
-            if (is_array(current($item))) {
-                $newItem = [];
-
-                foreach ($item as $key => $value) {
-                    static::addNewArrayLevel($value, $key);
-
-                    $newItem = array_replace_recursive($newItem, $value);
-                }
-
-                $item = $newItem;
-            }
-        }
-
-        unset($item);
-
-        return $data;
-    }
-
-    protected static function addNewArrayLevel(&$array, $key)
-    {
-        foreach ($array as &$item) {
-            if (is_array($item)) {
-                static::addNewArrayLevel($item, $key);
-            } else {
-                $item = [$key => $item];
-            }
-        }
-
-        unset($item);
-
-        return true;
-    }
-
     // $_REQUEST
 
     public static function has($key = null)
@@ -326,21 +292,47 @@ trait RequestStaticTrait
             $file = Arr::get($_FILES, $key, $else);
 
             if (is_array($key)) {
-                return static::checkFiles($file);
+                return Arr::mapRecursive(1, function($file) {
+                    return static::checkFile($file);
+                }, $file);
             }
 
             return static::checkFile($file);
         }
 
-        return static::checkFiles($_FILES);
+        if (!static::$isHumanReadableFiles) {
+            $files = [];
+
+            foreach($_FILES as $key => $value) {
+                if (is_array($value['name'])) {
+                    $files[$key] = static::checkFiles($value);
+                } else {
+                    $files[$key] = static::checkFile($value);
+                }
+            }
+
+            return $files;
+        }
+
+        return $_FILES;
     }
 
     public static function fileArray($key, $else = null)
     {
         $files = Arr::get($_FILES, $key, $else);
 
-        if (array_key_exists('name', $files)) {
-            $files = [$files];
+        if (static::$isHumanReadableFiles) {
+            if (array_key_exists('name', $files)) {
+                $files = [$files];
+            }
+        } else {
+            if (!is_array($files['name'])) {
+                $files['name'] = (array)$files['name'];
+                $files['type'] = (array)$files['type'];
+                $files['size'] = (array)$files['size'];
+                $files['tmp_name'] = (array)$files['tmp_name'];
+                $files['error'] = (array)$files['error'];
+            }
         }
 
         return static::checkFiles($files);
@@ -373,7 +365,7 @@ trait RequestStaticTrait
             $files = [$files];
         }
 
-        return $files;
+        return static::checkFiles($files);
     }
 
     protected static function checkHumanReadableFiles(array $files, $mimes = [])
@@ -403,13 +395,29 @@ trait RequestStaticTrait
             throw new RequestException('Requested file is not a request file.');
         }
 
-        foreach ($files['error'] as $key => $error) {
+        $names = Arr::packIndexes($files['name'], '&');
+        $types = Arr::packIndexes($files['type'], '&');
+        $sizes = Arr::packIndexes($files['size'], '&');
+        $tmpNames = Arr::packIndexes($files['tmp_name'], '&');
+        $errors = Arr::packIndexes($files['error'], '&');
+
+        $indexFiles = [];
+
+        foreach($names as $index => $name) {
+            $indexFiles['name'][$index] = $name;
+            $indexFiles['type'][$index] = $types[$index];
+            $indexFiles['size'][$index] = $sizes[$index];
+            $indexFiles['tmp_name'][$index] = $tmpNames[$index];
+            $indexFiles['error'][$index] = $errors[$index];
+        }
+
+        foreach ($indexFiles['error'] as $key => $error) {
             static::checkFile([
-                'name'     => $files['name'][$key],
-                'type'     => $files['type'][$key],
-                'size'     => $files['size'][$key],
-                'tmp_name' => $files['tmp_name'][$key],
-                'error'    => $files['error'][$key],
+                'name'     => $indexFiles['name'][$key],
+                'type'     => $indexFiles['type'][$key],
+                'size'     => $indexFiles['size'][$key],
+                'tmp_name' => $indexFiles['tmp_name'][$key],
+                'error'    => $indexFiles['error'][$key],
             ], $mimes);
         }
 
@@ -430,7 +438,7 @@ trait RequestStaticTrait
             throw new RequestException('Upload file error: ' . Request::UPLOAD_ERROR[$file['error']]);
         }
 
-        if (!is_uploaded_file($file['tmp_name'])) {
+        if (static::$checkFileUpload && !is_uploaded_file($file['tmp_name'])) {
             throw new RequestException('Possible file upload attack.');
         }
 
@@ -439,5 +447,41 @@ trait RequestStaticTrait
         }
 
         return $file;
+    }
+
+    protected static function humanReadableData($data)
+    {
+        foreach ($data as &$item) {
+            if (is_array(current($item))) {
+                $newItem = [];
+
+                foreach ($item as $key => $value) {
+                    static::addNewArrayLevel($value, $key);
+
+                    $newItem = array_replace_recursive($newItem, $value);
+                }
+
+                $item = $newItem;
+            }
+        }
+
+        unset($item);
+
+        return $data;
+    }
+
+    protected static function addNewArrayLevel(&$array, $key)
+    {
+        foreach ($array as &$item) {
+            if (is_array($item)) {
+                static::addNewArrayLevel($item, $key);
+            } else {
+                $item = [$key => $item];
+            }
+        }
+
+        unset($item);
+
+        return true;
     }
 }

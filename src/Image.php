@@ -51,6 +51,10 @@ class Image extends File
 
     public static function typeFile($file)
     {
+        if (!file_exists($file)) {
+            throw new \Exception('File not found!');
+        }
+
         $type = function_exists('exif_imagetype') ? @exif_imagetype($file) : null;
 
         if (!$type) {
@@ -141,7 +145,7 @@ class Image extends File
 
     public static function mimeFile($file)
     {
-        return static::typeToMime(static::typeFile($file));
+        return ($type = static::typeFile($file)) ? static::typeToMime($type) : null;
     }
 
     public static function typeToMime($type)

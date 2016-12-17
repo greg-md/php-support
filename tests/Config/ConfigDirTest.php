@@ -6,11 +6,6 @@ use Greg\Support\Config\ConfigDir;
 use Greg\Support\Config\ConfigException;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ConfigDirTest.
- *
- * @coversDefaultClass Greg\Support\Config\ConfigDir
- */
 class ConfigDirTest extends TestCase
 {
     public function testParse()

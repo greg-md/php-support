@@ -292,7 +292,7 @@ class Response
         return true;
     }
 
-    public static function sendLocation($url = '/', $code = null)
+    public static function sendLocation($url, $code = null)
     {
         if ($code !== null) {
             static::sendCode($code);
@@ -335,26 +335,24 @@ class Response
         return true;
     }
 
-    public static function sendImageFile($file)
-    {
-        $mime = Image::mimeFile($file);
-
-        if (!$mime) {
-            throw new \Exception('File is not an image.');
-        }
-
-        self::sendContentType($mime);
-
-        readfile($file);
-
-        return true;
-    }
-
     public static function sendText($text)
     {
         static::sendContentType('text/plain');
 
         echo $text;
+
+        return true;
+    }
+
+    public static function sendImage($file)
+    {
+        if (!$mime = Image::mimeFile($file)) {
+            throw new ResponseException('File is not an image.');
+        }
+
+        self::sendContentType($mime);
+
+        readfile($file);
 
         return true;
     }
@@ -377,11 +375,15 @@ class Response
         return true;
     }
 
-    public static function sendPng($image)
+    public static function sendPng($image, $quality = null, $filters = null)
     {
         static::sendContentType('image/png');
 
-        imagepng($image);
+        $args = func_get_args();
+
+        array_shift($args);
+
+        imagepng($image, null, ...$args);
 
         return true;
     }
@@ -400,7 +402,7 @@ class Response
         return true;
     }
 
-    public static function flushContent()
+    public static function flush()
     {
         echo str_pad('', 4096);
 

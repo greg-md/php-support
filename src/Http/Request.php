@@ -53,11 +53,6 @@ class Request
         return $this;
     }
 
-    protected function validators()
-    {
-        return [];
-    }
-
     public function validate(array $validators)
     {
         $validation = new Validation($validators);
@@ -67,5 +62,10 @@ class Request
         }
 
         return $this;
+    }
+
+    protected function validators()
+    {
+        return [];
     }
 }
