@@ -14,7 +14,7 @@ class EmailValidatorTest extends TestCase
     {
         $validation = new EmailValidator();
 
-        $this->assertTrue(! $validation->validate('john@doe.com'));
+        $this->assertTrue(!$validation->validate('john@doe.com'));
     }
 
     /**

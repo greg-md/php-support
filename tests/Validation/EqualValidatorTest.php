@@ -12,7 +12,7 @@ class EqualValidatorTest extends TestCase
     {
         $validation = new EqualValidator('foo');
 
-        $this->assertTrue(! $validation->validate('bar', ['foo' => 'bar']));
+        $this->assertTrue(!$validation->validate('bar', ['foo' => 'bar']));
     }
 
     /** @test */

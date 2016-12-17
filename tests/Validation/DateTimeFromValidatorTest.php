@@ -14,7 +14,7 @@ class DateTimeFromValidatorTest extends TestCase
     {
         $validation = new DateTimeFromValidator('today');
 
-        $this->assertTrue(! $validation->validate('tomorrow'));
+        $this->assertTrue(!$validation->validate('tomorrow'));
     }
 
     /**
@@ -24,7 +24,7 @@ class DateTimeFromValidatorTest extends TestCase
     {
         $validation = new DateTimeFromValidator('today', true);
 
-        $this->assertTrue(! $validation->validate('today'));
+        $this->assertTrue(!$validation->validate('today'));
     }
 
     /**
@@ -34,7 +34,7 @@ class DateTimeFromValidatorTest extends TestCase
     {
         $validation = new DateTimeFromValidator('today');
 
-        $this->assertTrue(! $validation->validate(null));
+        $this->assertTrue(!$validation->validate(null));
     }
 
     /**

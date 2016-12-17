@@ -12,11 +12,11 @@ class IntValidatorTest extends TestCase
     {
         $validation = new IntValidator();
 
-        $this->assertTrue(! $validation->validate(1));
+        $this->assertTrue(!$validation->validate(1));
 
-        $this->assertTrue(! $validation->validate('2'));
+        $this->assertTrue(!$validation->validate('2'));
 
-        $this->assertTrue(! $validation->validate(-1));
+        $this->assertTrue(!$validation->validate(-1));
     }
 
     /** @test */
@@ -24,9 +24,9 @@ class IntValidatorTest extends TestCase
     {
         $validation = new IntValidator();
 
-        $this->assertTrue(! $validation->validate(1));
+        $this->assertTrue(!$validation->validate(1));
 
-        $this->assertTrue(! $validation->validate('2'));
+        $this->assertTrue(!$validation->validate('2'));
     }
 
     /** @test */

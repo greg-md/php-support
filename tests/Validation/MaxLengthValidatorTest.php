@@ -12,7 +12,7 @@ class MaxLengthValidatorTest extends TestCase
     {
         $validation = new MaxLengthValidator(6);
 
-        $this->assertTrue(! $validation->validate('Hello'));
+        $this->assertTrue(!$validation->validate('Hello'));
     }
 
     /** @test */

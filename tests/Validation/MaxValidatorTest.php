@@ -12,9 +12,9 @@ class MaxValidatorTest extends TestCase
     {
         $validation = new MaxValidator(10);
 
-        $this->assertTrue(! $validation->validate(5));
+        $this->assertTrue(!$validation->validate(5));
 
-        $this->assertTrue(! $validation->validate(10));
+        $this->assertTrue(!$validation->validate(10));
     }
 
     /** @test */

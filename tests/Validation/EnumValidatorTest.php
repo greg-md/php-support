@@ -14,9 +14,9 @@ class EnumValidatorTest extends TestCase
     {
         $validation = new EnumValidator([1, 2, 3]);
 
-        $this->assertTrue(! $validation->validate(2));
+        $this->assertTrue(!$validation->validate(2));
 
-        $this->assertTrue(! $validation->validate('2'));
+        $this->assertTrue(!$validation->validate('2'));
     }
 
     /**
@@ -26,9 +26,9 @@ class EnumValidatorTest extends TestCase
     {
         $validation = new EnumValidator([1, 2, 3], true);
 
-        $this->assertTrue(! $validation->validate(2));
+        $this->assertTrue(!$validation->validate(2));
 
-        $this->assertFalse(! $validation->validate('2'));
+        $this->assertFalse(!$validation->validate('2'));
     }
 
     /**

@@ -12,7 +12,7 @@ class LengthValidatorTest extends TestCase
     {
         $validation = new LengthValidator(5);
 
-        $this->assertTrue(! $validation->validate('Hello'));
+        $this->assertTrue(!$validation->validate('Hello'));
     }
 
     /** @test */

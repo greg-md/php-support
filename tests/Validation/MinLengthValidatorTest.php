@@ -12,7 +12,7 @@ class MinLengthValidatorTest extends TestCase
     {
         $validation = new MinLengthValidator(6);
 
-        $this->assertTrue(! $validation->validate('Hello!'));
+        $this->assertTrue(!$validation->validate('Hello!'));
     }
 
     /** @test */
