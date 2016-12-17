@@ -17,29 +17,26 @@ class IntValidator implements ValidatorStrategy
 
     public function validate($value, array $values = [])
     {
-        if ($value != (int) $value) {
+        if (!is_numeric($value) or $value != (int) $value) {
             return ['IntError' => 'Value is not integer.'];
         }
 
-        if ($this->unsigned() and $value < 0) {
+        if ($this->isUnsigned() and $value < 0) {
             return ['IntUnsignedError' => 'Value is not unsigned.'];
         }
 
         return [];
     }
 
-    public function unsigned($value = null)
+    public function unsigned($value = true)
     {
-        if (func_num_args()) {
-            if (!is_bool($value)) {
-                $value = ($value === 'unsigned');
-            }
+        $this->unsigned = (bool) $value;
 
-            $this->unsigned = (bool) $value;
+        return $this;
+    }
 
-            return $this;
-        }
-
+    public function isUnsigned()
+    {
         return $this->unsigned;
     }
 }

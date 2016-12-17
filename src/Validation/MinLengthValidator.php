@@ -18,7 +18,7 @@ class MinLengthValidator implements ValidatorStrategy
         $length = $this->getLength();
 
         if (mb_strlen($value) < $length) {
-            return ['MinLength' => 'Value length should be grater or equal with ' . $length . '.'];
+            return ['MinLengthError' => 'Value length should be grater or equal with ' . $length . '.'];
         }
 
         return [];

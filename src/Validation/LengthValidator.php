@@ -15,9 +15,7 @@ class LengthValidator implements ValidatorStrategy
 
     public function validate($value, array $values = [])
     {
-        $length = $this->getLength();
-
-        if (mb_strlen($value) != $length) {
+        if (mb_strlen($value) != $length = $this->getLength()) {
             return ['LengthError' => 'Value length should be ' . $length . '.'];
         }
 

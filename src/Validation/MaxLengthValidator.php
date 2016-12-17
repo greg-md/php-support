@@ -18,7 +18,7 @@ class MaxLengthValidator implements ValidatorStrategy
         $length = $this->getLength();
 
         if (mb_strlen($value) > $length) {
-            return ['MaxLength' => 'Value length should be less or equal with ' . $length . '.'];
+            return ['MaxLengthError' => 'Value length should be less or equal with ' . $length . '.'];
         }
 
         return [];

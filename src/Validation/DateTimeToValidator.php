@@ -28,7 +28,7 @@ class DateTimeToValidator implements ValidatorStrategy
 
             $to = DateTime::toTimestamp($this->getTo());
 
-            if ($this->includeTo() ? $value >= $to : $value > $to) {
+            if ($this->includeTo() ? $value > $to : $value >= $to) {
                 return ['DateTimeToError' => 'Value should be less than ' . DateTime::toDateTimeString($to) . '.'];
             }
         }
