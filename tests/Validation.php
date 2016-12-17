@@ -5,7 +5,7 @@ namespace Greg\Support\Tests;
 use Greg\Support\Validation\Validation;
 use PHPUnit\Framework\TestCase;
 
-class ValidationTest extends TestCase
+class Validation extends TestCase
 {
     /**
      * @var Validation

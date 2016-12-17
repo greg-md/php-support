@@ -23,7 +23,7 @@ class InNamespaceRegexTest extends TestCase
     {
         $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).))*?)\}\}', $this->regex->toString());
 
-        $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).))*?)\}\}', (string)$this->regex);
+        $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).))*?)\}\}', (string) $this->regex);
     }
 
     public function testDisableInQuotes()
