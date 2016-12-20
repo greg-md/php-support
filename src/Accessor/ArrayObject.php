@@ -286,14 +286,14 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
 
     public function map(callable $callable, array ...$arrays)
     {
-        $this->accessor = Arr::map($callable, $this->accessor, ...$arrays);
+        $this->accessor = Arr::map($this->accessor, $callable, ...$arrays);
 
         return $this;
     }
 
-    public function mapRecursive($until, callable $callable, array ...$arrays)
+    public function mapRecursive(callable $callable, $until = 0, array ...$arrays)
     {
-        $this->accessor = Arr::mapRecursive($until, $callable, $this->accessor, ...$arrays);
+        $this->accessor = Arr::mapRecursive($this->accessor, $callable, $until, ...$arrays);
 
         return $this;
     }

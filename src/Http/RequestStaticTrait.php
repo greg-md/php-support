@@ -292,9 +292,9 @@ trait RequestStaticTrait
             $file = Arr::get($_FILES, $key, $else);
 
             if (is_array($key)) {
-                return Arr::mapRecursive(1, function ($file) {
+                return Arr::mapRecursive($file, function ($file) {
                     return static::checkFile($file);
-                }, $file);
+                }, 1);
             }
 
             return static::checkFile($file);
