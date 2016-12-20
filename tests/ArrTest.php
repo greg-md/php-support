@@ -516,11 +516,11 @@ class ArrTest extends TestCase
 
         $this->assertEquals(1, Arr::first($accessor));
 
-        $this->assertEquals(2, Arr::first($accessor, function($value) {
+        $this->assertEquals(2, Arr::first($accessor, function ($value) {
             return $value === 2;
         }));
 
-        $this->assertEquals('else', Arr::first($accessor, function($value) {
+        $this->assertEquals('else', Arr::first($accessor, function ($value) {
             return $value === -1;
         }, 'else'));
     }
@@ -535,11 +535,11 @@ class ArrTest extends TestCase
 
         $this->assertEquals('else', Arr::last($empty, null, 'else'));
 
-        $this->assertEquals(2, Arr::last($accessor, function($value) {
+        $this->assertEquals(2, Arr::last($accessor, function ($value) {
             return $value === 2;
         }));
 
-        $this->assertEquals('else', Arr::last($accessor, function($value) {
+        $this->assertEquals('else', Arr::last($accessor, function ($value) {
             return $value === -1;
         }, 'else'));
     }
@@ -635,11 +635,11 @@ class ArrTest extends TestCase
     {
         $accessor = [
             [
-                'key' => 'a',
+                'key'   => 'a',
                 'value' => 1,
             ],
             [
-                'key' => 'b',
+                'key'   => 'b',
                 'value' => 2,
             ],
         ];
@@ -688,9 +688,9 @@ class ArrTest extends TestCase
     public function testFixIndexes()
     {
         $accessor = [
-            'a' => 1,
+            'a'   => 1,
             'b.b' => 2,
-            'c' => [
+            'c'   => [
                 'c.c' => 3,
             ],
         ];
@@ -723,8 +723,8 @@ class ArrTest extends TestCase
         ];
 
         $this->assertEquals([
-            'a' => 1,
-            'b.b' => 2,
+            'a'     => 1,
+            'b.b'   => 2,
             'c.c.c' => 3,
         ], Arr::packIndexes($accessor));
     }
@@ -748,8 +748,8 @@ class ArrTest extends TestCase
         $accessor['a'] = 11;
 
         $this->assertEquals([
-            'a' => 11,
-            'b.b' => 2,
+            'a'     => 11,
+            'b.b'   => 2,
             'c.c.c' => 3,
         ], $packed);
     }
@@ -757,8 +757,8 @@ class ArrTest extends TestCase
     public function testUnpackIndexes()
     {
         $accessor = [
-            'a' => 1,
-            'b.b' => 2,
+            'a'     => 1,
+            'b.b'   => 2,
             'c.c.c' => 3,
         ];
 

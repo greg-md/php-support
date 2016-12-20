@@ -514,7 +514,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (Arr::hasIndex($else, $ik)) {
+                if (self::hasIndex($else, $ik)) {
                     $value = static::getIndexArrayForce($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $value = static::getIndexArrayForce($array, $ik, null, $delimiter);
@@ -543,7 +543,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (Arr::hasIndex($else, $ik)) {
+                if (self::hasIndex($else, $ik)) {
                     $value = &static::getIndexArrayForceRef($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $newElse = null;
@@ -929,7 +929,7 @@ class Arr
         foreach ($array as $key => $value) {
             $response = (array) call_user_func_array($callable, [$value, $key]);
 
-            static::set($new, Arr::get($response, 1), Arr::get($response, 0));
+            static::set($new, self::get($response, 1), self::get($response, 0));
         }
 
         return $new;
