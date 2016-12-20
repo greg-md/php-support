@@ -87,6 +87,7 @@ class DateTime extends \DateTime
         return time() - static::toTimestamp($time);
     }
 
+    /* Don't know the meaning of this methods.
     public static function passedTimeUntilNow($time, $interval)
     {
         return static::passedTimeUntil($time, $interval);
@@ -102,4 +103,5 @@ class DateTime extends \DateTime
 
         return $newTime <= $until;
     }
+    */
 }
