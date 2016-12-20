@@ -451,7 +451,7 @@ class Arr
 
             foreach ($indexes = $index as $iv => $ik) {
                 if (self::hasIndex($else, $ik)) {
-                    $value = static::getIndex($array, $ik, static::getIndexRef($else, $ik), $delimiter);
+                    $value = static::getIndexArray($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $value = static::getIndexArray($array, $ik, null, $delimiter);
                 }
@@ -480,7 +480,7 @@ class Arr
 
             foreach ($indexes = $index as $iv => $ik) {
                 if (self::hasIndex($else, $ik)) {
-                    $value = &static::getIndexRef($array, $ik, static::getIndexRef($else, $ik), $delimiter);
+                    $value = &static::getIndexArrayRef($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $newElse = null;
 
