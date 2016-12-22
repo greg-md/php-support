@@ -1019,32 +1019,45 @@ class Arr
         return $new;
     }
 
+    public static function valuesRecursive(&$array, $until = 0)
+    {
+        $values = array_values($array);
+
+        foreach($values as &$value) {
+            if (is_array($value) and !static::breakThis($value, $until)) {
+                $value = static::valuesRecursive($value, $until);
+            }
+        }
+        unset($value);
+
+        return $values;
+    }
+
+    protected static function breakThis(array &$array, $until)
+    {
+        if ($until = (int) $until) {
+            $lastValue = &$array;
+
+            for ($k = 0; $k < $until; ++$k) {
+                reset($lastValue);
+
+                $lastValue = &$lastValue[key($lastValue)];
+
+                if (!is_array($lastValue)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     protected static function _mapRecursive(array &$array, callable $callable, $until = 0, array &...$arrays)
     {
-        $until = (int) $until;
-
         foreach ($array as $key => &$value) {
             $callArgs = [];
 
-            $breakThis = false;
-
-            if ($until and is_array($value)) {
-                $lastValue = &$value;
-
-                reset($lastValue);
-
-                for ($k = 0; $k < $until; ++$k) {
-                    $lastValue = &$lastValue[key($lastValue)];
-
-                    if (!is_array($lastValue)) {
-                        $breakThis = true;
-
-                        break;
-                    }
-                }
-            }
-
-            if (!$breakThis and is_array($value)) {
+            if (is_array($value) and !static::breakThis($value, $until)) {
                 foreach ($arrays as &$arr) {
                     $callArgs[] = &$arr[$key];
                 }

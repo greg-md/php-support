@@ -778,4 +778,17 @@ class ArrTest extends TestCase
             ],
         ], $unpacked);
     }
+
+    public function testArrayValuesRecursive()
+    {
+        $accessor = [
+            'a' => 1,
+            'b' => [
+                'b' => 2,
+            ],
+            'c' => 3,
+        ];
+
+        $this->assertEquals([1, [2], 3], Arr::valuesRecursive($accessor));
+    }
 }
