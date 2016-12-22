@@ -1023,7 +1023,7 @@ class Arr
     {
         $values = array_values($array);
 
-        foreach($values as &$value) {
+        foreach ($values as &$value) {
             if (is_array($value) and !static::breakThis($value, $until)) {
                 $value = static::valuesRecursive($value, $until);
             }
