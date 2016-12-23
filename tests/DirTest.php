@@ -8,6 +8,5 @@ class DirTest extends TestCase
 {
     public function testFix()
     {
-        
     }
 }
