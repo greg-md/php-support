@@ -330,7 +330,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (self::hasIndex($else, $ik)) {
+                if (static::hasIndex($else, $ik)) {
                     $value = static::getIndex($array, $ik, static::getIndex($else, $ik), $delimiter);
                 } else {
                     $value = static::getIndex($array, $ik, null, $delimiter);
@@ -359,7 +359,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (self::hasIndex($else, $ik)) {
+                if (static::hasIndex($else, $ik)) {
                     $value = &static::getIndexRef($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $newElse = null;
@@ -390,7 +390,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (self::hasIndex($else, $ik)) {
+                if (static::hasIndex($else, $ik)) {
                     $value = static::getIndexForce($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $value = static::getIndexForce($array, $ik, null, $delimiter);
@@ -419,7 +419,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (self::hasIndex($else, $ik)) {
+                if (static::hasIndex($else, $ik)) {
                     $value = &static::getIndexForceRef($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $newElse = null;
@@ -450,7 +450,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (self::hasIndex($else, $ik)) {
+                if (static::hasIndex($else, $ik)) {
                     $value = static::getIndexArray($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $value = static::getIndexArray($array, $ik, null, $delimiter);
@@ -479,7 +479,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (self::hasIndex($else, $ik)) {
+                if (static::hasIndex($else, $ik)) {
                     $value = &static::getIndexArrayRef($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $newElse = null;
@@ -514,7 +514,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (self::hasIndex($else, $ik)) {
+                if (static::hasIndex($else, $ik)) {
                     $value = static::getIndexArrayForce($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $value = static::getIndexArrayForce($array, $ik, null, $delimiter);
@@ -543,7 +543,7 @@ class Arr
             $else = (array) $else;
 
             foreach ($indexes = $index as $iv => $ik) {
-                if (self::hasIndex($else, $ik)) {
+                if (static::hasIndex($else, $ik)) {
                     $value = &static::getIndexArrayForceRef($array, $ik, static::getIndexRef($else, $ik), $delimiter);
                 } else {
                     $newElse = null;
@@ -929,7 +929,7 @@ class Arr
         foreach ($array as $key => $value) {
             $response = (array) call_user_func_array($callable, [$value, $key]);
 
-            static::set($new, self::get($response, 1), self::get($response, 0));
+            static::set($new, static::get($response, 1), static::get($response, 0));
         }
 
         return $new;
