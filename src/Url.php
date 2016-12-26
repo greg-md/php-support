@@ -104,9 +104,15 @@ class Url
         return $url;
     }
 
-    public static function base($url = '/')
+    public static function base($url = '/', $full = false)
     {
-        return Request::baseUri() . $url;
+        $url = Request::baseUri() . $url;
+
+        if ($full) {
+            $url = static::full($url);
+        }
+
+        return $url;
     }
 
     public static function addQuery($url, $query)
