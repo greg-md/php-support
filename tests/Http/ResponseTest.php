@@ -163,9 +163,9 @@ class ResponseTest extends TestCase
 
     public function testSendWrongImage()
     {
-        $this->expectException(ResponseException::class);
+        $this->expectException(\Exception::class);
 
-        $this->expectExceptionMessage('File is not an image.');
+        $this->expectExceptionMessage('File is not a valid image.');
 
         Response::sendImage(__DIR__ . '/image.txt');
     }

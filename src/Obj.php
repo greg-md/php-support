@@ -4,183 +4,31 @@ namespace Greg\Support;
 
 class Obj
 {
-    public static function loadInstance($className, ...$args)
+    public static function call(callable $callable, ...$args)
     {
-        return static::loadInstanceArgs($className, $args);
+        return call_user_func_array($callable, $args);
     }
 
-    /**
-     * @param $className
-     * @param array $args
-     *
-     * @return object
-     */
-    public static function loadInstanceArgs($className, array $args = [])
+    public static function callRef(callable $callable, &...$args)
     {
-        $class = new \ReflectionClass($className);
-
-        $self = $class->newInstanceWithoutConstructor();
-
-        //method_exists($self, '__bind') && $self->__bind();
-
-        // Call all methods which starts with __bind
-        /*
-        foreach (get_class_methods($self) as $methodName) {
-            if ($methodName[0] === '_' and $methodName !== '__bind' and Str::startsWith($methodName, '__bind')) {
-                $self->{$methodName}();
-            }
-        }
-        */
-
-        if ($constructor = $class->getConstructor()) {
-            $constructor->invokeArgs($self, $args);
-        }
-
-        return $self;
+        return call_user_func_array($callable, $args);
     }
 
-    public static function expectedArgs(callable $callable)
+    public static function callMixed(callable $callable, ...$args)
     {
-        if (Str::isScalar($callable) and strpos($callable, '::')) {
-            $callable = explode('::', $callable, 2);
-        }
-
-        if (is_array($callable)) {
-            return (new \ReflectionMethod($callable[0], $callable[1]))->getParameters();
-        }
-
-        return (new \ReflectionFunction($callable))->getParameters();
+        return call_user_func_array($callable, static::mixedArgs($callable, $args));
     }
 
-    public static function callWith(callable $callable, ...$args)
+    public static function callMixedRef(callable $callable, &...$args)
     {
-        return static::callWithRef($callable, ...$args);
+        return call_user_func_array($callable, static::mixedArgs($callable, $args));
     }
 
-    public static function callWithRef(callable $callable, &...$args)
+    public static function baseName($class)
     {
-        return static::callWithArgs($callable, $args);
-    }
+        $class = is_object($class) ? get_class($class) : $class;
 
-    public static function callWithArgs(callable $callable, array $args = [])
-    {
-        return call_user_func_array($callable, static::getCallableMixedArgs($callable, $args));
-    }
-
-    public static function getCallableMixedArgs(callable $callable, array $args = [])
-    {
-        if ($expectedArgs = static::expectedArgs($callable)) {
-            return static::fetchExpectedArgs($expectedArgs, $args, null, true);
-        }
-
-        return [];
-    }
-
-    public static function fetchExpectedArgs(array $expectedArgs, array $customArgs = [], callable $expectedCallback = null, $allowMixed = false)
-    {
-        $assocArgs = [];
-
-        $mixedArgs = [];
-
-        foreach ($customArgs as $key => $value) {
-            if (is_int($key)) {
-                if (is_object($value)) {
-                    $assocArgs[get_class($value)] = $value;
-
-                    foreach (class_implements($value) as $interface) {
-                        $assocArgs[$interface] = $value;
-                    }
-
-                    foreach (static::parentClasses($value) as $class) {
-                        $assocArgs[$class] = $value;
-                    }
-                } else {
-                    if ($allowMixed) {
-                        $mixedArgs[] = $value;
-                    } else {
-                        throw new \Exception('Expected value is not an object.');
-                    }
-                }
-            } else {
-                $assocArgs[$key] = $value;
-            }
-        }
-
-        /* @var $expectedArgs \ReflectionParameter[] */
-        $expectedArgs = array_reverse($expectedArgs);
-
-        $returnArgs = [];
-
-        $countMixedExpected = 0;
-
-        if ($allowMixed) {
-            $countMixedExpected = Arr::count($expectedArgs, function (\ReflectionParameter $expectedArg) {
-                try {
-                    return !$expectedArg->getClass();
-                } catch (\Exception $e) {
-                    return false;
-                }
-            });
-        }
-
-        foreach ($expectedArgs as $expectedArg) {
-            if ($expectedArg->isVariadic()) {
-                $returnArgs = array_merge($returnArgs, array_reverse(array_slice($customArgs, $expectedArg->getPosition())));
-
-                continue;
-            }
-
-            $expectedType = $expectedArg->getClass();
-
-            if ($allowMixed and !$expectedType) {
-                --$countMixedExpected;
-
-                if (Arr::has($mixedArgs, $countMixedExpected)) {
-                    $returnArgs[] = $mixedArgs[$countMixedExpected];
-                } else {
-                    if (!$returnArgs and $expectedArg->isOptional()) {
-                        continue;
-                    }
-
-                    if (Arr::has($customArgs, $expectedArg->getPosition())) {
-                        $returnArgs[] = $customArgs[$expectedArg->getPosition()];
-                    } else {
-                        $returnArgs[] = static::expectedArg($expectedArg);
-                    }
-                }
-            } else {
-                if (!$returnArgs and !$expectedType and $expectedArg->isOptional()) {
-                    continue;
-                }
-
-                if ($assocArgs and Arr::has($assocArgs, $expectedType->getName())) {
-                    $returnArgs[] = $assocArgs[$expectedType->getName()];
-                } elseif (is_callable($expectedCallback)) {
-                    $returnArgs[] = call_user_func_array($expectedCallback, [$expectedArg]);
-                } else {
-                    $returnArgs[] = static::expectedArg($expectedArg);
-                }
-            }
-        }
-
-        $returnArgs = array_reverse($returnArgs);
-
-        return $returnArgs;
-    }
-
-    public static function expectedArg(\ReflectionParameter $expectedArg)
-    {
-        if (!$expectedArg->isOptional()) {
-            if ($function = $expectedArg->getDeclaringFunction() and $class = $expectedArg->getDeclaringClass()) {
-                throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `' . $class->getName() . '::' . $function->getName() . '`.');
-            }
-
-            throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `' . $function->getName() . '`.');
-        }
-
-        $arg = $expectedArg->getDefaultValue();
-
-        return $arg;
+        return basename(str_replace('\\', '/', $class));
     }
 
     public static function classExists($name, array $prefixes = [], $namePrefix = null)
@@ -236,7 +84,7 @@ class Obj
     protected static function fetchParentClasses(\ReflectionClass $class, &$classes = [])
     {
         if ($parent = $class->getParentClass()) {
-            $classes[] = $parent->getName();
+            $classes[$parent->getName()] = $parent->getName();
 
             return static::fetchParentClasses($parent, $classes);
         }
@@ -244,20 +92,135 @@ class Obj
         return $classes;
     }
 
-    public static function baseName($class)
+    protected static function mixedArgs(callable $callable, array &$args = [])
     {
-        $class = is_object($class) ? get_class($class) : $class;
+        if ($expectedArgs = static::expectedArgs($callable)) {
+            return static::fetchExpectedArgs($expectedArgs, $args, null, true);
+        }
 
-        return basename(str_replace('\\', '/', $class));
+        return [];
     }
 
-    public static function callCallable(callable $callable, ...$args)
+    protected static function expectedArgs(callable $callable)
     {
-        return call_user_func_array($callable, $args);
+        if (Str::isScalar($callable) and strpos($callable, '::')) {
+            $callable = explode('::', $callable, 2);
+        }
+
+        if (is_array($callable)) {
+            return (new \ReflectionMethod($callable[0], $callable[1]))->getParameters();
+        }
+
+        return (new \ReflectionFunction($callable))->getParameters();
     }
 
-    public static function callCallableWith(callable $callable, ...$args)
+    protected static function fetchExpectedArgs(array $expectedArgs, array &$customArgs = [], callable $expectedCallback = null, $allowMixed = false)
     {
-        return call_user_func_array($callable, static::getCallableMixedArgs($callable, $args));
+        static::splitCustomArgs($customArgs, $allowMixed, $assocArgs, $mixedArgs);
+
+        /* @var $expectedArgs \ReflectionParameter[] */
+        $expectedArgs = array_reverse($expectedArgs);
+
+        $returnArgs = [];
+
+        $countMixedExpected = $allowMixed ? static::countMixableParams($expectedArgs) : 0;
+
+        foreach ($expectedArgs as $expectedArg) {
+            if ($expectedArg->isVariadic()) {
+                $returnArgs = array_merge($returnArgs, array_reverse(array_slice($customArgs, $expectedArg->getPosition())));
+
+                continue;
+            }
+
+            $expectedType = $expectedArg->getClass();
+
+            if ($allowMixed and !$expectedType) {
+                --$countMixedExpected;
+
+                if (Arr::has($mixedArgs, $countMixedExpected)) {
+                    $returnArgs[] = &$mixedArgs[$countMixedExpected];
+                } else {
+                    if (!$returnArgs and $expectedArg->isOptional()) {
+                        continue;
+                    }
+
+                    if (Arr::has($customArgs, $expectedArg->getPosition())) {
+                        $returnArgs[] = $customArgs[$expectedArg->getPosition()];
+                    } else {
+                        $returnArgs[] = static::expectedArg($expectedArg);
+                    }
+                }
+            } else {
+                if (!$returnArgs and !$expectedType and $expectedArg->isOptional()) {
+                    continue;
+                }
+
+                if ($assocArgs and Arr::has($assocArgs, $expectedType->getName())) {
+                    $returnArgs[] = &$assocArgs[$expectedType->getName()];
+                } elseif (is_callable($expectedCallback)) {
+                    $returnArgs[] = &call_user_func_array($expectedCallback, [$expectedArg]);
+                } else {
+                    $returnArgs[] = static::expectedArg($expectedArg);
+                }
+            }
+        }
+
+        $returnArgs = array_reverse($returnArgs);
+
+        return $returnArgs;
+    }
+
+    protected static function splitCustomArgs($customArgs, $allowMixed = false, &$assocArgs = [], &$mixedArgs = [])
+    {
+        foreach ($customArgs as $key => &$value) {
+            if (is_int($key)) {
+                if (is_object($value)) {
+                    $assocArgs[get_class($value)] = &$value;
+
+                    foreach (class_implements($value) as $interface) {
+                        $assocArgs[$interface] = &$value;
+                    }
+
+                    foreach (static::parentClasses($value) as $class) {
+                        $assocArgs[$class] = &$value;
+                    }
+                } else {
+                    if ($allowMixed) {
+                        $mixedArgs[] = &$value;
+                    } else {
+                        throw new \Exception('Expected value is not an object.');
+                    }
+                }
+            } else {
+                $assocArgs[$key] = &$value;
+            }
+        }
+        unset($value);
+
+        return [$assocArgs, $mixedArgs];
+    }
+
+    protected static function countMixableParams($expectedArgs)
+    {
+        return Arr::count($expectedArgs, function (\ReflectionParameter $expectedArg) {
+            try {
+                return !$expectedArg->getClass();
+            } catch (\Exception $e) {
+                return false;
+            }
+        });
+    }
+
+    protected static function expectedArg(\ReflectionParameter $expectedArg)
+    {
+        if (!$expectedArg->isOptional()) {
+            if ($function = $expectedArg->getDeclaringFunction() and $class = $expectedArg->getDeclaringClass()) {
+                throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `' . $class->getName() . '::' . $function->getName() . '`.');
+            }
+
+            throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `' . $function->getName() . '`.');
+        }
+
+        return $expectedArg->getDefaultValue();
     }
 }

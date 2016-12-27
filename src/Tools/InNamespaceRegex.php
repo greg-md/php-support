@@ -1,6 +1,6 @@
 <?php
 
-namespace Greg\Support\Regex;
+namespace Greg\Support\Tools;
 
 class InNamespaceRegex
 {

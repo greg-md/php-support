@@ -346,11 +346,7 @@ class Response
 
     public static function sendImage($file)
     {
-        if (!$mime = Image::mimeFile($file)) {
-            throw new ResponseException('File is not an image.');
-        }
-
-        self::sendContentType($mime);
+        self::sendContentType(Image::getMime($file));
 
         readfile($file);
 

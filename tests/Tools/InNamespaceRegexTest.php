@@ -1,8 +1,8 @@
 <?php
 
-namespace Greg\Support\Tests\Regex;
+namespace Greg\Support\Tests\Tools;
 
-use Greg\Support\Regex\InNamespaceRegex;
+use Greg\Support\Tools\InNamespaceRegex;
 use PHPUnit\Framework\TestCase;
 
 class InNamespaceRegexTest extends TestCase

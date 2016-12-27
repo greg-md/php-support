@@ -4,21 +4,17 @@ namespace Greg\Support;
 
 class IncludePath
 {
-    const APPEND_PATH = 'append';
-
-    const PREPEND_PATH = 'prepend';
-
     public static function append($path)
     {
-        return static::add($path, static::APPEND_PATH);
+        return static::add($path);
     }
 
     public static function prepend($path)
     {
-        return static::add($path, static::PREPEND_PATH);
+        return static::add($path, true);
     }
 
-    public static function add($path, $type = self::APPEND_PATH)
+    protected static function add($path, $prepend = false)
     {
         $path = (array) $path;
 
@@ -26,7 +22,7 @@ class IncludePath
 
         $path = array_values($path);
 
-        $path = $type == static::APPEND_PATH ? array_merge($incPaths, $path) : array_merge($path, $incPaths);
+        $path = $prepend ? array_merge($path, $incPaths) : array_merge($incPaths, $path);
 
         $path = array_unique($path);
 
@@ -40,8 +36,8 @@ class IncludePath
         return set_include_path('.');
     }
 
-    public static function fileExists($file)
+    public static function exists($fileName)
     {
-        return stream_resolve_include_path($file) !== false;
+        return stream_resolve_include_path($fileName) !== false;
     }
 }

@@ -4,44 +4,78 @@ namespace Greg\Support;
 
 class File
 {
-    private $path = null;
+    private $fileName = null;
 
-    public function __construct($path)
+    public function __construct($fileName)
     {
-        $this->path = (string) $path;
+        $this->fileName = (string) $fileName;
+
+        $this->check($this->fileName);
 
         return $this;
     }
 
-    public function path()
+    public function fileName()
     {
-        return $this->path;
+        return $this->fileName;
+    }
+
+    public static function check($filename, $throwException = true)
+    {
+        if (!file_exists($filename)) {
+            if ($throwException) {
+                throw new \Exception('File does not exists.');
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function isValid($fileName)
+    {
+        return static::check($fileName, false);
     }
 
     public function extension($point = false)
     {
-        return $this->getExtension($this->path, $point);
+        return $this->getCheckedExtension($this->fileName, $point);
+    }
+
+    public static function getExtension($fileName, $point = false)
+    {
+        static::check($fileName);
+
+        return static::getCheckedExtension($fileName, $point);
+    }
+
+    protected static function getCheckedExtension($fileName, $point = false)
+    {
+        $fileName = explode('.', $fileName);
+
+        return ($point ? '.' : '') . (count($fileName) > 1 ? end($fileName) : null);
     }
 
     public function mime()
     {
-        return $this->getMime($this->path);
+        return $this->getCheckedMime($this->fileName);
     }
 
-    public static function getExtension($file, $point = false)
+    public static function getMime($fileName)
     {
-        $file = explode('.', $file);
+        static::check($fileName);
 
-        return ($point ? '.' : '') . (count($file) > 1 ? end($file) : null);
+        return static::getCheckedMime($fileName);
     }
 
-    public static function getMime($file)
+    protected static function getCheckedMime($fileName)
     {
-        return (new \finfo())->file($file, FILEINFO_MIME_TYPE);
+        return (new \finfo())->file($fileName, FILEINFO_MIME_TYPE);
     }
 
-    public static function makeDir($file, $recursive = false)
+    public static function makeDir($fileName, $recursive = false)
     {
-        return Dir::make(dirname($file), $recursive);
+        return Dir::make(dirname($fileName), $recursive);
     }
 }

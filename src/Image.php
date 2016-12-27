@@ -4,61 +4,39 @@ namespace Greg\Support;
 
 class Image extends File
 {
-    public function type()
+    public static function check($filename, $throwException = true)
     {
-        return $this->typeFile($this->getFilePath());
-    }
-
-    public function size()
-    {
-        return $this->sizeFile($this->getFilePath());
-    }
-
-    public function width()
-    {
-        return $this->widthFile($this->getFilePath());
-    }
-
-    public function height()
-    {
-        return $this->heightFile($this->getFilePath());
-    }
-
-    public function is()
-    {
-        return $this->isFile($this->getFilePath());
-    }
-
-    public function get()
-    {
-        return $this->getFile($this->getFilePath());
-    }
-
-    public function saveJPEG($image, $fixDir = false, $quality = 75)
-    {
-        return $this->saveJPEGFile($image, $this->getFilePath(), $fixDir, $quality);
-    }
-
-    public function saveGIF($image, $fixDir = false)
-    {
-        return $this->saveGIFFile($image, $this->getFilePath(), $fixDir);
-    }
-
-    public function savePNG($image, $fixDir = false, $quality = 9, $filters = PNG_NO_FILTER)
-    {
-        return $this->savePNGFile($image, $this->getFilePath(), $fixDir, $quality, $filters);
-    }
-
-    public static function typeFile($file)
-    {
-        if (!file_exists($file)) {
-            throw new \Exception('File not found!');
+        if (!parent::check($filename, $throwException)) {
+            return false;
         }
 
-        $type = function_exists('exif_imagetype') ? @exif_imagetype($file) : null;
+        if (!static::getCheckedType($filename)) {
+            if ($throwException) {
+                throw new \Exception('File is not a valid image.');
+            }
 
-        if (!$type) {
-            list($width, $height, $type) = @getimagesize($file);
+            return false;
+        }
+
+        return true;
+    }
+
+    public function type()
+    {
+        return $this->getCheckedType($this->fileName());
+    }
+
+    public static function getType($fileName)
+    {
+        static::check($fileName);
+
+        return static::getCheckedType($fileName);
+    }
+
+    protected static function getCheckedType($fileName)
+    {
+        if (!$type = function_exists('exif_imagetype') ? @exif_imagetype($fileName) : null) {
+            list($width, $height, $type) = @getimagesize($fileName);
 
             unset($width, $height);
 
@@ -68,128 +46,188 @@ class Image extends File
         return $type;
     }
 
-    public static function typeToExt($type, $point = true)
+    public function size()
     {
-        return image_type_to_extension($type, $point);
+        return $this->getSize($this->fileName());
     }
 
-    public static function extFile($file, $point = false)
+    public static function getSize($fileName)
     {
-        $type = static::typeFile($file);
+        static::check($fileName);
 
-        $ext = static::typeToExt($type, false);
-
-        switch ($ext) {
-            case 'jpeg':
-                $ext = 'jpg';
-
-                break;
-            case 'tiff':
-                $ext = 'tif';
-
-                break;
-        }
-
-        if ($point) {
-            $ext = '.' . $ext;
-        }
-
-        return $ext;
+        return static::getCheckedSize($fileName);
     }
 
-    public static function sizeFile($file)
+    protected static function getCheckedSize($fileName)
     {
-        $width = $height = 0;
+        list($width, $height) = @getimagesize($fileName);
 
-        if (file_exists($file)) {
-            list($width, $height) = @getimagesize($file);
+        if (!$width or !$height) {
+            $image = static::getCheckedResource($fileName);
 
-            if (!$width or !$height) {
-                $theFile = static::getFile($file);
+            if (!$width) {
+                $width = imagesx($image);
+            }
 
-                if (!$width) {
-                    $width = imagesx($theFile);
-                }
-
-                if (!$height) {
-                    $height = imagesy($theFile);
-                }
+            if (!$height) {
+                $height = imagesy($image);
             }
         }
 
         return [$width, $height];
     }
 
-    public static function widthFile($file)
+    public function resource()
     {
-        list($width, $height) = static::sizeFile($file);
-
-        unset($height);
-
-        return $width;
+        return $this->getCheckedResource($this->fileName());
     }
 
-    public static function heightFile($file)
+    public static function getResource($fileName)
     {
-        list($width, $height) = static::sizeFile($file);
+        static::check($fileName);
 
-        unset($width);
-
-        return $height;
+        return static::getCheckedResource($fileName);
     }
 
-    public static function isFile($file)
-    {
-        return static::typeFile($file) ? true : false;
-    }
-
-    public static function mimeFile($file)
-    {
-        return ($type = static::typeFile($file)) ? static::typeToMime($type) : null;
-    }
-
-    public static function typeToMime($type)
-    {
-        return image_type_to_mime_type($type);
-    }
-
-    public static function getFile($file)
+    protected static function getCheckedResource($fileName)
     {
         $image = null;
 
-        switch (static::typeFile($file)) {
+        switch (static::getCheckedType($fileName)) {
             case IMAGETYPE_GIF:
-                $image = imagecreatefromgif($file);
+                $image = imagecreatefromgif($fileName);
 
                 break;
             case IMAGETYPE_JPEG:
-                $image = imagecreatefromjpeg($file);
+                $image = imagecreatefromjpeg($fileName);
 
                 break;
             case IMAGETYPE_PNG:
-                $image = imagecreatefrompng($file);
+                $image = imagecreatefrompng($fileName);
 
                 break;
         }
 
         if (!$image) {
-            $image = imagecreatefromstring(file_get_contents($file));
+            $image = imagecreatefromstring(file_get_contents($fileName));
 
             if (!$image) {
-                throw new \Exception('Wrong file type.');
+                throw new \Exception('Wrong image type.');
             }
         }
 
         return $image;
     }
 
-    public static function saveJPEGFile($image, $file, $fixDir = false, $quality = 75)
+    public function width()
     {
-        $fixDir && static::fixFileDir($file, true);
+        return $this->getCheckedWidth($this->fileName());
+    }
 
-        imagejpeg($image, $file, $quality);
+    public static function getWidth($fileName)
+    {
+        static::check($fileName);
+
+        return static::getCheckedWidth($fileName);
+    }
+
+    protected static function getCheckedWidth($fileName)
+    {
+        list($width, $height) = static::getCheckedSize($fileName);
+
+        unset($height);
+
+        return $width;
+    }
+
+    public function height()
+    {
+        return $this->getCheckedHeight($this->fileName());
+    }
+
+    public static function getHeight($fileName)
+    {
+        static::check($fileName);
+
+        return static::getCheckedHeight($fileName);
+    }
+
+    protected static function getCheckedHeight($fileName)
+    {
+        list($width, $height) = static::getCheckedSize($fileName);
+
+        unset($width);
+
+        return $height;
+    }
+
+    public function saveJPEG($image, $fixDir = false, $quality = 75)
+    {
+        return $this->saveJPEGFile($image, $this->fileName(), $fixDir, $quality);
+    }
+
+    public static function saveJPEGFile($image, $fileName, $fixDir = false, $quality = 75)
+    {
+        $fixDir && static::makeDir($fileName, true);
+
+        imagejpeg($image, $fileName, $quality);
 
         return true;
+    }
+
+    public function saveGIF($image, $fixDir = false)
+    {
+        return $this->saveGIFFile($image, $this->fileName(), $fixDir);
+    }
+
+    public static function saveGIFFile($image, $fileName, $fixDir = false)
+    {
+        $fixDir && static::makeDir($fileName, true);
+
+        imagegif($image, $fileName);
+
+        return true;
+    }
+
+    public function savePNG($image, $fixDir = false, $quality = 9, $filters = PNG_NO_FILTER)
+    {
+        return $this->savePNGFile($image, $this->fileName(), $fixDir, $quality, $filters);
+    }
+
+    public static function savePNGFile($image, $fileName, $fixDir = false, $quality = 9, $filters = PNG_NO_FILTER)
+    {
+        $fixDir && static::makeDir($fileName, true);
+
+        imagepng($image, $fileName, $quality, $filters);
+
+        return true;
+    }
+
+    protected static function getCheckedExtension($fileName, $point = false)
+    {
+        $extension = image_type_to_extension(static::getCheckedType($fileName), $point);
+
+        switch ($extension) {
+            case 'jpeg':
+                $extension = 'jpg';
+
+                break;
+            case 'tiff':
+                $extension = 'tif';
+
+                break;
+        }
+
+        if ($point) {
+            $extension = '.' . $extension;
+        }
+
+        return $extension;
+    }
+
+    protected static function getCheckedMime($fileName)
+    {
+        return image_type_to_mime_type(static::getCheckedType($fileName));
     }
 
     public static function getJPEG($image, $quality = 75)
@@ -201,15 +239,6 @@ class Image extends File
         return ob_get_clean();
     }
 
-    public static function saveGIFFile($image, $file, $fixDir = false)
-    {
-        $fixDir && static::fixFileDir($file, true);
-
-        imagegif($image, $file);
-
-        return true;
-    }
-
     public static function getGIF($image)
     {
         ob_start();
@@ -217,15 +246,6 @@ class Image extends File
         imagegif($image, null);
 
         return ob_get_clean();
-    }
-
-    public static function savePNGFile($image, $file, $fixDir = false, $quality = 9, $filters = PNG_NO_FILTER)
-    {
-        $fixDir && static::fixFileDir($file, true);
-
-        imagepng($image, $file, $quality, $filters);
-
-        return true;
     }
 
     public static function getPNG($image, $quality = 9, $filters = PNG_NO_FILTER)

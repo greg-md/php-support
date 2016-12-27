@@ -1,12 +1,10 @@
 <?php
 
-namespace Greg\Support;
-
-use Greg\Support\Regex\InNamespaceRegex;
+namespace Greg\Support\Tools;
 
 class Regex
 {
-    protected static $pattern = '#';
+    private static $delimiter = '#';
 
     public static function inNamespace($start, $end, $recursive = true)
     {
@@ -20,11 +18,21 @@ class Regex
 
     public static function quote($string, $delimiter = null)
     {
-        return preg_quote($string, $delimiter ?: static::$pattern);
+        return preg_quote($string, $delimiter ?: static::$delimiter);
     }
 
     public static function pattern($regex, $flags = null)
     {
-        return static::$pattern . $regex . static::$pattern . $flags;
+        return static::$delimiter . $regex . static::$delimiter . $flags;
+    }
+
+    public static function setDelimiter($delimiter)
+    {
+        static::$delimiter = (string) $delimiter;
+    }
+
+    public static function getDelimiter()
+    {
+        return static::$delimiter;
     }
 }

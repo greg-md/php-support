@@ -4,21 +4,23 @@ namespace Greg\Support;
 
 class Session
 {
-    protected static $persistent = false;
+    private static $persistent = false;
 
-    protected static $handler = null;
+    private static $handler = null;
 
-    protected static $flashKey = '__FLASH__';
+    private static $flashKey = '__FLASH__';
 
-    protected static $flash = [];
+    private static $flash = [];
 
-    protected static $flashLoaded = false;
+    private static $flashLoaded = false;
 
     public static function reloadFlash()
     {
         $flash = static::get(static::$flashKey);
 
         static::del(static::$flashKey);
+
+        static::$flashLoaded = true;
 
         return static::$flash = $flash;
     }
@@ -27,8 +29,6 @@ class Session
     {
         if (!static::$flashLoaded) {
             static::reloadFlash();
-
-            static::$flashLoaded = true;
         }
 
         return static::$flash;
@@ -71,6 +71,8 @@ class Session
         foreach ($config as $key => $value) {
             static::setIni($key, $value);
         }
+
+        return true;
     }
 
     public static function setIni($var, $value)
@@ -206,25 +208,11 @@ class Session
 
     // Start standard array methods
 
-    public static function is()
+    public static function has($key = null)
     {
         static::start();
 
-        return (bool) $_SESSION;
-    }
-
-    public static function all()
-    {
-        static::start();
-
-        return $_SESSION;
-    }
-
-    public static function has($key)
-    {
-        static::start();
-
-        return Arr::has($_SESSION, $key);
+        return func_num_args() ? Arr::has($_SESSION, $key) : (bool) $_SESSION;
     }
 
     public static function set($key, $value)
@@ -241,18 +229,22 @@ class Session
         return Arr::setRef($_SESSION, $key, $value);
     }
 
-    public static function get($key, $else = null)
+    public static function get($key = null, $else = null)
     {
         static::start();
 
-        return Arr::get($_SESSION, $key, $else);
+        return func_num_args() ? Arr::get($_SESSION, $key, $else) : $_SESSION;
     }
 
-    public static function &getRef($key, &$else = null)
+    public static function &getRef($key = null, &$else = null)
     {
         static::start();
 
-        return Arr::getRef($_SESSION, $key, $else);
+        if (func_num_args()) {
+            return Arr::getRef($_SESSION, $key, $else);
+        }
+
+        return $_SESSION;
     }
 
     public static function getForce($key, $else = null)
@@ -271,7 +263,9 @@ class Session
 
     public static function getArray($key, $else = null)
     {
-        return static::getArrayRef($key, $else);
+        static::start();
+
+        return Arr::getArray($_SESSION, $key, $else);
     }
 
     public static function &getArrayRef($key, &$else = null)
@@ -279,6 +273,20 @@ class Session
         static::start();
 
         return Arr::getArrayRef($_SESSION, $key, $else);
+    }
+
+    public static function getArrayForce($key, $else = null)
+    {
+        static::start();
+
+        return Arr::getArrayForce($_SESSION, $key, $else);
+    }
+
+    public static function &getArrayForceRef($key, &$else = null)
+    {
+        static::start();
+
+        return Arr::getArrayForceRef($_SESSION, $key, $else);
     }
 
     public static function del($key)

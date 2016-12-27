@@ -12,7 +12,7 @@ class ServerIni
     public static function get($var)
     {
         if (($value = ini_get($var)) === false) {
-            throw new \Exception('Server option `' . $var . '` does not exist.');
+            throw new \Exception('Server option `' . $var . '` does not exists.');
         }
 
         return $value;
@@ -23,12 +23,14 @@ class ServerIni
         foreach ($params as $key => $value) {
             static::set($key, $value);
         }
+
+        return true;
     }
 
     public static function set($var, $value)
     {
         if (($oldValue = ini_set($var, $value)) === false) {
-            throw new \Exception('Server option `' . $var . '` cannot be set.');
+            throw new \Exception('Server option `' . $var . '` can not be set.');
         }
 
         return $oldValue;
