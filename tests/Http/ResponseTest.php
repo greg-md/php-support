@@ -4,7 +4,6 @@ namespace Greg\Support\Tests\Http;
 
 use Greg\Support\Http\Request;
 use Greg\Support\Http\Response;
-use Greg\Support\Http\ResponseException;
 use PHPUnit\Framework\TestCase;
 
 /**

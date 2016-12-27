@@ -7,12 +7,10 @@ use PHPUnit\Framework\TestCase;
 
 trait FooTrait
 {
-
 }
 
 trait FooBarTrait
 {
-
 }
 
 class Foo
@@ -30,7 +28,7 @@ class ObjTest extends TestCase
     /** @test */
     public function it_calls()
     {
-        $this->assertEquals([1, 2, 3], Obj::call(function(...$args) {
+        $this->assertEquals([1, 2, 3], Obj::call(function (...$args) {
             return $args;
         }, 1, 2, 3));
 
@@ -40,7 +38,7 @@ class ObjTest extends TestCase
 
         $three = 3;
 
-        $this->assertEquals([&$one, &$two, &$three], Obj::callRef(function(&...$args) {
+        $this->assertEquals([&$one, &$two, &$three], Obj::callRef(function (&...$args) {
             $args[0] *= -1;
 
             return $args;
@@ -52,7 +50,7 @@ class ObjTest extends TestCase
     {
         $foo = new Foo();
 
-        $this->assertEquals([$foo, 1, 2], Obj::callMixed(function(Foo $foo, $one, $two) {
+        $this->assertEquals([$foo, 1, 2], Obj::callMixed(function (Foo $foo, $one, $two) {
             return func_get_args();
         }, 1, $foo, 2));
 
@@ -60,7 +58,7 @@ class ObjTest extends TestCase
 
         $two = 2;
 
-        $this->assertEquals([&$foo, &$one, &$two], Obj::callMixedRef(function(Foo $foo, &$one, $two) {
+        $this->assertEquals([&$foo, &$one, &$two], Obj::callMixedRef(function (Foo $foo, &$one, $two) {
             $one *= -1;
 
             return func_get_args();

@@ -35,7 +35,7 @@ class ImageTest extends TestCase
     {
         $this->assertCount(2, Image::getSize($this->fileName));
     }
-    
+
     /** @test */
     public function it_gets_image_resource()
     {
