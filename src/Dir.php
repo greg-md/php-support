@@ -4,7 +4,7 @@ namespace Greg\Support;
 
 class Dir
 {
-    public static function fix($dir, $recursive = false)
+    public static function make($dir, $recursive = false)
     {
         if (!file_exists($dir)) {
             ErrorHandler::throwException();
@@ -15,11 +15,6 @@ class Dir
         }
 
         return true;
-    }
-
-    public static function fixRecursive($dir)
-    {
-        return static::fix($dir, true);
     }
 
     public static function unlink($dir)
@@ -50,6 +45,11 @@ class Dir
             mkdir($destination, $permissions);
         }
 
+        return static::copyFolder($source, $destination, $permissions);
+    }
+
+    protected static function copyFolder($source, $destination, $permissions = 0755)
+    {
         // Loop through the folder
         $dir = dir($source);
 

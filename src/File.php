@@ -4,56 +4,44 @@ namespace Greg\Support;
 
 class File
 {
-    protected $filePath = null;
+    private $path = null;
 
-    public function __construct($filePath)
+    public function __construct($path)
     {
-        $this->setFilePath($filePath);
+        $this->path = (string) $path;
 
         return $this;
     }
 
-    public function ext($point = false)
+    public function path()
     {
-        return $this->extFile($this->getFilePath(), $point);
+        return $this->path;
+    }
+
+    public function extension($point = false)
+    {
+        return $this->getExtension($this->path, $point);
     }
 
     public function mime()
     {
-        return $this->mimeFile($this->getFilePath());
+        return $this->getMime($this->path);
     }
 
-    public static function extFile($file, $point = false)
+    public static function getExtension($file, $point = false)
     {
         $file = explode('.', $file);
 
         return ($point ? '.' : '') . (count($file) > 1 ? end($file) : null);
     }
 
-    public static function mimeFile($file)
+    public static function getMime($file)
     {
         return (new \finfo())->file($file, FILEINFO_MIME_TYPE);
     }
 
-    public static function fixFileDir($file, $recursive = false)
+    public static function makeDir($file, $recursive = false)
     {
-        return Dir::fix(dirname($file), $recursive);
-    }
-
-    public static function fixFileDirRecursive($file)
-    {
-        return static::fixFileDir($file, true);
-    }
-
-    public function setFilePath($file)
-    {
-        $this->filePath = (string) $file;
-
-        return $this;
-    }
-
-    public function getFilePath()
-    {
-        return $this->filePath;
+        return Dir::make(dirname($file), $recursive);
     }
 }
