@@ -38,38 +38,38 @@ class File
         return static::check($fileName, false);
     }
 
-    public function extension($point = false)
+    public function getExtension($point = false)
     {
-        return $this->getCheckedExtension($this->fileName, $point);
+        return $this->checkedExtension($this->fileName, $point);
     }
 
-    public static function getExtension($fileName, $point = false)
+    public static function extension($fileName, $point = false)
     {
         static::check($fileName);
 
-        return static::getCheckedExtension($fileName, $point);
+        return static::checkedExtension($fileName, $point);
     }
 
-    protected static function getCheckedExtension($fileName, $point = false)
+    protected static function checkedExtension($fileName, $point = false)
     {
         $fileName = explode('.', $fileName);
 
         return ($point ? '.' : '') . (count($fileName) > 1 ? end($fileName) : null);
     }
 
-    public function mime()
+    public function getMime()
     {
-        return $this->getCheckedMime($this->fileName);
+        return $this->checkedMime($this->fileName);
     }
 
-    public static function getMime($fileName)
+    public static function mime($fileName)
     {
         static::check($fileName);
 
-        return static::getCheckedMime($fileName);
+        return static::checkedMime($fileName);
     }
 
-    protected static function getCheckedMime($fileName)
+    protected static function checkedMime($fileName)
     {
         return (new \finfo())->file($fileName, FILEINFO_MIME_TYPE);
     }

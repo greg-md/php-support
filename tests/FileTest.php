@@ -13,9 +13,9 @@ class FileTest extends TestCase
     {
         $file = new File(__FILE__);
 
-        $this->assertEquals('.php', $file->extension(true));
+        $this->assertEquals('.php', $file->getExtension(true));
 
-        $this->assertEquals('.php', File::getExtension(__FILE__, true));
+        $this->assertEquals('.php', File::extension(__FILE__, true));
     }
 
     /** @test */
@@ -23,9 +23,9 @@ class FileTest extends TestCase
     {
         $file = new File(__FILE__);
 
-        $this->assertEquals('text/x-php', $file->mime());
+        $this->assertEquals('text/x-php', $file->getMime());
 
-        $this->assertEquals('text/x-php', File::getMime(__FILE__));
+        $this->assertEquals('text/x-php', File::mime(__FILE__));
     }
 
     /** @test */

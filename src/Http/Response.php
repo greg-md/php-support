@@ -346,7 +346,7 @@ class Response
 
     public static function sendImage($file)
     {
-        self::sendContentType(Image::getMime($file));
+        self::sendContentType(Image::mime($file));
 
         readfile($file);
 
