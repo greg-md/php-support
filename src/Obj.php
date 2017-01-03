@@ -151,14 +151,14 @@ class Obj
                     }
                 }
             } else {
-                if (!$returnArgs and !$expectedType and $expectedArg->isOptional()) {
-                    continue;
-                }
+//                if (!$returnArgs and !$expectedType and $expectedArg->isOptional()) {
+//                    continue;
+//                }
 
                 if ($assocArgs and Arr::has($assocArgs, $expectedType->getName())) {
                     $returnArgs[] = &$assocArgs[$expectedType->getName()];
-                } elseif (is_callable($expectedCallback)) {
-                    $returnArgs[] = &call_user_func_array($expectedCallback, [$expectedArg]);
+//                } elseif (is_callable($expectedCallback)) {
+//                    $returnArgs[] = &call_user_func_array($expectedCallback, [$expectedArg]);
                 } else {
                     $returnArgs[] = static::expectedArg($expectedArg);
                 }
