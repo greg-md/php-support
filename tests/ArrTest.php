@@ -653,7 +653,7 @@ class ArrTest extends TestCase
                 'b' => '4',
                 'c' => '44',
             ],
-        ], Arr::group($accessor, function($row) {
+        ], Arr::group($accessor, function ($row) {
             return $row['a'];
         }));
     }
@@ -819,7 +819,7 @@ class ArrTest extends TestCase
                 ],
                 [
                     'c' => -3,
-                ]
+                ],
             ],
         ], $unpacked);
     }

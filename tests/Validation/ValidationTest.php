@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class InvalidValidator
 {
-
 }
 
 class ValidationTest extends TestCase

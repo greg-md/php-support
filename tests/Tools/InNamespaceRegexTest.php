@@ -36,7 +36,7 @@ class InNamespaceRegexTest extends TestCase
 
         $this->assertEquals(['!', '!'], $regex->getIn());
 
-        $this->assertEquals('[a]', $regex->replaceCallback(function($matches) {
+        $this->assertEquals('[a]', $regex->replaceCallback(function ($matches) {
             return '[' . $matches[1] . ']';
         }, '!a!'));
     }

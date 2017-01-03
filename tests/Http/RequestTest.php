@@ -340,7 +340,7 @@ class RequestTest extends TestCase
             'files' => [
                 'file1' => $this->humanFiles['files']['file1'],
                 'file2' => $this->humanFiles['files']['file2'],
-            ]
+            ],
         ], TestingRequest::fileIndex(['files.file1', 'files.file2']));
     }
 
