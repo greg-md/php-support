@@ -218,7 +218,7 @@ class ResponseTest extends TestCase
 
         $eTag = '"' . md5($lastModified) . '"';
 
-        $this->sendAndCheckTrue(!Response::isModifiedSince(time()));
+        $this->sendAndCheckTrue(!Response::isModifiedSince('now'));
 
         $_SERVER['HTTP_IF_MODIFIED_SINCE'] = $lastModified;
 
@@ -231,6 +231,33 @@ class ResponseTest extends TestCase
         $_SERVER['HTTP_IF_NONE_MATCH'] = 'wrong';
 
         $this->sendAndCheckTrue(!Response::isModifiedSince(time(), 60));
+
+        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = null;
+
+        $this->sendAndCheckTrue(!Response::isModifiedSince(time() - 30, 20));
+
+        $lastModified = substr(date('r', time()), 0, -5) . 'GMT';
+
+        $eTag = '"' . md5($lastModified) . '"';
+
+        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = substr(date('r', time() - 20), 0, -5) . 'GMT';
+
+        $_SERVER['HTTP_IF_NONE_MATCH'] = $eTag;
+
+        $this->sendAndCheckTrue(!Response::isModifiedSince(time()));
+    }
+
+    public function testIsModifiedSinceIfExpired()
+    {
+        $lastModified = substr(date('r', time() - 30), 0, -5) . 'GMT';
+
+        $eTag = '"' . md5($lastModified) . '"';
+
+        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = $lastModified;
+
+        $_SERVER['HTTP_IF_NONE_MATCH'] = $eTag;
+
+        $this->sendAndCheckTrue(!Response::isModifiedSince(time() - 30, 20));
     }
 
     private function sendAndCheck($data = '', Response $response = null)

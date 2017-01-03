@@ -10,6 +10,8 @@ class ColorTest extends TestCase
     public function testGenerator()
     {
         $this->assertEquals('#32cc00', Color::generate(40));
+
+        $this->assertEquals('#0000ff', Color::generate(101));
     }
 
     public function testHex2rgb()

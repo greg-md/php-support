@@ -4,12 +4,12 @@ namespace Greg\Support;
 
 class ErrorHandler
 {
-    public static function throwException()
+    public static function throwException($e = \Exception::class)
     {
-        set_error_handler(function ($errNo, $errStr/*, $errFile, $errLine*/) {
+        set_error_handler(function ($errNo, $errStr/*, $errFile, $errLine*/) use ($e) {
             unset($errNo);
 
-            throw new \Exception($errStr);
+            throw new $e($errStr);
         });
 
         return true;

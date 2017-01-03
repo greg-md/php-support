@@ -418,7 +418,7 @@ class Response
         $modifiedSince = Request::modifiedSince();
 
         if ($maxAge > 0) {
-            $serverTime = Request::time();
+            $serverTime = time();
 
             if ($modifiedSince) {
                 $modifiedSinceTime = new \DateTime($modifiedSince, new \DateTimeZone('UTC'));

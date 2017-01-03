@@ -22,6 +22,10 @@ class DirTest extends TestCase
      */
     public function copy_test_directory()
     {
+        file_put_contents(__DIR__ . '/test/test/file.txt', 'Test');
+
+        symlink(__DIR__ . '/test/test/file.txt', __DIR__ . '/test/test/file_link.txt');
+
         Dir::copy(__DIR__ . '/test/test', __DIR__ . '/test/test_copy');
 
         $this->assertDirectoryExists(__DIR__ . '/test/test_copy');

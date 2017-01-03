@@ -26,18 +26,38 @@ class InNamespaceRegexTest extends TestCase
         $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).))*?)\}\}', (string) $this->regex);
     }
 
+    public function testSingle()
+    {
+        $regex = new InNamespaceRegex('!');
+
+        $this->assertEquals('\!((?>(?:(?!\!)(?!\!).))*?)\!', $regex->toString());
+
+        $this->assertEquals('\!((?>(?:(?!\!)(?!\!).))*?)\!', (string) $regex);
+
+        $this->assertEquals(['!', '!'], $regex->getIn());
+
+        $this->assertEquals('[a]', $regex->replaceCallback(function($matches) {
+            return '[' . $matches[1] . ']';
+        }, '!a!'));
+    }
+
     public function testDisableInQuotes()
     {
         $this->regex->disableInQuotes();
 
         $this->assertEquals('\{\{((?>(?:\'.*?\'|".*?"|(?!\{\{)(?!\}\}).))*?)\}\}', $this->regex->toString());
+
+        $this->assertEquals([
+            ["'", "'"],
+            ['"', '"'],
+        ], $this->regex->disableIn());
     }
 
     public function testRecursive()
     {
-        $this->regex->recursive();
+        $regex = new InNamespaceRegex('{{', '}}', true);
 
-        $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).)|(?R))*?)\}\}', $this->regex->toString());
+        $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).)|(?R))*?)\}\}', $regex->toString());
     }
 
     public function testRecursiveGroup()

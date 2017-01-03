@@ -17,5 +17,9 @@ class MathTest extends TestCase
         $this->assertEquals(0, Math::canonicalDivision('1/0'));
 
         $this->assertEquals('2/3', Math::canonicalDivision('34/51'));
+
+        $this->assertEquals('3/2', Math::canonicalDivision('51/34'));
+
+        $this->assertEquals(2, Math::canonicalDivision('4/2'));
     }
 }

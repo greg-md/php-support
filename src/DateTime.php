@@ -26,11 +26,7 @@ class DateTime extends \DateTime
     {
         $string = strftime($format, static::toTimestamp($time));
 
-        if (PHP_OS == 'WINNT') {
-            $string = iconv('windows-1251', 'UTF-8', $string);
-        }
-
-        return $string;
+        return static::fixCharset($string);
     }
 
     public static function toTimestamp($time)
@@ -104,4 +100,13 @@ class DateTime extends \DateTime
         return $newTime <= $until;
     }
     */
+
+    protected static function fixCharset($string)
+    {
+        if (PHP_OS == 'WINNT') {
+            $string = iconv('windows-1251', 'UTF-8', $string);
+        }
+
+        return $string;
+    }
 }

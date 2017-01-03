@@ -4,7 +4,13 @@ namespace Greg\Support\Tests\Validation;
 
 use Greg\Support\Validation\Validation;
 use Greg\Support\Validation\ValidationException;
+use Greg\Support\Validation\ValidatorStrategy;
 use PHPUnit\Framework\TestCase;
+
+class InvalidValidator
+{
+
+}
 
 class ValidationTest extends TestCase
 {
@@ -28,6 +34,22 @@ class ValidationTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        $this->assertTrue(!$validation->validate(['foo' => 'bar']));
+        $this->expectExceptionMessage('Validator `notFound` not found.');
+
+        $validation->validate(['foo' => 'bar']);
+    }
+
+    /** @test */
+    public function it_throw_an_invalid_validator()
+    {
+        $validation = new Validation([
+            'foo' => new InvalidValidator(),
+        ]);
+
+        $this->expectException(ValidationException::class);
+
+        $this->expectExceptionMessage('Validator `' . InvalidValidator::class . '` should be an instance of `' . ValidatorStrategy::class . '`.');
+
+        $validation->validate(['foo' => 'bar']);
     }
 }

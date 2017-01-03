@@ -559,9 +559,11 @@ class ArrTest extends TestCase
     {
         $accessor = [1, [2, 3]];
 
-        $result = Arr::mapRecursive($accessor, function ($n) {
-            return pow($n, 2);
-        });
+        $helper = [2, [2, 2]];
+
+        $result = Arr::mapRecursive($accessor, function ($n, $k) {
+            return pow($n, $k);
+        }, 0, $helper);
 
         $this->assertEquals([1, [4, 9]], $result);
     }
@@ -590,19 +592,23 @@ class ArrTest extends TestCase
             [
                 'a' => '1',
                 'b' => '2',
+                'c' => '22',
             ],
             [
                 'a' => '3',
                 'b' => '4',
+                'c' => '44',
             ],
         ];
 
         $this->assertEquals([
             1 => [
                 'b' => '2',
+                'c' => '22',
             ],
             3 => [
                 'b' => '4',
+                'c' => '44',
             ],
         ], Arr::group($accessor, 'a', true, true));
 
@@ -611,15 +617,45 @@ class ArrTest extends TestCase
                 2 => [
                     'a' => '1',
                     'b' => '2',
+                    'c' => '22',
                 ],
             ],
             3 => [
                 4 => [
                     'a' => '3',
                     'b' => '4',
+                    'c' => '44',
                 ],
             ],
         ], Arr::group($accessor, 2));
+
+        $this->assertEquals([
+            1 => [
+                2 => [
+                    'c' => '22',
+                ],
+            ],
+            3 => [
+                4 => [
+                    'c' => '44',
+                ],
+            ],
+        ], Arr::group($accessor, 2, true, true));
+
+        $this->assertEquals([
+            1 => [
+                'a' => '1',
+                'b' => '2',
+                'c' => '22',
+            ],
+            3 => [
+                'a' => '3',
+                'b' => '4',
+                'c' => '44',
+            ],
+        ], Arr::group($accessor, function($row) {
+            return $row['a'];
+        }));
     }
 
     public function testInArrayValues()
@@ -758,8 +794,11 @@ class ArrTest extends TestCase
     {
         $accessor = [
             'a'     => 1,
+            'a.a'   => 11,
             'b.b'   => 2,
+            'b.'    => -2,
             'c.c.c' => 3,
+            'c..c'  => -3,
         ];
 
         $unpacked = Arr::unpackIndexesRef($accessor);
@@ -767,14 +806,20 @@ class ArrTest extends TestCase
         $accessor['b.b'] = 22;
 
         $this->assertEquals([
-            'a' => 1,
+            'a' => [
+                'a' => 11,
+            ],
             'b' => [
                 'b' => 22,
+                -2,
             ],
             'c' => [
                 'c' => [
                     'c' => 3,
                 ],
+                [
+                    'c' => -3,
+                ]
             ],
         ], $unpacked);
     }
@@ -790,5 +835,7 @@ class ArrTest extends TestCase
         ];
 
         $this->assertEquals([1, [2], 3], Arr::valuesRecursive($accessor));
+
+        $this->assertEquals([1, ['b' => 2], 3], Arr::valuesRecursive($accessor, 1));
     }
 }

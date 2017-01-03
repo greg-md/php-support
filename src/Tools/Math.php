@@ -34,7 +34,7 @@ class Math
             }
         }
 
-        return $up . '/' . $down;
+        return $up . ($down !== 1 ? '/' . $down : '');
     }
 
     protected static function getMoreCanonical($more, $less)

@@ -19,6 +19,30 @@ class FileTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_file_name()
+    {
+        $file = new File(__FILE__);
+
+        $this->assertEquals(__FILE__, $file->fileName());
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_file_do_not_exists()
+    {
+        $this->expectException(\Exception::class);
+
+        new File(__DIR__ . '/not_found.bla');
+    }
+
+    /** @test */
+    public function it_checks_undefined_file()
+    {
+        $this->assertFalse(File::check(__DIR__ . '/not_found.bla', false));
+
+        $this->assertFalse(File::isValid(__DIR__ . '/not_found.bla'));
+    }
+
+    /** @test */
     public function it_returns_file_mime()
     {
         $file = new File(__FILE__);

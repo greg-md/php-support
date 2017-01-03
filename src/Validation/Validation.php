@@ -64,6 +64,10 @@ class Validation
                 $keyValidators = explode('|', $keyValidators);
             }
 
+            if (is_object($keyValidators)) {
+                $keyValidators = [$keyValidators];
+            }
+
             foreach ($keyValidators as $keyValidator) {
                 $validator = $this->fetchValidator($keyValidator);
 
@@ -117,7 +121,7 @@ class Validation
         }
 
         if (!($validator instanceof ValidatorStrategy)) {
-            throw new ValidationException('Validator should be an instance of `' . ValidatorStrategy::class . '`.');
+            throw new ValidationException('Validator `' . get_class($validator) . '` should be an instance of `' . ValidatorStrategy::class . '`.');
         }
 
         return $validator;

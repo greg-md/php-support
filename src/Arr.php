@@ -1012,7 +1012,11 @@ class Arr
         foreach ($array as $index => &$value) {
             $sub = static::unpackToIndexPath($new, $index, $delimiter);
 
-            $sub[0][$sub[1]] = &$value;
+            if ($sub[1] === '') {
+                $sub[0][] = &$value;
+            } else {
+                $sub[0][$sub[1]] = &$value;
+            }
         }
         unset($value);
 
@@ -1089,7 +1093,7 @@ class Arr
         $lastKey = array_pop($indexes);
 
         foreach ($indexes as $k) {
-            if ($k === null) {
+            if ($k === '') {
                 $sub = &$sub[];
             } else {
                 if (is_array($sub) and static::has($sub, $k) and !is_array($sub[$k])) {

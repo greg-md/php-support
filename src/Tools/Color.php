@@ -14,10 +14,6 @@ class Color
             if ($point <= $p) {
                 $range = $p - $lowerP;
 
-                if ($range < 1) {
-                    $range = 1;
-                }
-
                 $rangePct = ($point - $lowerP) / $range;
 
                 $pctLower = 1 - $rangePct;
@@ -40,7 +36,7 @@ class Color
             $lowerP = $p;
         }
 
-        return end($palette);
+        return static::rgb2hex(static::hex2rgb(end($palette)));
     }
 
     public static function hex2rgb($hex)

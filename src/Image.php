@@ -176,11 +176,7 @@ class Image extends File
                 break;
         }
 
-        if ($point) {
-            $extension = '.' . $extension;
-        }
-
-        return $extension;
+        return ($point ? '.' : '') . $extension;
     }
 
     protected static function checkedMime($fileName)

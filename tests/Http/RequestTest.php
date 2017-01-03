@@ -11,6 +11,8 @@ class TestingRequest extends Request
     public static $isHumanReadableFiles = false;
 
     public static $checkFileUpload = false;
+
+    public static $DS = DIRECTORY_SEPARATOR;
 }
 
 class RequestTest extends TestCase
@@ -219,6 +221,12 @@ class RequestTest extends TestCase
         $_SERVER['SCRIPT_NAME'] = './';
 
         $this->assertEquals('', TestingRequest::baseUri());
+
+        TestingRequest::$DS = '\\';
+
+        $_SERVER['SCRIPT_NAME'] = '.\\';
+
+        $this->assertEquals('', TestingRequest::baseUri());
     }
 
     public function testUriPath()
@@ -327,6 +335,31 @@ class RequestTest extends TestCase
         TestingRequest::humanReadableFiles();
 
         $this->assertEquals($this->humanFiles['files']['file1'], TestingRequest::fileIndex('files.file1'));
+
+        $this->assertEquals([
+            'files' => [
+                'file1' => $this->humanFiles['files']['file1'],
+                'file2' => $this->humanFiles['files']['file2'],
+            ]
+        ], TestingRequest::fileIndex(['files.file1', 'files.file2']));
+    }
+
+    public function testFileIndexNoHumanReadable()
+    {
+        $this->expectException(RequestException::class);
+
+        $this->expectExceptionMessage('You cannot use indexes for $_FILES if `humanReadableFiles` is disabled.');
+
+        TestingRequest::fileIndex('files.file1');
+    }
+
+    public function testFileIndexArrayNoHumanReadable()
+    {
+        $this->expectException(RequestException::class);
+
+        $this->expectExceptionMessage('You cannot use indexes for $_FILES if `humanReadableFiles` is disabled.');
+
+        TestingRequest::fileIndexArray('files.file1');
     }
 
     public function testParamIndexArray()
@@ -354,6 +387,55 @@ class RequestTest extends TestCase
         TestingRequest::humanReadableFiles();
 
         $this->assertEquals($this->humanFiles, TestingRequest::file());
+    }
+
+    public function testFileUploadError()
+    {
+        $_FILES = [
+            'invalid' => [
+                'name'     => 'invalid.png',
+                'type'     => 'plain/text',
+                'size'     => '4096',
+                'tmp_name' => '/tmp/upload_invalid',
+                'error'    => UPLOAD_ERR_NO_FILE,
+            ],
+        ];
+
+        $this->expectException(RequestException::class);
+
+        $this->expectExceptionMessage('File upload error: ' . TestingRequest::UPLOAD_ERROR[UPLOAD_ERR_NO_FILE]);
+
+        TestingRequest::file('invalid');
+    }
+
+    public function testFileUploadAttack()
+    {
+        TestingRequest::$checkFileUpload = true;
+
+        $this->expectException(RequestException::class);
+
+        $this->expectExceptionMessage('Possible file upload attack.');
+
+        TestingRequest::file('file3');
+    }
+
+    public function testWrongFileMime()
+    {
+        $_FILES = [
+            'invalid' => [
+                'name'     => 'invalid.png',
+                'type'     => 'plain/text',
+                'size'     => '4096',
+                'tmp_name' => '/tmp/upload_invalid',
+                'error'    => 0,
+            ],
+        ];
+
+        $this->expectException(RequestException::class);
+
+        $this->expectExceptionMessage('Wrong file type was uploaded. Valid types are: image/png.');
+
+        TestingRequest::file('invalid', 'image/png');
     }
 
     protected function fileUploadException()

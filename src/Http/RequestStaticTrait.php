@@ -7,9 +7,11 @@ use Greg\Support\Server;
 
 trait RequestStaticTrait
 {
-    private static $isHumanReadableFiles = false;
+    protected static $isHumanReadableFiles = false;
 
-    private static $checkFileUpload = true;
+    protected static $checkFileUpload = true;
+
+    protected static $DS = DIRECTORY_SEPARATOR;
 
     public static function protocol()
     {
@@ -79,8 +81,8 @@ trait RequestStaticTrait
 
         $baseUri = $uriInfo['dirname'];
 
-        if (DIRECTORY_SEPARATOR != '/') {
-            $baseUri = str_replace(DIRECTORY_SEPARATOR, '/', $baseUri);
+        if (static::$DS != '/') {
+            $baseUri = str_replace(static::$DS, '/', $baseUri);
         }
 
         if ($baseUri[0] == '.') {
@@ -286,18 +288,18 @@ trait RequestStaticTrait
         return Arr::hasIndex($_FILES, $index, $delimiter);
     }
 
-    public static function file($key = null, $else = null)
+    public static function file($key = null, $mime = null)
     {
         if (func_num_args()) {
-            $file = Arr::get($_FILES, $key, $else);
+            $file = Arr::get($_FILES, $key);
 
             if (is_array($key)) {
-                return Arr::mapRecursive($file, function ($file) {
-                    return static::checkFile($file);
+                return Arr::mapRecursive($file, function ($file) use ($mime) {
+                    return static::checkFile($file, $mime);
                 }, 1);
             }
 
-            return static::checkFile($file);
+            return static::checkFile($file, $mime);
         }
 
         if (!static::$isHumanReadableFiles) {
@@ -305,9 +307,9 @@ trait RequestStaticTrait
 
             foreach ($_FILES as $key => $value) {
                 if (is_array($value['name'])) {
-                    $files[$key] = static::checkFiles($value);
+                    $files[$key] = static::checkFiles($value, $mime);
                 } else {
-                    $files[$key] = static::checkFile($value);
+                    $files[$key] = static::checkFile($value, $mime);
                 }
             }
 
@@ -317,9 +319,9 @@ trait RequestStaticTrait
         return $_FILES;
     }
 
-    public static function fileArray($key, $else = null)
+    public static function fileArray($key, $mime = null)
     {
-        $files = Arr::get($_FILES, $key, $else);
+        $files = Arr::get($_FILES, $key);
 
         if (static::$isHumanReadableFiles) {
             if (array_key_exists('name', $files)) {
@@ -335,64 +337,56 @@ trait RequestStaticTrait
             }
         }
 
-        return static::checkFiles($files);
+        return static::checkFiles($files, $mime);
     }
 
-    public static function fileIndex($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function fileIndex($index, $mime = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         if (!static::$isHumanReadableFiles) {
-            throw new RequestException('You cannot use indexes for $_FILES if `humanReadableFiles` method is disabled.');
+            throw new RequestException('You cannot use indexes for $_FILES if `humanReadableFiles` is disabled.');
         }
 
-        $file = Arr::getIndex($_FILES, $index, $else, $delimiter);
+        $file = Arr::getIndex($_FILES, $index, null, $delimiter);
 
         if (is_array($index)) {
-            return static::checkFiles($file);
+            return static::checkFiles($file, $mime);
         }
 
-        return static::checkFile($file);
+        return static::checkFile($file, $mime);
     }
 
-    public static function fileIndexArray($index, $else = null, $delimiter = Arr::INDEX_DELIMITER)
+    public static function fileIndexArray($index, $mime = null, $delimiter = Arr::INDEX_DELIMITER)
     {
         if (!static::$isHumanReadableFiles) {
-            throw new RequestException('You cannot use indexes for $_FILES if `humanReadableFiles` method is disabled.');
+            throw new RequestException('You cannot use indexes for $_FILES if `humanReadableFiles` is disabled.');
         }
 
-        $files = Arr::getIndex($_FILES, $index, $else, $delimiter);
+        $files = Arr::getIndex($_FILES, $index, null, $delimiter);
 
         if (array_key_exists('name', $files)) {
             $files = [$files];
         }
 
-        return static::checkFiles($files);
+        return static::checkFiles($files, $mime);
     }
 
-    protected static function checkHumanReadableFiles(array $files, $mimes = [])
+    protected static function checkHumanReadableFiles(array $files, $mime = null)
     {
         foreach ($files as &$file) {
-            if (!is_array($file)) {
-                throw new RequestException('Requested file is not an array of files.');
-            }
-
             if (is_array(current($file))) {
-                $file = static::checkHumanReadableFiles($file, $mimes);
+                $file = static::checkHumanReadableFiles($file, $mime);
             } else {
-                $file = static::checkFile($file);
+                $file = static::checkFile($file, $mime);
             }
         }
 
         return $files;
     }
 
-    protected static function checkFiles(array $files, $mimes = [])
+    protected static function checkFiles(array $files, $mime = null)
     {
         if (static::$isHumanReadableFiles) {
-            return static::checkHumanReadableFiles($files, $mimes);
-        }
-
-        if (!Arr::has($files, ['name', 'type', 'size', 'tmp_name', 'error'])) {
-            throw new RequestException('Requested file is not a request file.');
+            return static::checkHumanReadableFiles($files, $mime);
         }
 
         $names = Arr::packIndexes($files['name'], '&');
@@ -418,32 +412,24 @@ trait RequestStaticTrait
                 'size'     => $indexFiles['size'][$key],
                 'tmp_name' => $indexFiles['tmp_name'][$key],
                 'error'    => $indexFiles['error'][$key],
-            ], $mimes);
+            ], $mime);
         }
 
         return $files;
     }
 
-    protected static function checkFile(array $file, $mimes = [])
+    protected static function checkFile(array $file, $mime = null)
     {
-        if (!Arr::has($file, ['name', 'type', 'size', 'tmp_name', 'error'])) {
-            throw new RequestException('Requested file is not a request file.');
-        }
-
-        if (!$file['tmp_name']) {
-            return null;
-        }
-
         if ($file['error'] !== UPLOAD_ERR_OK) {
-            throw new RequestException('Upload file error: ' . Request::UPLOAD_ERROR[$file['error']]);
+            throw new RequestException('File upload error: ' . Request::UPLOAD_ERROR[$file['error']]);
         }
 
         if (static::$checkFileUpload && !is_uploaded_file($file['tmp_name'])) {
             throw new RequestException('Possible file upload attack.');
         }
 
-        if ($mimes and !in_array($file['type'], (array) $mimes)) {
-            throw new RequestException('Wrong file type was uploaded. Valid types are: ' . implode(', ', $mimes));
+        if ($mime = (array) $mime and !in_array($file['type'], $mime)) {
+            throw new RequestException('Wrong file type was uploaded. Valid types are: ' . implode(', ', $mime) . '.');
         }
 
         return $file;
