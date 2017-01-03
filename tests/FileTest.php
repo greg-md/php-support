@@ -55,12 +55,12 @@ class FileTest extends TestCase
     /** @test */
     public function it_makes_directory_of_the_file()
     {
-        File::makeDir(__DIR__ . '/test/test.php');
+        File::makeDir(__DIR__ . '/file_test/test.php');
 
-        $this->assertDirectoryExists(__DIR__ . '/test');
+        $this->assertDirectoryExists(__DIR__ . '/file_test');
 
-        Dir::unlink(__DIR__ . '/test');
+        Dir::unlink(__DIR__ . '/file_test');
 
-        $this->assertDirectoryNotExists(__DIR__ . '/test');
+        $this->assertDirectoryNotExists(__DIR__ . '/file_test');
     }
 }
