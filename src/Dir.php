@@ -20,7 +20,9 @@ class Dir
     public static function unlink($dir)
     {
         foreach (glob($dir . '/*') as $file) {
-            echo PHP_EOL; print_r($file); echo PHP_EOL;
+            echo PHP_EOL;
+            print_r($file);
+            echo PHP_EOL;
             is_dir($file) ? static::unlink($file) : unlink($file);
         }
 

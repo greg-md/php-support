@@ -15,7 +15,6 @@ trait FooBarTrait
 
 interface FooInterface
 {
-
 }
 
 class Foo implements FooInterface
@@ -23,7 +22,8 @@ class Foo implements FooInterface
     use FooTrait;
 }
 
-function foo_function(Foo $foo) {
+function foo_function(Foo $foo)
+{
     return func_get_args();
 }
 
@@ -94,7 +94,7 @@ class ObjTest extends TestCase
             return func_get_args();
         }, $one, $foo, $two));
 
-        $this->assertEquals([], Obj::callMixed(function() {
+        $this->assertEquals([], Obj::callMixed(function () {
             return func_get_args();
         }));
 
