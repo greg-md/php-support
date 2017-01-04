@@ -18,15 +18,6 @@ class ServerIni
         return $value;
     }
 
-    public static function setMore(array $params)
-    {
-        foreach ($params as $key => $value) {
-            static::set($key, $value);
-        }
-
-        return true;
-    }
-
     public static function set($var, $value)
     {
         if (($oldValue = ini_set($var, $value)) === false) {

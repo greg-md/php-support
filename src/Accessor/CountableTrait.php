@@ -9,5 +9,5 @@ trait CountableTrait
         return count($this->getAccessor());
     }
 
-    abstract public function &getAccessor();
+    abstract function &getAccessor();
 }

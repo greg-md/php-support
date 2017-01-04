@@ -38,13 +38,7 @@ class ServerIniTest extends TestCase
     /** @test */
     public function it_sets_values()
     {
-        ServerIni::set('error_reporting', 1);
-
-        $this->assertEquals(1, error_reporting());
-
-        ServerIni::setMore([
-            'memory_limit' => '1024M',
-        ]);
+        ServerIni::set('memory_limit', '1024M');
 
         $this->assertEquals('1024M', ini_get('memory_limit'));
     }
