@@ -40,7 +40,7 @@ trait TestingAccessorTrait
             $this->accessor()['foo'] = ['bar' => 'biz'];
 
             $this->assertTrue($object->hasIndex('foo.bar'));
-            
+
             $this->assertFalse($object->hasIndex('foo.bar1'));
 
             $this->assertTrue($object->hasIndex('foo-bar', '-'));
@@ -54,7 +54,7 @@ trait TestingAccessorTrait
             $this->staticAccessor()['foo'] = ['bar' => 'biz'];
 
             $this->assertTrue($staticObject::hasIndex('foo.bar'));
-            
+
             $this->assertFalse($staticObject::hasIndex('foo.bar1'));
 
             $this->assertTrue($staticObject::hasIndex('foo-bar', '-'));
@@ -93,7 +93,7 @@ trait TestingAccessorTrait
 
             $this->assertEquals(['foo' => $value], $this->accessor());
         }
-        
+
         //
 
         if ($staticObject = $this->staticObject()) {
@@ -673,7 +673,6 @@ trait TestingAccessorTrait
 
     public function testingAccessorSetup()
     {
-
     }
 
     /**

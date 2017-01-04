@@ -6,8 +6,7 @@ use Greg\Support\Session;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class SessionTest
- * @package Greg\Support\Tests
+ * Class SessionTest.
  *
  * @runTestsInSeparateProcesses
  */
