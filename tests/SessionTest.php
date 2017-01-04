@@ -152,4 +152,28 @@ class SessionTest extends TestCase
     {
         $this->assertTrue(Session::resetLifetime(10));
     }
+
+    /** @test */
+    public function it_gets_all_data_by_reference()
+    {
+        session_start();
+
+        $_SESSION['a'] = 1;
+
+        $_SESSION['b'] = 1;
+
+        $this->assertEquals($_SESSION, Session::getRef());
+    }
+
+    /** @test */
+    public function it_destroys_session()
+    {
+        session_start();
+
+        $_SESSION['foo'] = 'bar';
+
+        Session::destroy();
+
+        $this->assertEquals([], $_SESSION);
+    }
 }

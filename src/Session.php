@@ -365,6 +365,8 @@ class Session
     {
         static::start();
 
-        return session_destroy();
+        $_SESSION = [];
+
+        return true;
     }
 }
