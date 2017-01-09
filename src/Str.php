@@ -4,79 +4,160 @@ namespace Greg\Support;
 
 class Str
 {
-    const SPLIT_CASE = 'splitCase';
+    const ACCENTS = [
+        'àáâãäåăâ' => 'a',
+        'æ' => 'ae',
+        'ç' => 'c',
+        'èéêë' => 'e',
+        'ìíîï' => 'i',
+        'ð' => 'o',
+        'ñ' => 'n',
+        'òóôõöø' => 'o',
+        'ùúûü' => 'u',
+        '÷' => '-',
+        'ýÿ' => 'y',
+        'þ' => 'b',
+        'œ' => 'oe',
+        'šș' => 's',
+        'ƒ' => 'f',
+        'ț' => 't',
+    ];
 
-    const SPLIT_UPPER_CASE = 'splitUpperCase';
-
-    const CAMEL_CASE = 'camelCase';
-
-    const TRAIN_CASE = 'trainCase';
-
-    const SPINAL_CASE = 'spinalCase';
-
-    public static function splitCase($var, $delimiter = ' ')
+    protected static function extractWords($string, $delimiter = ' ')
     {
-        $var = preg_replace('#[^a-z0-9]+#i', $delimiter, $var);
+        $string = preg_replace('#[^a-z0-9]+#i', $delimiter, $string);
 
-        $var = trim($var);
+        $string = trim(trim($string), $delimiter);
 
-        $var = trim($var, $delimiter);
-
-        return $var;
+        return $string;
     }
 
-    public static function splitUpperCase($var, $delimiter = ' ')
+    protected static function splitCamelCase($string, $delimiter = ' ')
     {
-        $var = static::splitCase($var, $delimiter);
-
-        $var = preg_replace('#([a-z]+)([A-Z]+)#', '$1' . $delimiter . '$2', $var);
-
-        return $var;
+        return preg_replace('#([a-z0-9]+)([A-Z]+)#', '$1' . $delimiter . '$2', $string);
     }
 
-    public static function camelCase($var)
+    public static function camelCase($string)
     {
-        $var = static::splitCase($var);
+        $string = static::extractWords($string);
 
-        $var = ucwords($var);
-
-        $var = str_replace(' ', '', $var);
-
-        return $var;
+        return str_replace(' ', '', ucwords($string));
     }
 
-    public static function trainCase($var, $delimiter = '-')
+    public static function lowerCamelCase($string)
     {
-        $var = static::splitUpperCase($var);
+        return lcfirst(static::camelCase($string));
+    }
 
-        $var = ucwords($var);
+    protected static function prepareCase($string, $splitCamelCase = false)
+    {
+        $string = static::extractWords($string);
 
-        if ($delimiter !== ' ') {
-            $var = str_replace(' ', $delimiter, $var);
+        if ($splitCamelCase) {
+            $string = static::splitCamelCase($string);
         }
 
-        return $var;
+        return $string;
     }
 
-    public static function spinalCase($var, $uppercase = true)
+    public static function snakeCase($string, $splitCamelCase = false)
     {
-        return mb_strtolower($uppercase ? static::splitUpperCase($var, '-') : static::splitCase($var, '-'));
+        $string = static::prepareCase($string, $splitCamelCase);
+
+        return str_replace(' ', '_', $string);
     }
 
-    public static function phpName($var, $type = self::CAMEL_CASE)
+    public static function lowerSnakeCase($string, $splitCamelCase = false)
     {
-        $var = static::$type($var);
+        $string = static::prepareCase($string, $splitCamelCase);
 
-        if (!$var or self::isNaturalNumber($var[0])) {
-            $var = '_' . $var;
+        return str_replace(' ', '_', mb_strtolower($string));
+    }
+
+    public static function upperSnakeCase($string, $splitCamelCase = false)
+    {
+        $string = static::prepareCase($string, $splitCamelCase);
+
+        return str_replace(' ', '_', mb_strtoupper($string));
+    }
+
+    public static function upperWordsSnakeCase($string, $splitCamelCase = false)
+    {
+        $string = static::prepareCase($string, $splitCamelCase);
+
+        return str_replace(' ', '_', ucwords(mb_strtolower($string)));
+    }
+
+    public static function kebabCase($string, $splitCamelCase = false)
+    {
+        $string = static::prepareCase($string, $splitCamelCase);
+
+        return str_replace(' ', '-', $string);
+    }
+
+    public static function spinalCase($string, $splitCamelCase = false)
+    {
+        $string = static::prepareCase($string, $splitCamelCase);
+
+        return str_replace(' ', '-', mb_strtolower($string));
+    }
+
+    public static function trainCase($string, $splitCamelCase = false)
+    {
+        $string = static::prepareCase($string, $splitCamelCase);
+
+        return str_replace(' ', '-', ucwords(mb_strtolower($string)));
+    }
+
+    public static function lispCase($string, $splitCamelCase = false)
+    {
+        $string = static::prepareCase($string, $splitCamelCase);
+
+        return str_replace(' ', '-', ucfirst(mb_strtolower($string)));
+    }
+
+    protected static function preparePhpCase($string)
+    {
+        if (!$string or static::isDigit($string[0])) {
+            $string = '_' . $string;
         }
 
-        return $var;
+        return $string;
+    }
+
+    public static function phpCamelCase($var)
+    {
+        return static::preparePhpCase(static::camelCase($var));
+    }
+
+    public static function phpLowerCamelCase($var)
+    {
+        return static::preparePhpCase(static::lowerCamelCase($var));
+    }
+
+    public static function phpSnakeCase($string, $splitCamelCase = false)
+    {
+        return static::preparePhpCase(static::snakeCase($string, $splitCamelCase));
+    }
+
+    public static function phpLowerSnakeCase($string, $splitCamelCase = false)
+    {
+        return static::preparePhpCase(static::lowerSnakeCase($string, $splitCamelCase));
+    }
+
+    public static function phpUpperSnakeCase($string, $splitCamelCase = false)
+    {
+        return static::preparePhpCase(static::upperSnakeCase($string, $splitCamelCase));
+    }
+
+    public static function phpUpperWordsSnakeCase($string, $splitCamelCase = false)
+    {
+        return static::preparePhpCase(static::upperWordsSnakeCase($string, $splitCamelCase));
     }
 
     public static function abbreviation($var)
     {
-        $var = static::splitUpperCase($var);
+        $var = static::prepareCase($var);
 
         $var = ucwords($var);
 
@@ -91,13 +172,26 @@ class Str
         return $var;
     }
 
-    public static function replaceAccents($str)
+    public static function replace($search, $replace, $string)
     {
-        $search = explode(',', 'ç,æ,œ,á,é,í,ó,ú,à,è,ì,ò,ù,ä,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,ø,Ø,Å,Á,À,Â,Ä,È,É,Ê,Ë,Í,Î,Ï,Ì,Ò,Ó,Ô,Ö,Ú,Ù,Û,Ü,Ÿ,Ç,Æ,Œ');
+        $lower = preg_split('//u', mb_strtolower($search), null, PREG_SPLIT_NO_EMPTY);
 
-        $replace = explode(',', 'c,ae,oe,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,o,O,A,A,A,A,A,E,E,E,E,I,I,I,I,O,O,O,O,U,U,U,U,Y,C,AE,OE');
+        $string = str_replace($lower, mb_strtolower($replace), $string);
 
-        return str_replace($search, $replace, $str);
+        $upper = preg_split('//u', mb_strtoupper($search), null, PREG_SPLIT_NO_EMPTY);
+
+        $string = str_replace($upper, mb_strtoupper($replace), $string);
+
+        return $string;
+    }
+
+    public static function replaceAccents($string)
+    {
+        foreach (static::ACCENTS as $search => $replace) {
+            $string = static::replace($search, $replace, $string);
+        }
+
+        return $string;
     }
 
     /**
@@ -138,7 +232,6 @@ class Str
             if (strpos($haystack, $needle) === 0) {
                 return true;
             }
-            //if (mb_substr($haystack, 0, mb_strlen($needle)) === $needle) return true;
         }
 
         return false;
@@ -165,11 +258,14 @@ class Str
         return $with . $str . $with;
     }
 
-    public static function splitPath($string, $delimiter = '/', $limit = null)
+    public static function isEmpty($var)
     {
-        $string = trim($string, $delimiter);
+        return $var === null or $var === '';
+    }
 
-        return static::split($string, $delimiter, $limit);
+    public static function isScalar($var)
+    {
+        return is_scalar($var) or is_null($var);
     }
 
     public static function split($string, $delimiter = '', $limit = null)
@@ -187,25 +283,20 @@ class Str
         return explode(...$args);
     }
 
+    public static function splitPath($string, $limit = null)
+    {
+        return static::split(trim($string, '/'), '/', $limit);
+    }
+
     public static function splitQuoted($string, $delimiter = ',', $quotes = '"')
     {
         $string = static::split($string, $delimiter);
 
         $string = array_map(function ($column) use ($quotes) {
-            return trim($column, $quotes);
+            return trim(trim($column), $quotes);
         }, $string);
 
         return $string;
-    }
-
-    public static function isEmpty($var)
-    {
-        return $var === null or $var === '';
-    }
-
-    public static function isScalar($var)
-    {
-        return is_scalar($var) or is_null($var);
     }
 
     public static function parse($string, $delimiter = '&', $keyValueDelimiter = '=')
@@ -227,213 +318,15 @@ class Str
         return $output;
     }
 
-    public static function substringHtml($string, $start = 0, $length = null, $delimiter = null, $suffix = null, $forceSuffix = null)
-    {
-        $textLength = mb_strlen(strip_tags(html_entity_decode($string, ENT_QUOTES, 'UTF-8')));
-
-        if (!$textLength) {
-            return $string;
-        }
-
-        if (is_null($length)) {
-            $length = mb_strlen(html_entity_decode($string, ENT_QUOTES, 'UTF-8')) - $start;
-        }
-
-        $delimiter = (array) $delimiter;
-
-        $string = '>' . $string . '<';
-
-        $newString = '';
-
-        $remainString = '';
-
-        $strLen = 0;
-
-        $delimiterFound = false;
-
-        $k = 0;
-
-        preg_replace_callback('#>([^<]+)<#s', function ($match) use (&$string, &$newString, &$remainString, $start, $length,
-                $delimiter, $suffix, $forceSuffix, $textLength,
-                &$strLen, &$delimiterFound, &$k) {
-            $index = mb_strpos($string, $match[0]);
-
-            if ($index) {
-                $subStrNew = mb_substr($string, 1, $index);
-            } else {
-                $subStrNew = '';
-            }
-
-            $string = '>' . mb_substr($string, mb_strlen($subStrNew) + 1 + mb_strlen($match[1]));
-
-            if ($strLen >= $length and (!$delimiter or $delimiterFound)) {
-                $remainString .= $subStrNew;
-
-                return '><';
-            }
-
-            $subStr = max(0, ($start - $strLen));
-
-            if ($subStr) {
-                while (true) {
-                    $replaced = preg_replace([
-                        '#<[^/][^>]*/>#s',
-                        '#<[^/][^>]*(?<!/)></[^>]+>#s',
-                    ], '', $subStrNew);
-
-                    if ($replaced == $subStrNew) {
-                        break;
-                    }
-
-                    $subStrNew = $replaced;
-                }
-            }
-
-            $newString .= $subStrNew;
-
-            $htmlStr = html_entity_decode($match[1], ENT_QUOTES, 'UTF-8');
-
-            $htmlStrLen = mb_strlen($htmlStr);
-
-            if ($htmlStrLen <= $subStr) {
-                $strLen += $htmlStrLen;
-
-                return '><';
-            }
-
-            $subLen = $length - $strLen;
-
-            if ($subLen < 0) {
-                $subLen = 0;
-            }
-
-            $dFetch = false;
-
-            $del = null;
-
-            if ($delimiter and $htmlStrLen > $subLen) {
-                $offset = $subLen + $subStr;
-
-                $pos = false;
-
-                if ($offset < $htmlStrLen) {
-                    $offset -= 1;
-
-                    if ($offset < 0) {
-                        $offset = 0;
-                    }
-
-                    foreach ($delimiter as $del => $dFetch) {
-                        if (is_int($del)) {
-                            $del = $dFetch;
-
-                            $dFetch = true;
-                        }
-
-                        $pos = mb_strpos($htmlStr, $del, $offset);
-
-                        if ($pos !== false) {
-                            break;
-                        }
-                    }
-                }
-
-                if ($pos !== false) {
-                    $delimiterFound = true;
-
-                    $subLen = $pos;
-                } else {
-                    $subLen = $htmlStrLen;
-                }
-            }
-
-            $htmlStr = mb_substr($htmlStr, $subStr, $subLen);
-
-            $strLen += mb_strlen($htmlStr);
-
-            $htmlStr = htmlentities($htmlStr, ENT_QUOTES, 'UTF-8');
-
-            if (($forceSuffix and $strLen >= $textLength) or ($suffix and $strLen >= $length and (!$delimiter or $delimiterFound))) {
-                if ($delimiter and $dFetch) {
-                    $suffix = str_replace('%d%', $del, $suffix);
-                }
-
-                $htmlStr .= $suffix;
-            }
-
-            $newString .= $htmlStr;
-
-            ++$k;
-
-            return '>' . $htmlStr . '<';
-        }, $string);
-
-        $string = ltrim($string, '>');
-
-        $string = rtrim($string, '<');
-
-        $string = trim($string);
-
-        if ($remainString) {
-            $remainString .= $string;
-
-            while (true) {
-                $replaced = preg_replace([
-                    '#<[^/][^>]*/>#s',
-                    '#<([^\s>]*)(\b)?[^>]*(?<!/)></\1>#si',
-                    '#<(area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr|basefont|bgsound|frame|isindex)\b[^>]*>#si',
-                ], '', $remainString);
-
-                if ($replaced == $remainString) {
-                    break;
-                }
-
-                $remainString = $replaced;
-            }
-        } else {
-            $remainString .= $string;
-        }
-
-        $return = $newString . $remainString;
-
-        return $return;
-    }
-
-    public static function cutHtmlTag($html, $tag, $offset = 0, $limit = null, $cleanAfter = false)
-    {
-        // match html tag: <(\w)[^>]*(?<!\/)(\/>|>.*?<\/\1>)
-        $regex = '<(' . preg_quote($tag, '#') . ')[^>]*(?<!\/)(\/>|>.*?<\/\1>)';
-
-        $pregLimit = $cleanAfter ? abs($offset) + 1 : -1;
-
-        $count = 0;
-
-        $lastClean = $cleanAfter ? uniqid('cut_', true) : null;
-
-        $html = preg_replace_callback('#' . $regex . '#i', function ($matches) use (&$count, $offset, $limit, $lastClean) {
-            ++$count;
-
-            if ($count > $offset and ($limit < 1 or ($count <= ($offset + $limit)))) {
-                return $lastClean;
-            }
-
-            return $matches[0];
-        }, $html, $pregLimit);
-
-        if ($cleanAfter and $count > $offset) {
-            $html = static::substringHtml($html, 0, 0, $lastClean);
-        }
-
-        return $html;
-    }
-
-    public static function cryptoRandSecure($min, $max)
+    protected static function cryptoRandSecure($min, $max)
     {
         $range = $max - $min;
 
+        /*
         if ($range < 0) {
             return $min;  // not so random...
         }
+        */
 
         $log = log($range, 2);
 
@@ -477,23 +370,60 @@ class Str
         }
     }
 
-    public static function isNaturalNumber($var)
+    public static function isDigit($var)
     {
         return ctype_digit((string) $var);
     }
 
-    public static function parseLinks($string, callable $callable)
+    public static function systemName($string)
     {
-        $regex = '(?:((?:https?|ftps?)\:\/\/)|www\.)([a-z0-9\-]+\.)(?-1)?[a-z]{2,8}(?:(?:\/|\?)\S*[a-z0-9-_])?';
+        $replacement = [
+            'а' => 'a',
+            'б' => 'b',
+            'в' => 'v',
+            'г' => 'g',
+            'д' => 'd',
+            'е' => 'e',
+            'ё' => 'yo',
+            'ж' => 'j',
+            'з' => 'z',
+            'и' => 'i',
+            'й' => 'i',
+            'к' => 'k',
+            'л' => 'l',
+            'м' => 'm',
+            'н' => 'n',
+            'о' => 'o',
+            'п' => 'p',
+            'р' => 'r',
+            'с' => 's',
+            'т' => 't',
+            'у' => 'u',
+            'ф' => 'f',
+            'х' => 'h',
+            'ц' => 'c',
+            'ч' => 'ch',
+            'ш' => 'sh',
+            'щ' => 'shi',
+            'ъ' => 'i',
+            'ы' => 'y',
+            'ь' => 'i',
+            'э' => 'e',
+            'ю' => 'yu',
+            'я' => 'ya',
+            'ă' => 'a',
+            'â' => 'a',
+            'î' => 'i',
+            'șş' => 's',
+            'țţ' => 't',
+        ];
 
-        return preg_replace_callback('#(' . $regex . ')#i', function ($matches) use ($callable) {
-            $href = $name = $matches[1];
+        $string = static::replaceAccents($string);
 
-            if ($matches[2] === 'www.') {
-                $href = Url::fix($href);
-            }
+        foreach ($replacement as $search => $replace) {
+            $string = static::replace($search, $replace, $string);
+        }
 
-            call_user_func_array($callable, [$name, $href]);
-        }, $string);
+        return static::spinalCase($string, true);
     }
 }

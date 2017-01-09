@@ -34,7 +34,7 @@ class Obj
     public static function classExists($name, array $prefixes = [], $namePrefix = null)
     {
         $name = array_map(function ($name) {
-            return Str::phpName($name);
+            return Str::phpCamelCase($name);
         }, (array) $name);
 
         $name = implode('\\', $name);

@@ -8,43 +8,71 @@ class Url
 {
     const UA = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
 
-    public static function isFull($url)
+    public static function hasSchema($absolute)
     {
-        return preg_match('#^(?:https?\:)?//#i', $url);
+        return (bool) preg_match('#^(?:https?\:)?//#i', $absolute);
     }
 
-    public static function full($url = '/')
+    public static function noSchema($absolute)
     {
-        if (static::isFull($url)) {
-            return $url;
+        if (preg_match('#^(?:https?\:)?//(.+)#i', $absolute, $matches)) {
+            $absolute = $matches[1];
         }
 
-        return static::fix(Request::clientHost() . $url, Request::isSecured());
+        return $absolute;
     }
 
-    public static function fix($url, $secured = false)
+    public static function schema($absolute)
     {
-        if (static::isFull($url)) {
-            return $url;
+        return (Request::isSecured() ? 'https' : 'http') . '://' . static::noSchema($absolute);
+    }
+
+    public static function withSchema($absolute)
+    {
+        return static::hasSchema($absolute) ? $absolute : static::schema($absolute);
+    }
+
+    public static function shortSchema($absolute)
+    {
+        return '//' . static::noSchema($absolute);
+    }
+
+    public static function secured($absolute)
+    {
+        return 'https://' . static::noSchema($absolute);
+    }
+
+    public static function unsecured($absolute)
+    {
+        return 'http://' . static::noSchema($absolute);
+    }
+
+    public static function absolute($relative)
+    {
+        if (static::hasSchema($relative)) {
+            return $relative;
         }
 
-        return ($secured ? 'https' : 'http') . '://' . $url;
+        return static::schema((Request::clientHost() ?: 'localhost') . $relative);
     }
 
-    public static function fixShort($url)
+    public static function relative($absolute)
     {
-        if (static::isFull($url)) {
-            return $url;
+        return parse_url(static::withSchema($absolute), PHP_URL_PATH);
+    }
+
+    public static function serverRelative($absolute)
+    {
+        if (parse_url($abs = static::withSchema($absolute), PHP_URL_HOST) == Request::serverHost()) {
+            return parse_url($abs, PHP_URL_PATH);
         }
 
-        return '//' . $url;
+        return $absolute;
     }
 
-    public static function host($url, $stripWWW = true)
+    public static function host($absolute, $stripWWW = true)
     {
-        $url = self::fix($url);
-
-        $host = parse_url($url, PHP_URL_HOST);
+        $host = parse_url(self::shortSchema($absolute), PHP_URL_HOST);
 
         if ($stripWWW and substr($host, 0, 4) == 'www.') {
             $host = substr($host, 4);
@@ -53,16 +81,9 @@ class Url
         return $host;
     }
 
-    public static function sameHost($url1, $url2, $level = 2)
+    public static function hostLevel($absolute, $level = 2)
     {
-        return static::hostName($url1, $level) == static::hostName($url2, $level);
-    }
-
-    public static function hostName($url, $level = 2)
-    {
-        $url = static::fix($url);
-
-        $host = parse_url($url, PHP_URL_HOST);
+        $host = parse_url(static::shortSchema($absolute), PHP_URL_HOST);
 
         $host = mb_strtolower($host);
 
@@ -79,13 +100,26 @@ class Url
         return $host;
     }
 
-    public static function home($url)
+    public static function hostEquals($absolute1, $absolute2, $level = 2)
     {
-        $url = self::fix($url);
+        return static::hostLevel($absolute1, $level) === static::hostLevel($absolute2, $level);
+    }
 
-        $info = parse_url($url);
+    public static function root($absolute)
+    {
+        if (!$hasSchema = static::hasSchema($absolute)) {
+            $absolute = static::unsecured($absolute);
+        }
 
-        return $info['scheme'] . '://' . $info['host'];
+        $info = parse_url($absolute);
+
+        $root = $info['host'];
+
+        if ($hasSchema) {
+            $root = (isset($info['scheme']) ? $info['scheme'] . '://' : '//') . $root;
+        }
+
+        return $root;
     }
 
     public static function removeQueryString($url)
@@ -95,121 +129,64 @@ class Url
         return $url;
     }
 
-    public static function serverRelative($url)
+    public static function base($path, $absolute = false)
     {
-        if (static::isFull($url) and parse_url($url, PHP_URL_HOST) == Request::serverHost()) {
-            return parse_url($url, PHP_URL_PATH);
+        $relative = Request::baseUri() . $path;
+
+        if ($absolute) {
+            return static::absolute($relative);
         }
 
-        return $url;
-    }
-
-    public static function base($url = '/', $full = false)
-    {
-        $url = Request::baseUri() . $url;
-
-        if ($full) {
-            $url = static::full($url);
-        }
-
-        return $url;
+        return $relative;
     }
 
     public static function addQuery($url, $query)
     {
-        list($urlPath, $urlQuery) = array_pad(explode('?', $url, 2), 2, null);
+        list($url, $urlQuery) = array_pad(explode('?', $url, 2), 2, null);
 
-        $allQuery = array_filter([$urlQuery, $query]);
+        if (is_array($query)) {
+            $query = http_build_query($query);
+        }
 
-        return $urlPath . ($allQuery ? '?' . implode('&', $allQuery) : '');
+        if ($query = array_filter([$urlQuery, $query])) {
+            $url .= '?' . implode('&', $query);
+        }
+
+        return $url;
     }
 
-    public static function init($url, $verbose = false)
+    public static function init($absolute, $verbose = false)
     {
-        $ch = curl_init(static::fix($url));
+        $handle = curl_init(static::withSchema($absolute));
 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
 
         if ($verbose) {
-            curl_setopt($ch, CURLOPT_VERBOSE, true);
+            curl_setopt($handle, CURLOPT_VERBOSE, true);
         }
 
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, true);
 
-        curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+        curl_setopt($handle, CURLOPT_MAXREDIRS, 5);
 
-        curl_setopt($ch, CURLOPT_USERAGENT, static::UA);
+        curl_setopt($handle, CURLOPT_USERAGENT, static::UA);
 
-        return $ch;
+        return $handle;
     }
 
-    public static function effective($url)
+    public static function effective($absolute)
     {
-        $ch = static::init($url);
+        $handle = static::init($absolute);
 
-        curl_exec($ch);
+        curl_exec($handle);
 
-        return curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+        return curl_getinfo($handle, CURLINFO_EFFECTIVE_URL);
     }
 
-    public static function contents($url)
+    public static function contents($absolute)
     {
-        $ch = static::init($url);
-
-        return curl_exec($ch);
-    }
-
-    public static function transform($string, $type = Str::SPINAL_CASE)
-    {
-        $string = Str::replaceAccents($string);
-
-        $replacement = [
-            'а' => 'a', 'А' => 'A',
-            'б' => 'b', 'Б' => 'B',
-            'в' => 'v', 'В' => 'V',
-            'г' => 'g', 'Г' => 'G',
-            'д' => 'd', 'Д' => 'D',
-            'е' => 'e', 'Е' => 'E',
-            'ё' => 'yo', 'Ё' => 'YO',
-            'ж' => 'j', 'Ж' => 'J',
-            'з' => 'z', 'З' => 'Z',
-            'и' => 'i', 'И' => 'I',
-            'й' => 'i', 'Й' => 'I',
-            'к' => 'k', 'К' => 'K',
-            'л' => 'l', 'Л' => 'L',
-            'м' => 'm', 'М' => 'M',
-            'н' => 'n', 'Н' => 'N',
-            'о' => 'o', 'О' => 'O',
-            'п' => 'p', 'П' => 'P',
-            'р' => 'r', 'Р' => 'R',
-            'с' => 's', 'С' => 'S',
-            'т' => 't', 'Т' => 'T',
-            'у' => 'u', 'У' => 'U',
-            'ф' => 'f', 'Ф' => 'F',
-            'х' => 'h', 'Х' => 'H',
-            'ц' => 'c', 'Ц' => 'C',
-            'ч' => 'ch', 'Ч' => 'CH',
-            'ш' => 'sh', 'Ш' => 'SH',
-            'щ' => 'shi', 'Щ' => 'SHI',
-            'ъ' => 'i', 'Ъ' => 'I',
-            'ы' => 'y', 'Ы' => 'Y',
-            'ь' => 'i', 'Ь' => 'I',
-            'э' => 'e', 'Э' => 'E',
-            'ю' => 'yu', 'Ю' => 'YU',
-            'я' => 'ya', 'Я' => 'YA',
-            'ă' => 'a', 'â' => 'a', 'î' => 'i', 'Ă' => 'A', 'Â' => 'A', 'Î' => 'I',
-            'ş' => 's', 'ţ' => 't',
-            'ț' => 't', 'ș' => 's', 'Ș' => 's', 'Ț' => 't',
-        ];
-
-        $string = strtr($string, $replacement);
-
-        if ($type) {
-            $string = Str::$type($string);
-        }
-
-        return $string;
+        return curl_exec(static::init($absolute));
     }
 }

@@ -283,7 +283,7 @@ class Response
     {
         $codes = static::CODES;
 
-        if (Str::isNaturalNumber($code) and Arr::has($codes, $code)) {
+        if (Str::isDigit($code) and Arr::has($codes, $code)) {
             $code .= ' ' . static::CODES[$code];
         }
 
@@ -411,7 +411,7 @@ class Response
 
     public static function isModifiedSince($timestamp, $maxAge = 0)
     {
-        if (!Str::isNaturalNumber($timestamp)) {
+        if (!Str::isDigit($timestamp)) {
             $timestamp = strtotime($timestamp);
         }
 
