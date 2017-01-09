@@ -14,7 +14,6 @@ class SubHtml
 
     private $forceSuffix = null;
 
-
     private $html;
 
     private $textLength;
@@ -151,7 +150,7 @@ class SubHtml
 
         $this->html = '>' . $this->html . '<';
 
-        preg_replace_callback('#>([^<]+)<#s', function($matches) {
+        preg_replace_callback('#>([^<]+)<#s', function ($matches) {
             return $this->matches($matches);
         }, $this->html);
 
