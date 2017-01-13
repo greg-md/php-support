@@ -544,6 +544,40 @@ class ArrTest extends TestCase
         }, 'else'));
     }
 
+    public function testFirstKey()
+    {
+        $accessor = [1 => 1, 2 => 2, 3 => 3];
+
+        $this->assertEquals(1, Arr::firstKey($accessor));
+
+        $this->assertEquals(2, Arr::firstKey($accessor, function ($value) {
+            return $value === 2;
+        }));
+
+        $this->assertEquals('else', Arr::firstKey($accessor, function ($value) {
+            return $value === -1;
+        }, 'else'));
+    }
+
+    public function testLastKey()
+    {
+        $accessor = [1 => 1, 2 => 2, 3 => 3];
+
+        $this->assertEquals(3, Arr::lastKey($accessor));
+
+        $empty = [];
+
+        $this->assertEquals('else', Arr::lastKey($empty, null, 'else'));
+
+        $this->assertEquals(2, Arr::lastKey($accessor, function ($key) {
+            return $key === 2;
+        }));
+
+        $this->assertEquals('else', Arr::lastKey($accessor, function ($key) {
+            return $key === -1;
+        }, 'else'));
+    }
+
     public function testMap()
     {
         $accessor = [1, 2, 3];
