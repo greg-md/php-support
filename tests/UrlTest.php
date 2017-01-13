@@ -109,9 +109,9 @@ class UrlTest extends TestCase
     /** @test */
     public function it_gets_base_url()
     {
-        $this->assertEquals('//vendor/bin/path', Url::base('/path'));
+        $this->assertContains(Url::base('/path'), ['//vendor/bin/path', 'vendor/bin/path']);
 
-        $this->assertEquals('//vendor/bin/path', Url::base('/path', true));
+        $this->assertEquals(Url::base('/path', true), ['//vendor/bin/path', 'vendor/bin/path']);
     }
 
     /** @test */
@@ -131,7 +131,7 @@ class UrlTest extends TestCase
     /** @test */
     public function it_gets_effective_url()
     {
-        $this->assertEquals('http://example.com/', Url::effective('http://example.com'));
+        $this->assertEquals('http://example.com/', Url::effective('http://example.com/'));
     }
 
     /** @test */
