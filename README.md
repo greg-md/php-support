@@ -8,3 +8,7 @@
 [![License](https://poser.pugx.org/greg-md/php-support/license.svg)](https://packagist.org/packages/greg-md/php-support)
 
 Support classes for PHP
+
+# Requirements
+
+* PHP Version `^5.6 || ^7.0`
