@@ -19,11 +19,19 @@ class Dir
 
     public static function unlink($dir)
     {
-        foreach (glob($dir . '/*') as $file) {
+        $search = $dir;
+
+        if (!Str::endsWith($search, '/*')) {
+            $search .= '/*';
+        }
+
+        foreach (glob($search) as $file) {
             is_dir($file) ? static::unlink($file) : unlink($file);
         }
 
-        rmdir($dir);
+        if ($search !== $dir) {
+            rmdir($dir);
+        }
 
         return true;
     }

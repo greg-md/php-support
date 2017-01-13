@@ -821,6 +821,45 @@ class Arr
         return $else;
     }
 
+    public static function firstKey(array &$array, callable $callable = null, $else = null)
+    {
+        if ($callable !== null) {
+            foreach ($array as $key => $value) {
+                if (call_user_func_array($callable, [$key, $value])) {
+                    return $key;
+                }
+            }
+            unset($value);
+        } elseif ($array) {
+            reset($array);
+
+            return key($array);
+        }
+
+        return $else;
+    }
+
+    public static function lastKey(array &$array, callable $callable = null, $else = null)
+    {
+        if ($callable !== null) {
+            $array = array_reverse($array, true);
+
+            $key = static::firstKey($array, $callable, $else);
+
+            $array = array_reverse($array, true);
+
+            return $key;
+        }
+
+        if ($array) {
+            end($array);
+
+            return key($array);
+        }
+
+        return $else;
+    }
+
     public static function map(array &$array, callable $callable, array &...$arrays)
     {
         return array_map($callable, $array, ...$arrays);
