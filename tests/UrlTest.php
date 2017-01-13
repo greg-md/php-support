@@ -111,7 +111,7 @@ class UrlTest extends TestCase
     {
         $this->assertContains(Url::base('/path'), ['//vendor/bin/path', 'vendor/bin/path']);
 
-        $this->assertEquals(Url::base('/path', true), ['//vendor/bin/path', 'vendor/bin/path']);
+        $this->assertContains(Url::base('/path', true), ['//vendor/bin/path', 'vendor/bin/path']);
     }
 
     /** @test */
