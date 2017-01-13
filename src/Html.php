@@ -38,19 +38,4 @@ class Html
 
         return $html;
     }
-
-    public static function parseLinks($string, callable $callable)
-    {
-        $regex = '(?:((?:https?|ftps?)\:\/\/)|www\.)([a-z0-9\-]+\.)(?-1)?[a-z]{2,8}(?:(?:\/|\?)\S*[a-z0-9-_])?';
-
-        return preg_replace_callback('#(' . $regex . ')#i', function ($matches) use ($callable) {
-            $href = $name = $matches[1];
-
-            if ($matches[2] === 'www.') {
-                $href = Url::fix($href);
-            }
-
-            call_user_func_array($callable, [$name, $href]);
-        }, $string);
-    }
 }

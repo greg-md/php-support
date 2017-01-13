@@ -426,4 +426,13 @@ class Str
 
         return static::spinalCase($string, true);
     }
+
+    public static function parseUrls($string, callable $callable)
+    {
+        $regex = '(?:(?:(?:(?:https?|ftps?)\:)?\/\/)|www\.)?(?:[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?\.)+[a-z]{2,8}(?:(?:\/|\?)\S*[a-z0-9-_])?';
+
+        return preg_replace_callback('#(' . $regex . ')#i', function ($matches) use ($callable) {
+            return call_user_func_array($callable, [$matches[1], Url::schema($matches[1])]);
+        }, $string);
+    }
 }

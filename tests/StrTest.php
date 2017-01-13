@@ -3,6 +3,7 @@
 namespace Greg\Support\Tests;
 
 use Greg\Support\Str;
+use Greg\Support\Url;
 use PHPUnit\Framework\TestCase;
 
 class StrTest extends TestCase
@@ -235,5 +236,16 @@ class StrTest extends TestCase
     public function it_gets_system_name()
     {
         $this->assertEquals('inghetata-rece', Str::systemName('Înghețată rece'));
+    }
+
+    /** @test */
+    public function it_parses_urls()
+    {
+        $this->assertEquals(
+            'Search on <a href="http://google.com">google.com</a>',
+            Str::parseUrls('Search on google.com', function($url, $href) {
+                return '<a href="' . $href . '">' . $url . '</a>';
+            })
+        );
     }
 }
