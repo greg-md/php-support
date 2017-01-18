@@ -78,7 +78,7 @@ class ConfigTest extends TestCase
 
         Config::iniFile(__DIR__ . '/config.section.ini', 'undefined section');
     }
-    
+
     public function testParse()
     {
         $config = Config::dir(__DIR__ . '/config');
