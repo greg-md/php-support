@@ -48,4 +48,56 @@ class ServerTest extends TestCase
     {
         $this->assertEquals($_SERVER['DOCUMENT_ROOT'], Server::get('DOCUMENT_ROOT'));
     }
+
+    /** @test */
+    public function it_manages_encoding()
+    {
+        $this->assertTrue(Server::encoding('UTF-8'));
+
+        $this->assertEquals('UTF-8', Server::encoding());
+    }
+
+    /** @test */
+    public function it_manages_timezone()
+    {
+        $this->assertTrue(Server::timezone('UTC'));
+
+        $this->assertEquals('UTC', Server::timezone());
+    }
+
+    /** @test */
+    public function it_gets_all()
+    {
+        $this->assertArrayHasKey('error_reporting', Server::iniAll());
+    }
+
+    /** @test */
+    public function it_gets_error_reporting()
+    {
+        $this->assertEquals(error_reporting(), Server::iniGet('error_reporting'));
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_get_wrong_value()
+    {
+        $this->expectException(\Exception::class);
+
+        Server::iniGet('some_wrong_value');
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_set_wrong_value()
+    {
+        $this->expectException(\Exception::class);
+
+        Server::iniSet('some_wrong_value', true);
+    }
+
+    /** @test */
+    public function it_sets_values()
+    {
+        Server::iniSet('memory_limit', '1024M');
+
+        $this->assertEquals('1024M', ini_get('memory_limit'));
+    }
 }

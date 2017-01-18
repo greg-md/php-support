@@ -86,11 +86,11 @@ class SessionTest extends TestCase
     /** @test */
     public function it_checks_ini_configs()
     {
-        Session::setIni('cookie_lifetime', 80);
+        Session::iniSet('cookie_lifetime', 80);
 
         $this->assertEquals(80, ini_get('session.cookie_lifetime'));
 
-        $this->assertEquals(80, Session::getIni('cookie_lifetime'));
+        $this->assertEquals(80, Session::iniGet('cookie_lifetime'));
     }
 
     /** @test */

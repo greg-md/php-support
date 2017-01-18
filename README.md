@@ -25,11 +25,10 @@ Support classes for PHP
 * [Html](docs/Html.md) - Working with html;
 * [Session](docs/ServerIni.md) - Working with `$_SESSION`;
 * [DateTime](docs/DateTime.md) - Working with dates and times;
-* [Server](docs/Server.md) - Working with `$_SERVER`;
-* [ServerConfig](docs/ServerConfig.md) - Working with server configurations;
-* [ServerIni](docs/ServerIni.md) - Working with php.ini;
+* [Server](docs/Server.md) - Working with server configurations;
 * [ErrorHandler](docs/ErrorHandler.md) - Working with error handler;
-* [IncludePath](docs/IncludePath.md) - Working with included paths.
+* [IncludePath](docs/IncludePath.md) - Working with included paths;
+* [Config](docs/Config.md) - Working with config files.
 * **Accessor**
     * [AccessorTrait](docs/AccessorTrait.md) - A trait for **private** usage of the storage in a class;
     * [AccessorStaticTrait](docs/AccessorStaticTrait.md) - A trait for **private** usage of the storage in a static class;
@@ -39,9 +38,6 @@ Support classes for PHP
     * [IteratorAggregateTrait](docs/IteratorAggregateTrait.md) - A trait for [IteratorAggregate](http://php.net/manual/en/class.iteratoraggregate.php) interface;
     * [SerializableTrait](docs/SerializableTrait.md) - A trait for [Serializable](http://php.net/manual/en/class.serializable.php) interface;
     * [ArrayObject](docs/ArrayObject.md) - Array as an object.
-* **Config**
-    * [ConfigDir](docs/ConfigDir.md) - Load config from a directory of `.php` files;
-    * [ConfigIni](docs/ConfigIni.md) - Load config from `.ini` format.
 * **Http**
     * [Request](docs/Request.md) - Working with `http request` in an object-oriented way;
     * [Response](docs/Response.md) - Working with `http response` in an object-oriented way.

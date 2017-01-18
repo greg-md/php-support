@@ -1,27 +1,38 @@
 <?php
 
-namespace Greg\Support\Config;
+namespace Greg\Support;
 
-class ConfigIni
+class Config
 {
-    public static function file($file, $section = null, $indexDelimiter = null)
+    public static function dir($dir, $main = null)
     {
-        return static::contents(static::parseFile($file), $section, $indexDelimiter);
+        $config = static::parseDir($dir);
+
+        if ($main) {
+            return static::parseMainConfig($config, $main);
+        }
+
+        return $config;
     }
 
-    public static function string($string, $section = null, $indexDelimiter = null)
+    public static function iniFile($file, $section = null, $indexDelimiter = null)
     {
-        return static::contents(static::parseString($string), $section, $indexDelimiter);
+        return static::iniContents(static::parseFile($file), $section, $indexDelimiter);
     }
 
-    protected static function contents(array $contents, $section = null, $indexDelimiter = null)
+    public static function iniString($string, $section = null, $indexDelimiter = null)
+    {
+        return static::iniContents(static::parseString($string), $section, $indexDelimiter);
+    }
+
+    protected static function iniContents(array $contents, $section = null, $indexDelimiter = null)
     {
         if (static::hasSections($contents)) {
             return static::contentsWithSections($contents, $section, $indexDelimiter);
         }
 
         if ($section) {
-            throw new ConfigException('You don\'t have any sections in the config.');
+            throw new \Exception('You don\'t have any sections in the config.');
         }
 
         if ($indexDelimiter) {
@@ -44,7 +55,7 @@ class ConfigIni
 
         if ($section) {
             if (!array_key_exists($section, $contents)) {
-                throw new ConfigException('Config ini section `' . $section . '` not found.');
+                throw new \Exception('Config ini section `' . $section . '` not found.');
             }
 
             return $contents[$section];
@@ -110,5 +121,65 @@ class ConfigIni
     protected static function parseString($string)
     {
         return parse_ini_string($string, true) ?: [];
+    }
+
+    protected static function parseMainConfig(array $config, $main)
+    {
+        if (!array_key_exists($main, $config)) {
+            throw new \Exception('Main config `' . $main . '` not found.');
+        }
+
+        $mainConfig = $config[$main];
+
+        unset($config[$main]);
+
+        return array_merge($mainConfig, $config);
+    }
+
+    protected static function parseDir($dir)
+    {
+        $config = [];
+
+        foreach (glob($dir . DIRECTORY_SEPARATOR . '*') as $resource) {
+            if (!$settings = static::parseResource($resource)) {
+                continue;
+            }
+
+            $fileName = pathinfo($resource, PATHINFO_FILENAME);
+
+            $config[$fileName] = isset($config[$fileName]) ? array_merge($config[$fileName], $settings) : $settings;
+        }
+
+        return $config;
+    }
+
+    protected static function parseResource($resource)
+    {
+        if (is_dir($resource)) {
+            return static::parseDir($resource);
+        }
+
+        if (static::isConfigFile($resource)) {
+            return ___gregRequireFile($resource);
+        }
+
+        return false;
+    }
+
+    protected static function isConfigFile($file)
+    {
+        return is_file($file) and pathinfo($file, PATHINFO_EXTENSION) == 'php';
+    }
+}
+
+/*
+ * Scope isolated include.
+ *
+ * Prevents access to $this/self from included files.
+ */
+if (!function_exists('___gregRequireFile')) {
+    function ___gregRequireFile($file)
+    {
+        return require $file;
     }
 }

@@ -38,4 +38,37 @@ class Server
     {
         return Arr::get($_SERVER, $key, $else);
     }
+
+    public static function encoding($encoding = null)
+    {
+        return mb_internal_encoding(...func_get_args());
+    }
+
+    public static function timezone($timezone = null)
+    {
+        return func_num_args() ? date_default_timezone_set($timezone) : date_default_timezone_get();
+    }
+
+    public static function iniAll($extension = null, $details = true)
+    {
+        return ini_get_all(...func_get_args());
+    }
+
+    public static function iniGet($var)
+    {
+        if (($value = ini_get($var)) === false) {
+            throw new \Exception('Server option `' . $var . '` does not exists.');
+        }
+
+        return $value;
+    }
+
+    public static function iniSet($var, $value)
+    {
+        if (($oldValue = ini_set($var, $value)) === false) {
+            throw new \Exception('Server option `' . $var . '` can not be set.');
+        }
+
+        return $oldValue;
+    }
 }

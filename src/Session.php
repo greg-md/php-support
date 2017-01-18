@@ -73,14 +73,14 @@ class Session
         return self::$flash;
     }
 
-    public static function setIni($var, $value)
+    public static function iniSet($var, $value)
     {
-        return ServerIni::set('session.' . $var, $value);
+        return Server::iniSet('session.' . $var, $value);
     }
 
-    public static function getIni($var)
+    public static function iniGet($var)
     {
-        return ServerIni::get('session.' . $var);
+        return Server::iniGet('session.' . $var);
     }
 
     public static function hasId()
@@ -159,23 +159,23 @@ class Session
     public static function resetLifetime($time = null, $path = null, $domain = null, $secure = null, $httpOnly = null)
     {
         if ($time === null) {
-            $time = static::getIni('cookie_lifetime');
+            $time = static::iniGet('cookie_lifetime');
         }
 
         if ($path === null) {
-            $path = static::getIni('cookie_path');
+            $path = static::iniGet('cookie_path');
         }
 
         if ($domain === null) {
-            $domain = static::getIni('cookie_domain');
+            $domain = static::iniGet('cookie_domain');
         }
 
         if ($secure === null) {
-            $secure = static::getIni('cookie_secure');
+            $secure = static::iniGet('cookie_secure');
         }
 
         if ($httpOnly === null) {
-            $httpOnly = static::getIni('cookie_httponly');
+            $httpOnly = static::iniGet('cookie_httponly');
         }
 
         if ($time > 0) {
