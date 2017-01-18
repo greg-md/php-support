@@ -721,11 +721,11 @@ class ArrTest extends TestCase
     {
         $accessor = [1, 2, 3];
 
-        $this->assertTrue(Arr::isFilled($accessor));
+        $this->assertTrue(Arr::isFulfilled($accessor));
 
         $accessor = [1, 2, 3, ''];
 
-        $this->assertFalse(Arr::isFilled($accessor));
+        $this->assertFalse(Arr::isFulfilled($accessor));
     }
 
     public function testEach()

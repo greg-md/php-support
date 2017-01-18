@@ -30,6 +30,41 @@
 * [delIndex](#delIndex) - Delete a value from an array, using index;
 * [suffix](#suffix) - Add a suffix to array values;
 * [prefix](#prefix) - Add a prefix to array values;
+* [append](#append) - Append a value to an array;
+* [appendRef](#appendRef) - Append a value reference to an array;
+* [appendKey](#appendKey) - Append a key-value to an array;
+* [appendKeyRef](#appendKeyRef) - Append a key-value reference to an array;
+* [appendIndex](#appendIndex) - Append an index-value to an array;
+* [appendIndexRef](#appendIndexRef) - Append an index-value reference to an array;
+* [prepend](#prepend) - Prepend a value to an array;
+* [prependRef](#prependRef) - Prepend a value reference to an array;
+* [prependKey](#prependKey) - Prepend a key-value to an array;
+* [prependKeyRef](#prependKeyRef) - Prepend a key-value reference to an array;
+* [prependIndex](#prependIndex) - Prepend an index-value to an array;
+* [prependIndexRef](#prependIndexRef) - Prepend an index-value reference to an array;
+* [first](#first) - Get the first value of an array;
+* [firstRef](#firstRef) - Get the first value reference of an array;
+* [last](#last) - Get the last value of an array;
+* [lastRef](#lastRef) - Get the last value reference of an array;
+* [firstKey](#firstKey) - Get the first key of an array;
+* [lastKey](#lastKey) - Get the last key of an array;
+* [map](#map) - Map an array;
+* [mapRecursive](#mapRecursive) - Map an array recursively;
+* [filter](#filter) - Filter an array;
+* [filterRecursive](#filterRecursive) - Filter an array recursively;
+* [group](#group) - Group an array;
+* [inArrayValues](#inArrayValues) - Determine if values exists in an array;
+* [pairs](#pairs) - Combine an array with key-value;
+* [isFulfilled](#isFulfilled) - Determine if an array is fulfilled;
+* [each](#each) - Parse an array an exchange their key-value;
+* [count](#count) - Count an array;
+* [pack](#pack) - Pack an array;
+* [fixIndexes](#fixIndexes) - Fix indexes of an array;
+* [packIndexes](#packIndexes) - Pack indexes of an array;
+* [packIndexesRef](#packIndexesRef) - Pack indexes of an array, using values reference;
+* [unpackIndexes](#unpackIndexes) - Unpack indexes of an array;
+* [unpackIndexesRef](#unpackIndexesRef) - Unpack indexes of an array, using values reference;
+* [valuesRecursive](#valuesRecursive) - Get values of an array recursively;
 
 ## camelCase
 

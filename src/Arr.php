@@ -956,7 +956,7 @@ class Arr
         return array_combine(array_column($array, $key), array_column($array, $value));
     }
 
-    public static function isFilled(array &$array, ...$args)
+    public static function isFulfilled(array &$array, ...$args)
     {
         return count(array_filter($array, ...$args)) == count($array);
     }
