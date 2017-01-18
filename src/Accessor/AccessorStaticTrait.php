@@ -33,9 +33,9 @@ trait AccessorStaticTrait
         return Arr::set(static::$accessor, $key, $value);
     }
 
-    private static function addToAccessor(array $items)
+    private static function addToAccessor(array $values)
     {
-        return static::$accessor = array_merge(static::$accessor, $items);
+        return static::$accessor = array_merge(static::$accessor, $values);
     }
 
     private static function removeFromAccessor($key)
