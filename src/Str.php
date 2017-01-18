@@ -2,6 +2,8 @@
 
 namespace Greg\Support;
 
+use Greg\Support\Tools\Math;
+
 class Str
 {
     const ACCENTS = [
@@ -23,20 +25,6 @@ class Str
         'ț'        => 't',
     ];
 
-    protected static function extractWords($string, $delimiter = ' ')
-    {
-        $string = preg_replace('#[^a-z0-9]+#i', $delimiter, $string);
-
-        $string = trim(trim($string), $delimiter);
-
-        return $string;
-    }
-
-    protected static function splitCamelCase($string, $delimiter = ' ')
-    {
-        return preg_replace('#([a-z0-9]+)([A-Z]+)#', '$1' . $delimiter . '$2', $string);
-    }
-
     public static function camelCase($string)
     {
         $string = static::extractWords($string);
@@ -47,17 +35,6 @@ class Str
     public static function lowerCamelCase($string)
     {
         return lcfirst(static::camelCase($string));
-    }
-
-    protected static function prepareCase($string, $splitCamelCase = false)
-    {
-        $string = static::extractWords($string);
-
-        if ($splitCamelCase) {
-            $string = static::splitCamelCase($string);
-        }
-
-        return $string;
     }
 
     public static function snakeCase($string, $splitCamelCase = false)
@@ -116,23 +93,14 @@ class Str
         return str_replace(' ', '-', ucfirst(mb_strtolower($string)));
     }
 
-    protected static function preparePhpCase($string)
+    public static function phpCamelCase($string)
     {
-        if (!$string or static::isDigit($string[0])) {
-            $string = '_' . $string;
-        }
-
-        return $string;
+        return static::preparePhpCase(static::camelCase($string));
     }
 
-    public static function phpCamelCase($var)
+    public static function phpLowerCamelCase($string)
     {
-        return static::preparePhpCase(static::camelCase($var));
-    }
-
-    public static function phpLowerCamelCase($var)
-    {
-        return static::preparePhpCase(static::lowerCamelCase($var));
+        return static::preparePhpCase(static::lowerCamelCase($string));
     }
 
     public static function phpSnakeCase($string, $splitCamelCase = false)
@@ -155,24 +123,24 @@ class Str
         return static::preparePhpCase(static::upperWordsSnakeCase($string, $splitCamelCase));
     }
 
-    public static function abbreviation($var)
+    public static function abbreviation($string)
     {
-        $var = static::prepareCase($var);
+        $string = static::prepareCase($string);
 
-        $var = ucwords($var);
+        $string = ucwords($string);
 
-        $var = explode(' ', $var);
+        $string = explode(' ', $string);
 
-        $var = array_map(function ($var) {
-            return $var[0];
-        }, $var);
+        $string = array_map(function ($string) {
+            return $string[0];
+        }, $string);
 
-        $var = implode('', $var);
+        $string = implode('', $string);
 
-        return $var;
+        return $string;
     }
 
-    public static function replace($search, $replace, $string)
+    public static function replaceLetters($string, $search, $replace)
     {
         $lower = preg_split('//u', mb_strtolower($search), null, PREG_SPLIT_NO_EMPTY);
 
@@ -188,23 +156,15 @@ class Str
     public static function replaceAccents($string)
     {
         foreach (static::ACCENTS as $search => $replace) {
-            $string = static::replace($search, $replace, $string);
+            $string = static::replaceLetters($string, $search, $replace);
         }
 
         return $string;
     }
 
-    /**
-     * Determine if a given string matches a given pattern.
-     *
-     * @param string $pattern
-     * @param string $value
-     *
-     * @return bool
-     */
-    public static function is($pattern, $value)
+    public static function is($string, $pattern)
     {
-        if ($pattern == $value) {
+        if ($pattern == $string) {
             return true;
         }
 
@@ -215,21 +175,13 @@ class Str
         // pattern such as "library/*", making any string check convenient.
         $pattern = str_replace('\*', '.*', $pattern);
 
-        return (bool) preg_match('#^' . $pattern . '$#', $value);
+        return (bool) preg_match('#^' . $pattern . '$#', $string);
     }
 
-    /**
-     * Determine if a given string starts with a given substring.
-     *
-     * @param string       $haystack
-     * @param string|array $needles
-     *
-     * @return bool
-     */
-    public static function startsWith($haystack, $needles)
+    public static function startsWith($string, $matches)
     {
-        foreach ((array) $needles as $needle) {
-            if (strpos($haystack, $needle) === 0) {
+        foreach ((array) $matches as $match) {
+            if (strpos($string, $match) === 0) {
                 return true;
             }
         }
@@ -237,10 +189,10 @@ class Str
         return false;
     }
 
-    public static function endsWith($haystack, $needles)
+    public static function endsWith($string, $matches)
     {
-        foreach ((array) $needles as $needle) {
-            if (mb_substr($haystack, -mb_strlen($needle)) === $needle) {
+        foreach ((array) $matches as $match) {
+            if (mb_substr($string, -mb_strlen($match)) === $match) {
                 return true;
             }
         }
@@ -248,14 +200,14 @@ class Str
         return false;
     }
 
-    public static function shift($str, $shift)
+    public static function shift($string, $shift)
     {
-        return mb_substr($str, mb_strlen($shift));
+        return mb_substr($string, mb_strlen($shift));
     }
 
-    public static function quote($str, $with = '"')
+    public static function quote($string, $with = '"')
     {
-        return $with . $str . $with;
+        return $with . $string . $with;
     }
 
     public static function isEmpty($var)
@@ -274,13 +226,15 @@ class Str
             return [];
         }
 
-        $args = [$delimiter, $string];
-
-        if ($limit !== null) {
-            $args[] = $limit;
+        if (static::isEmpty($delimiter)) {
+            return preg_split('//u', $string, $limit, PREG_SPLIT_NO_EMPTY);
         }
 
-        return explode(...$args);
+        if ($limit === null) {
+            $limit = PHP_INT_MAX;
+        }
+
+        return explode($delimiter, $string, $limit);
     }
 
     public static function splitPath($string, $limit = null)
@@ -318,39 +272,12 @@ class Str
         return $output;
     }
 
-    protected static function cryptoRandSecure($min, $max)
-    {
-        $range = $max - $min;
-
-        /*
-        if ($range < 0) {
-            return $min;  // not so random...
-        }
-        */
-
-        $log = log($range, 2);
-
-        $bytes = (int) ($log / 8) + 1; // length in bytes
-
-        $bits = (int) $log + 1; // length in bits
-
-        $filter = (int) (1 << $bits) - 1; // set all lower bits to 1
-
-        do {
-            $random = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
-
-            $random = $random & $filter; // discard irrelevant bits
-        } while ($random >= $range);
-
-        return $min + $random;
-    }
-
     public static function generate($length, $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
     {
         $token = '';
 
         for ($i = 0; $i < $length; ++$i) {
-            $token .= $characters[static::cryptoRandSecure(0, strlen($characters))];
+            $token .= $characters[Math::cryptoRandSecure(0, strlen($characters))];
         }
 
         return $token;
@@ -421,7 +348,7 @@ class Str
         $string = static::replaceAccents($string);
 
         foreach ($replacement as $search => $replace) {
-            $string = static::replace($search, $replace, $string);
+            $string = static::replaceLetters($string, $search, $replace);
         }
 
         return static::spinalCase($string, true);
@@ -434,5 +361,39 @@ class Str
         return preg_replace_callback('#(' . $regex . ')#i', function ($matches) use ($callable) {
             return call_user_func_array($callable, [$matches[1], Url::schema($matches[1])]);
         }, $string);
+    }
+
+    protected static function extractWords($string, $delimiter = ' ')
+    {
+        $string = preg_replace('#[^a-z0-9]+#i', $delimiter, $string);
+
+        $string = trim(trim($string), $delimiter);
+
+        return $string;
+    }
+
+    protected static function splitCamelCase($string, $delimiter = ' ')
+    {
+        return preg_replace('#([a-z0-9]+)([A-Z]+)#', '$1' . $delimiter . '$2', $string);
+    }
+
+    protected static function prepareCase($string, $splitCamelCase = false)
+    {
+        $string = static::extractWords($string);
+
+        if ($splitCamelCase) {
+            $string = static::splitCamelCase($string);
+        }
+
+        return $string;
+    }
+
+    protected static function preparePhpCase($string)
+    {
+        if (!$string or static::isDigit($string[0])) {
+            $string = '_' . $string;
+        }
+
+        return $string;
     }
 }

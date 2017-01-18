@@ -120,11 +120,11 @@ class StrTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_if_string_is_like_pattern()
+    public function it_checks_if_string_match_a_pattern()
     {
         $this->assertTrue(Str::is('Foo Bar', 'Foo Bar'));
 
-        $this->assertTrue(Str::is('Foo *', 'Foo Bar'));
+        $this->assertTrue(Str::is('Foo Bar', 'Foo *'));
     }
 
     /** @test */
