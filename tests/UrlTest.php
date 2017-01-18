@@ -109,9 +109,9 @@ class UrlTest extends TestCase
     /** @test */
     public function it_gets_base_url()
     {
-        $this->assertContains(Url::base('/path'), ['//vendor/bin/path', 'vendor/bin/path']);
+        $this->assertContains(Url::base('/path'), ['//vendor/bin/path', '/vendor/bin/path']);
 
-        $this->assertContains(Url::base('/path', true), ['//vendor/bin/path', 'vendor/bin/path']);
+        $this->assertContains(Url::base('/path', true), ['//vendor/bin/path', 'http://localhost/vendor/bin/path']);
     }
 
     /** @test */

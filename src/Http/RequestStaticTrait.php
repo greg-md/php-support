@@ -89,6 +89,10 @@ trait RequestStaticTrait
             $baseUri[0] = '/';
         }
 
+        if ($baseUri[0] != '/') {
+            $baseUri = '/' . $baseUri;
+        }
+
         if ($baseUri == '/') {
             $baseUri = null;
         }
