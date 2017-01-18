@@ -12,3 +12,8 @@ Support classes for PHP
 # Requirements
 
 * PHP Version `^5.6 || ^7.0`
+
+# Documentation
+
+* **Accessor**
+    * [AccessorStaticTrait](docs/AccessorStaticTrait.md) - A **private** storage trait for static usage;
