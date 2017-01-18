@@ -29,8 +29,7 @@ Support classes for PHP
 * [ServerConfig](docs/ServerConfig.md) - Working with server configurations;
 * [ServerIni](docs/ServerIni.md) - Working with php.ini;
 * [ErrorHandler](docs/ErrorHandler.md) - Working with error handler;
-* [IncludePath](docs/IncludePath.md) - Working with included paths;
-
+* [IncludePath](docs/IncludePath.md) - Working with included paths.
 * **Accessor**
     * [AccessorTrait](docs/AccessorTrait.md) - A trait for **private** usage of the storage in a class;
     * [AccessorStaticTrait](docs/AccessorStaticTrait.md) - A trait for **private** usage of the storage in a static class;
@@ -40,19 +39,15 @@ Support classes for PHP
     * [IteratorAggregateTrait](docs/IteratorAggregateTrait.md) - A trait for [IteratorAggregate](http://php.net/manual/en/class.iteratoraggregate.php) interface;
     * [SerializableTrait](docs/SerializableTrait.md) - A trait for [Serializable](http://php.net/manual/en/class.serializable.php) interface;
     * [ArrayObject](docs/ArrayObject.md) - Array as an object.
-
 * **Config**
     * [ConfigDir](docs/ConfigDir.md) - Load config from a directory of `.php` files;
     * [ConfigIni](docs/ConfigIni.md) - Load config from `.ini` format.
-
 * **Http**
     * [Request](docs/Request.md) - Working with `http request` in an object-oriented way;
     * [Response](docs/Response.md) - Working with `http response` in an object-oriented way.
-
 * **Validation**
     * [Validation](docs/Validation.md) - Validate parameters against validators;
     * [ValidatorStrategy](docs/ValidatorStrategy.md) - A strategy for validators.
-
 * **Validators**
     * [DateTimeFromValidator](docs/DateTimeFromValidator.md) - Validate a `DateTime` to be grater than another `DateTime`;
     * [DateTimeToValidator](docs/DateTimeToValidator.md) - Validate a `DateTime` to be less than another `DateTime`;
@@ -66,7 +61,6 @@ Support classes for PHP
     * [MaxValidator](docs/MaxValidator.md) - Validate a number to be less than another number;
     * [MinValidator](docs/MinValidator.md) - Validate a number to be greater than another number;
     * [RequiredValidator](docs/RequiredValidator.md) - Validate a value to be not empty.
-
 * **Tools**
     * [Color](docs/Color.md) - Some color tools;
     * [Math](docs/Math.md) - Some math tools;
