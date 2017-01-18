@@ -127,9 +127,11 @@ class Str
     {
         $string = static::prepareCase($string);
 
-        $string = ucwords($string);
+        $string = mb_strtolower($string);
 
         $string = explode(' ', $string);
+
+        $string = array_diff($string, ['to', 'the']);
 
         $string = array_map(function ($string) {
             return $string[0];
@@ -137,7 +139,7 @@ class Str
 
         $string = implode('', $string);
 
-        return $string;
+        return mb_strtoupper($string);
     }
 
     public static function replaceLetters($string, $search, $replace)
@@ -178,10 +180,10 @@ class Str
         return (bool) preg_match('#^' . $pattern . '$#', $string);
     }
 
-    public static function startsWith($string, $matches)
+    public static function startsWith($string, $needles)
     {
-        foreach ((array) $matches as $match) {
-            if (strpos($string, $match) === 0) {
+        foreach ((array) $needles as $needle) {
+            if (strpos($string, $needle) === 0) {
                 return true;
             }
         }
@@ -189,10 +191,10 @@ class Str
         return false;
     }
 
-    public static function endsWith($string, $matches)
+    public static function endsWith($string, $needles)
     {
-        foreach ((array) $matches as $match) {
-            if (mb_substr($string, -mb_strlen($match)) === $match) {
+        foreach ((array) $needles as $needle) {
+            if (mb_substr($string, -mb_strlen($needle)) === $needle) {
                 return true;
             }
         }
@@ -205,19 +207,13 @@ class Str
         return mb_substr($string, mb_strlen($shift));
     }
 
-    public static function quote($string, $with = '"')
+    public static function quote($string, $start = '"', $end = null)
     {
-        return $with . $string . $with;
-    }
+        if ($end === null) {
+            $end = $start;
+        }
 
-    public static function isEmpty($var)
-    {
-        return $var === null or $var === '';
-    }
-
-    public static function isScalar($var)
-    {
-        return is_scalar($var) or is_null($var);
+        return $start . $string . $end;
     }
 
     public static function split($string, $delimiter = '', $limit = null)
@@ -297,11 +293,6 @@ class Str
         }
     }
 
-    public static function isDigit($var)
-    {
-        return ctype_digit((string) $var);
-    }
-
     public static function systemName($string)
     {
         $replacement = [
@@ -361,6 +352,21 @@ class Str
         return preg_replace_callback('#(' . $regex . ')#i', function ($matches) use ($callable) {
             return call_user_func_array($callable, [$matches[1], Url::schema($matches[1])]);
         }, $string);
+    }
+
+    public static function isEmpty($var)
+    {
+        return $var === null or $var === '';
+    }
+
+    public static function isScalar($var)
+    {
+        return is_scalar($var) or is_null($var);
+    }
+
+    public static function isDigit($var)
+    {
+        return ctype_digit((string) $var);
     }
 
     protected static function extractWords($string, $delimiter = ' ')
