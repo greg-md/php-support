@@ -26,8 +26,6 @@ Support classes for PHP
 * [Session](docs/ServerIni.md) - Working with `$_SESSION`;
 * [DateTime](docs/DateTime.md) - Working with dates and times;
 * [Server](docs/Server.md) - Working with server configurations;
-* [ErrorHandler](docs/ErrorHandler.md) - Working with error handler;
-* [IncludePath](docs/IncludePath.md) - Working with included paths;
 * [Config](docs/Config.md) - Working with config files.
 * **Accessor**
     * [AccessorTrait](docs/AccessorTrait.md) - A trait for **private** usage of the storage in a class;

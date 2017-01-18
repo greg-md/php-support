@@ -7,11 +7,11 @@ class Dir
     public static function make($dir, $recursive = false)
     {
         if (!file_exists($dir)) {
-            ErrorHandler::throwException();
+            Server::errorsAsExceptions();
 
             @mkdir($dir, 0777, $recursive);
 
-            ErrorHandler::restore();
+            Server::restoreErrors();
         }
 
         return true;

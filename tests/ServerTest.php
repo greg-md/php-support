@@ -7,6 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 class ServerTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        set_include_path('.');
+    }
+
     /** @test */
     public function it_gets_script_name()
     {
@@ -99,5 +106,73 @@ class ServerTest extends TestCase
         Server::iniSet('memory_limit', '1024M');
 
         $this->assertEquals('1024M', ini_get('memory_limit'));
+    }
+
+    /** @test */
+    public function it_appends_new_path()
+    {
+        Server::appendIncPath('/append/path');
+
+        $this->assertEquals('.:/append/path', get_include_path());
+    }
+
+    /** @test */
+    public function it_prepend_new_path()
+    {
+        Server::prependIncPath('/prepend/path');
+
+        $this->assertEquals('/prepend/path:.', get_include_path());
+    }
+
+    /** @test */
+    public function it_resets_included_paths()
+    {
+        set_include_path('.:/some/path');
+
+        Server::resetIncPath();
+
+        $this->assertEquals('.', get_include_path());
+    }
+
+    /** @test */
+    public function it_checks_if_file_exists_in_included_paths()
+    {
+        set_include_path('.:' . __DIR__);
+
+        $this->assertTrue(Server::existsInIncPaths('image.png'));
+    }
+
+    /** @test */
+    public function it_throws_exception()
+    {
+        Server::errorsAsExceptions();
+
+        $this->expectException(\Exception::class);
+
+        mkdir(__DIR__ . '/no/recursive/dir');
+    }
+
+    /** @test */
+    public function it_disables_errors()
+    {
+        Server::disableErrors();
+
+        mkdir(__DIR__ . '/no/recursive/dir');
+
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     *
+     * @depends it_throws_exception
+     *
+     * @expectedException \PHPUnit_Framework_Error_Warning
+     */
+    public function it_restores_errors()
+    {
+        Server::restoreErrors();
+
+        mkdir(__DIR__ . '/no/recursive/dir');
     }
 }

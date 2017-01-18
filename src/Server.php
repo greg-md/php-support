@@ -71,4 +71,65 @@ class Server
 
         return $oldValue;
     }
+
+    public static function appendIncPath($path)
+    {
+        return static::addIncPath($path);
+    }
+
+    public static function prependIncPath($path)
+    {
+        return static::addIncPath($path, true);
+    }
+
+    protected static function addIncPath($path, $prepend = false)
+    {
+        $path = (array) $path;
+
+        $incPaths = explode(PATH_SEPARATOR, get_include_path());
+
+        $path = array_values($path);
+
+        $path = $prepend ? array_merge($path, $incPaths) : array_merge($incPaths, $path);
+
+        $path = array_unique($path);
+
+        $path = array_filter($path);
+
+        return set_include_path(implode(PATH_SEPARATOR, $path));
+    }
+
+    public static function resetIncPath()
+    {
+        return set_include_path('.');
+    }
+
+    public static function existsInIncPaths($fileName)
+    {
+        return stream_resolve_include_path($fileName) !== false;
+    }
+
+    public static function errorsAsExceptions($exception = \Exception::class)
+    {
+        set_error_handler(function ($errNo, $errStr/*, $errFile, $errLine*/) use ($exception) {
+            unset($errNo);
+
+            throw new $exception($errStr);
+        });
+
+        return true;
+    }
+
+    public static function disableErrors()
+    {
+        set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
+        });
+
+        return true;
+    }
+
+    public static function restoreErrors()
+    {
+        return restore_error_handler();
+    }
 }
