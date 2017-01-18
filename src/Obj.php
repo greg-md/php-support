@@ -151,7 +151,7 @@ class Obj
                     }
                 }
             } else {
-//                if (!$returnArgs and !$expectedType and $expectedArg->isOptional()) {
+                //                if (!$returnArgs and !$expectedType and $expectedArg->isOptional()) {
 //                    continue;
 //                }
 
