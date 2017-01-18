@@ -2,12 +2,11 @@
 
 namespace Greg\Support\Http;
 
-use Greg\Support\Accessor\AccessorTrait;
 use Greg\Support\Validation\Validation;
 
 class Request
 {
-    use AccessorTrait, RequestStaticTrait;
+    use RequestStaticTrait;
 
     const TYPE_GET = 'GET';
 
