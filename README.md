@@ -16,4 +16,5 @@ Support classes for PHP
 # Documentation
 
 * **Accessor**
+    * [AccessorTrait](docs/AccessorTrait.md) - A **private** storage trait for object usage;
     * [AccessorStaticTrait](docs/AccessorStaticTrait.md) - A **private** storage trait for static usage;
