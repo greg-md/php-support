@@ -58,8 +58,8 @@ const INDEX_DELIMITER = '.';
 * [lastRef](#lastref) - Get the last value reference of an array;
 * [firstKey](#firstkey) - Get the first key of an array;
 * [lastKey](#lastkey) - Get the last key of an array;
-* [suffix](#suffix) - Add a suffix to array values;
 * [prefix](#prefix) - Add a prefix to array values;
+* [suffix](#suffix) - Add a suffix to array values;
 * [map](#map) - Map an array;
 * [mapRecursive](#maprecursive) - Map an array recursively;
 * [filter](#filter) - Filter an array;
@@ -1051,11 +1051,11 @@ first(array &$array, callable(mixed $value, string $key): boolean $callable = nu
 _Example:_
 
 ```php
-$accessor = [1, 2, 3];
+$array = [1, 2, 3];
 
-Arr::first($accessor); // result: 1
+Arr::first($array); // result: 1
 
-Arr::first($accessor, function ($value) { return $value === 2; }); // result: 2
+Arr::first($array, function ($value) { return $value === 2; }); // result: 2
 ```
 
 ## firstRef
@@ -1064,27 +1064,7 @@ Get the first value reference of an array. See [first](#first) method.
 
 ## last
 
-Get the last value of an array.
-
-```php
-last(array &$array, callable(mixed $value, string $key): boolean $callable = null, mixed $else = null): mixed
-```
-
-`$array` - The array;  
-`$callable` - Callable to filter values;  
-&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
-&nbsp;&nbsp;&nbsp;&nbsp;`$key` - Key.  
-`$else` - If the value was not found, return this value.
-
-_Example:_
-
-```php
-$accessor = [1, 2, 3];
-
-Arr::last($accessor); // result: 3
-
-Arr::last($accessor, function ($value) { return $value === 2; }); // result: 2
-```
+Get the last value of an array. See [first](#first) method.
 
 ## lastRef
 
@@ -1107,9 +1087,83 @@ firstKey(array &$array, callable(string $key, mixed $value): boolean $callable =
 _Example:_
 
 ```php
-$accessor = [1 => 'one', 2 => 'two', 3 => 'three'];
+$array = [1 => 'one', 2 => 'two', 3 => 'three'];
 
-Arr::firstKey($accessor); // result: 1
+Arr::firstKey($array); // result: 1
 
-Arr::firstKey($accessor, function ($key) { return $key === 2; }); // result: 2
+Arr::firstKey($array, function ($key) { return $key === 2; }); // result: 2
+```
+
+## lastKey
+
+Get the last key of an array. See [firstKey](#firstKey) method.
+
+## prefix
+
+Add a prefix to array values.
+
+```php
+prefix(array &$array, string $prefix): array
+```
+
+`$array` - The array;  
+`$prefix` - Prefix.
+
+_Example:_
+
+```php
+$array = ['foo', 'bar'];
+
+Arr::prefix($array, 'pre_'); // result: ['pre_foo', 'pre_bar'] 
+```
+
+## suffix
+
+Add a suffix to array values. See [prefix](#prefix) method.
+
+## map
+
+Map an array.
+
+```php
+map(array &$array, callable(mixed $value, mixed ...$values): string $callable, array &...$arrays): array
+```
+
+`$array` - The array;  
+`$callable` - Callable;
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
+&nbsp;&nbsp;&nbsp;&nbsp;`...$values` - Other values from `...$arrays`.
+`...$arrays` - Variable list of array arguments to run through the callback function.
+
+_Example:_
+
+```php
+$array = [1, 2, 3];
+
+Arr::map($array, function ($n) { return pow($n, 2); }); // result: [1, 4, 9]
+```
+
+## mapRecursive
+
+Map an array recursively. See [map](#map) method.
+
+## filter
+
+Filter an array.
+
+```php
+filter(array &$array, callable(mixed $value, string $key): boolean $callable = null): array
+```
+
+`$array` - The array;  
+`$callable` - Callable.
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$key` - Key.
+
+_Example:_
+
+```php
+$array = [1, 2, null, 0, 3, ''];
+
+Arr::filter($array); // result: [0 => 1, 1 => 2, 4 => 3]
 ```

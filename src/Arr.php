@@ -922,20 +922,20 @@ class Arr
         return $else;
     }
 
-    public static function suffix(array &$array, $suffix)
+    public static function prefix(array &$array, $prefix)
     {
         foreach ($array as &$value) {
-            $value .= $suffix;
+            $value = $prefix . $value;
         }
         unset($value);
 
         return $array;
     }
 
-    public static function prefix(array &$array, $prefix)
+    public static function suffix(array &$array, $suffix)
     {
         foreach ($array as &$value) {
-            $value = $prefix . $value;
+            $value .= $suffix;
         }
         unset($value);
 
@@ -954,18 +954,16 @@ class Arr
         return static::_mapRecursive($copy, $callable, $until, ...$arrays);
     }
 
-    public static function filter(array &$array, callable $callable = null, $flag = 0)
+    public static function filter(array &$array, callable $callable = null)
     {
-        return array_filter(...func_get_args());
+        return array_filter($array, $callable, ARRAY_FILTER_USE_BOTH);
     }
 
-    public static function filterRecursive(array &$array, callable $callable = null, $flag = 0)
+    public static function filterRecursive(array &$array, callable $callable = null)
     {
-        $args = func_get_args();
+        $copy = $array;
 
-        $copy = array_shift($args);
-
-        return static::_filterRecursive($copy, ...$args);
+        return static::_filterRecursive($copy, $callable);
     }
 
     public static function group(array $arrays, $maxLevel = 1, $replaceLast = true, $removeGroupedKey = false)
@@ -1217,19 +1215,15 @@ class Arr
         return $myRef;
     }
 
-    protected static function _filterRecursive(array &$array, callable $callable = null, $flag = 0)
+    protected static function _filterRecursive(array &$array, callable $callable = null)
     {
-        $args = func_get_args();
-
-        array_shift($args);
-
         foreach ($array as &$value) {
             if (is_array($value)) {
-                $value = static::_filterRecursive($value, ...$args);
+                $value = static::_filterRecursive($value, $callable);
             }
         }
         unset($value);
 
-        return array_filter($array, ...$args);
+        return array_filter($array, $callable, ARRAY_FILTER_USE_BOTH);
     }
 }
