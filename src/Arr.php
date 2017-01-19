@@ -996,6 +996,13 @@ class Arr
         return static::unpackIndexes($packed, $delimiter);
     }
 
+    public static function fixIndexesRef(array &$array, $delimiter = self::INDEX_DELIMITER)
+    {
+        $packed = static::packIndexesRef($array, $delimiter);
+
+        return static::unpackIndexesRef($packed, $delimiter);
+    }
+
     public static function packIndexes(array &$array, $delimiter = self::INDEX_DELIMITER)
     {
         $new = [];
@@ -1009,6 +1016,7 @@ class Arr
                 $new[$key] = $value;
             }
         }
+        unset($value);
 
         return $new;
     }
@@ -1019,13 +1027,14 @@ class Arr
 
         foreach ($array as $key => &$value) {
             if (is_array($value)) {
-                foreach (static::packIndexes($value) as $k => $v) {
-                    $new[$key . $delimiter . $k] = $v;
+                foreach (static::packIndexesRef($value) as $k => &$v) {
+                    $new[$key . $delimiter . $k] = &$v;
                 }
             } else {
                 $new[$key] = &$value;
             }
         }
+        unset($value);
 
         return $new;
     }
@@ -1037,7 +1046,7 @@ class Arr
         foreach ($array as $index => &$value) {
             $sub = static::unpackToIndexPath($new, $index, $delimiter);
 
-            $sub[0][$sub[1]] = $value;
+            static::set($sub[0], $sub[1], $value);
         }
         unset($value);
 
@@ -1051,15 +1060,16 @@ class Arr
         foreach ($array as $index => &$value) {
             $sub = static::unpackToIndexPath($new, $index, $delimiter);
 
-            if ($sub[1] === '') {
-                $sub[0][] = &$value;
-            } else {
-                $sub[0][$sub[1]] = &$value;
-            }
+            static::setRef($sub[0], $sub[1], $value);
         }
         unset($value);
 
         return $new;
+    }
+
+    public static function values(&$array)
+    {
+        return array_values($array);
     }
 
     public static function valuesRecursive(&$array, $until = 0)

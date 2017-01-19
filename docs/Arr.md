@@ -2,7 +2,7 @@
 
 `\Greg\Support\Arr` is working with arrays.
 
-# Constants
+# Constants:
 
 ```php
 const INDEX_DELIMITER = '.';
@@ -11,66 +11,68 @@ const INDEX_DELIMITER = '.';
 # Methods:
 
 * [has](#has) - Determine if a key exists in an array;
-* [hasIndex](#hasIndex) - Determine if an index exists in an array;
+* [hasIndex](#hasindex) - Determine if an index exists in an array;
 * [set](#set) - Set a value to an array;
-* [setRef](#setRef) - Set a value reference to an array;
-* [setIndex](#setIndex) - Set a value to an array, using index;
-* [setIndexRef](#setIndexRef) - Set a value reference to an array, using index;
+* [setRef](#setref) - Set a value reference to an array;
+* [setIndex](#setindex) - Set a value to an array, using index;
+* [setIndexRef](#setindexref) - Set a value reference to an array, using index;
 * [get](#get) - Get a value from an array;
-* [getRef](#getRef) - Get a value reference from an array;
-* [getForce](#getForce) - Get a value from an array. If the key does not exists, it is added to the array;
-* [getForceRef](#getForceRef) - Get a value reference from an array. If the key does not exists, it is added to the array;
-* [getArray](#getArray) - Get a value as array from an array;
-* [getArrayRef](#getArrayRef) - Get a value reference as array from an array;
-* [getArrayForce](#getArrayRef) - Get a value as array from an array. If the key does not exists, it is added to the array;
-* [getArrayForceRef](#getArrayRef) - Get a value reference as array from an array. If the key does not exists, it is added to the array;
-* [getIndex](#getIndex) - Get a value from an array, using index;
-* [getIndexRef](#getIndexRef) - Get a value reference from an array, using index;
-* [getIndexForce](#getIndexForce) - Get a value from an array, using index. If the index does not exists, it is added to the array;
-* [getIndexForceRef](#getIndexForceRef) - Get a value reference from an array, using index. If the index does not exists, it is added to the array;
-* [getIndexArray](#getIndexArray) - Get a value as array from an array, using index;
-* [getIndexArrayRef](#getIndexArrayRef) - Get a value reference as array from an array, using index;
-* [getIndexArrayForce](#getIndexArrayForce) - Get a value as array from an array, using index. If the index does not exists, it is added to the array;
-* [getIndexArrayForceRef](#getIndexArrayForceRef) - Get a value reference as array from an array, using index. If the index does not exists, it is added to the array;
+* [getRef](#getref) - Get a value reference from an array;
+* [getForce](#getforce) - Get a value from an array. If the key does not exists, it is added to the array;
+* [getForceRef](#getforceref) - Get a value reference from an array. If the key does not exists, it is added to the array;
+* [getArray](#getarray) - Get a value as array from an array;
+* [getArrayRef](#getarrayref) - Get a value reference as array from an array;
+* [getArrayForce](#getarrayforce) - Get a value as array from an array. If the key does not exists, it is added to the array;
+* [getArrayForceRef](#getarrayforceref) - Get a value reference as array from an array. If the key does not exists, it is added to the array;
+* [getIndex](#getindex) - Get a value from an array, using index;
+* [getIndexRef](#getindexref) - Get a value reference from an array, using index;
+* [getIndexForce](#getindexforce) - Get a value from an array, using index. If the index does not exists, it is added to the array;
+* [getIndexForceRef](#getindexforceref) - Get a value reference from an array, using index. If the index does not exists, it is added to the array;
+* [getIndexArray](#getindexarray) - Get a value as array from an array, using index;
+* [getIndexArrayRef](#getindexarrayref) - Get a value reference as array from an array, using index;
+* [getIndexArrayForce](#getindexarrayforce) - Get a value as array from an array, using index. If the index does not exists, it is added to the array;
+* [getIndexArrayForceRef](#getindexarrayforceref) - Get a value reference as array from an array, using index. If the index does not exists, it is added to the array;
 * [del](#del) - Delete a value from an array;
-* [delIndex](#delIndex) - Delete a value from an array, using index;
+* [delIndex](#delindex) - Delete a value from an array, using index;
+* [append](#append) - Append a value to an array;
+* [appendRef](#appendref) - Append a value reference to an array;
+* [appendKey](#appendkey) - Append a key-value to an array;
+* [appendKeyRef](#appendkeyref) - Append a key-value reference to an array;
+* [appendIndex](#appendindex) - Append an index-value to an array;
+* [appendIndexRef](#appendindexref) - Append an index-value reference to an array;
+* [prepend](#prepend) - Prepend a value to an array;
+* [prependRef](#prependref) - Prepend a value reference to an array;
+* [prependKey](#prependkey) - Prepend a key-value to an array;
+* [prependKeyRef](#prependkeyref) - Prepend a key-value reference to an array;
+* [prependIndex](#prependindex) - Prepend an index-value to an array;
+* [prependIndexRef](#prependindexref) - Prepend an index-value reference to an array;
+* [fixIndexes](#fixindexes) - Fix indexes of an array;
+* [fixIndexesRef](#fixindexesref) - Fix indexes of an array, using values reference;
+* [packIndexes](#packindexes) - Pack indexes of an array;
+* [packIndexesRef](#packindexesref) - Pack indexes of an array, using values reference;
+* [unpackIndexes](#unpackindexes) - Unpack indexes of an array;
+* [unpackIndexesRef](#unpackindexesref) - Unpack indexes of an array, using values reference;
+* [first](#first) - Get the first value of an array;
+* [firstRef](#firstref) - Get the first value reference of an array;
+* [last](#last) - Get the last value of an array;
+* [lastRef](#lastref) - Get the last value reference of an array;
+* [firstKey](#firstkey) - Get the first key of an array;
+* [lastKey](#lastkey) - Get the last key of an array;
 * [suffix](#suffix) - Add a suffix to array values;
 * [prefix](#prefix) - Add a prefix to array values;
-* [append](#append) - Append a value to an array;
-* [appendRef](#appendRef) - Append a value reference to an array;
-* [appendKey](#appendKey) - Append a key-value to an array;
-* [appendKeyRef](#appendKeyRef) - Append a key-value reference to an array;
-* [appendIndex](#appendIndex) - Append an index-value to an array;
-* [appendIndexRef](#appendIndexRef) - Append an index-value reference to an array;
-* [prepend](#prepend) - Prepend a value to an array;
-* [prependRef](#prependRef) - Prepend a value reference to an array;
-* [prependKey](#prependKey) - Prepend a key-value to an array;
-* [prependKeyRef](#prependKeyRef) - Prepend a key-value reference to an array;
-* [prependIndex](#prependIndex) - Prepend an index-value to an array;
-* [prependIndexRef](#prependIndexRef) - Prepend an index-value reference to an array;
-* [first](#first) - Get the first value of an array;
-* [firstRef](#firstRef) - Get the first value reference of an array;
-* [last](#last) - Get the last value of an array;
-* [lastRef](#lastRef) - Get the last value reference of an array;
-* [firstKey](#firstKey) - Get the first key of an array;
-* [lastKey](#lastKey) - Get the last key of an array;
 * [map](#map) - Map an array;
-* [mapRecursive](#mapRecursive) - Map an array recursively;
+* [mapRecursive](#maprecursive) - Map an array recursively;
 * [filter](#filter) - Filter an array;
-* [filterRecursive](#filterRecursive) - Filter an array recursively;
+* [filterRecursive](#filterrecursive) - Filter an array recursively;
 * [group](#group) - Group an array;
-* [inArrayValues](#inArrayValues) - Determine if values exists in an array;
+* [inArrayValues](#inarrayvalues) - Determine if values exists in an array;
 * [pairs](#pairs) - Combine an array with key-value;
-* [isFulfilled](#isFulfilled) - Determine if an array is fulfilled;
+* [isFulfilled](#isfulfilled) - Determine if an array is fulfilled;
 * [each](#each) - Parse an array an exchange their key-value;
 * [count](#count) - Count an array;
 * [pack](#pack) - Pack an array;
-* [fixIndexes](#fixIndexes) - Fix indexes of an array;
-* [packIndexes](#packIndexes) - Pack indexes of an array;
-* [packIndexesRef](#packIndexesRef) - Pack indexes of an array, using values reference;
-* [unpackIndexes](#unpackIndexes) - Unpack indexes of an array;
-* [unpackIndexesRef](#unpackIndexesRef) - Unpack indexes of an array, using values reference;
-* [valuesRecursive](#valuesRecursive) - Get values of an array recursively;
+* [values](#values) - Get values of an array;
+* [valuesRecursive](#valuesrecursive) - Get values of an array recursively;
 
 ## has
 
@@ -80,8 +82,8 @@ Determine if a key exists in an array.
 has(array &$array, string|array $key): boolean
 ```
 
-`$array` - The array.
-`$key` - It could be a key or an array of keys.
+`$array` - The array;  
+`$key` - Could be a key or an array of keys.
 
 _Example:_
 
@@ -96,17 +98,63 @@ $array = ['foo' => 'FOO', 'bar' => 'BAR'];
 Determine if an index exists in an array.
 
 ```php
-hasIndex(array &$array, string $index, string $delimiter = self::INDEX_DELIMITER): boolean
+hasIndex(array &$array, string|array $index, string $delimiter = self::INDEX_DELIMITER): boolean
 ```
 
-`$array` - The array.
-`$index` - It could be an index or an array of indexes.
+`$array` - The array;  
+`$index` - Could be an index or an array of indexes;  
 `$delimiter` - Index delimiter.
 
 _Example:_
 
 ```php
-$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+$array = ['foo' => 'bar' => 'BAR'];
 
-\Greg\Support\Arr::hasIndex($array, 'foo'); // result: true
+\Greg\Support\Arr::hasIndex($array, 'foo.bar'); // result: true
+```
+
+## set
+
+Set a value to an array;
+
+```php
+set(array &$array, string $key, mixed $value): array
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$value` - Value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+\Greg\Support\Arr::set($array, 'bar', 'BAR'); // result: ['foo' => 'FOO', 'bar' => 'BAR']
+```
+
+## setRef
+
+Set a value reference to an array;
+
+```php
+setRef(array &$array, string $key, mixed &$value): array
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$value` - Value reference.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+$bar = 'BAR';
+
+\Greg\Support\Arr::setRef($array, 'bar', $bar); // result: ['foo' => 'FOO', 'bar' => 'BAR']
+
+$bar = 'BAR2';
+
+// $array: ['foo' => 'FOO', 'bar' => 'BAR2'];
 ```

@@ -69,7 +69,7 @@ Set storage.
 inAccessor(string|array $key): boolean
 ```
 
-`$key` - It could be a key or an array of keys.
+`$key` - Could be a key or an array of keys.
 
 ## getFromAccessor
 
@@ -79,8 +79,8 @@ Get values from storage.
 getFromAccessor(string|array $key, string|array $else = null): mixed
 ```
 
-`$key` - It could be a key or an array of keys;  
-`$else` - If values not found, will return this. It could be a key or an array of keys.
+`$key` - Could be a key or an array of keys;  
+`$else` - If values not found, will return this. Could be a key or an array of keys.
 
 ## setToAccessor
 
@@ -111,7 +111,7 @@ Remove values from storage.
 removeFromAccessor(string|array $key): array
 ```
 
-`$key` - It could be a key or an array of keys.
+`$key` - Could be a key or an array of keys.
 
 ## resetAccessor
 
