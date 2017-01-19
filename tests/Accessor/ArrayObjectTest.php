@@ -634,7 +634,7 @@ class ArrayObjectTest extends TestCase
             ],
         ]);
 
-        $this->arrayObject->group('a', true, true);
+        $this->arrayObject->group('a', false, true);
 
         $this->assertEquals([
             1 => [

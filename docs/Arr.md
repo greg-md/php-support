@@ -1183,8 +1183,9 @@ group(array $arrays, int|string|array|callable(array $value) $maxLevel = 1, bool
 `$array` - An array of arrays;  
 `$maxLevel` - Group maximum level;  
 &nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value.  
-`$multipleValues` - Allow to set all values in an array;
+`$multipleValues` - Allow to set all values in an array;  
 `$removeGroupedKey` - Remove grouped key from the array.
+
 _Example:_
 
 ```php

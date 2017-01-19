@@ -346,9 +346,9 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
         return array_pop($this->accessor);
     }
 
-    public function group($maxLevel = 1, $replaceLast = true, $removeGroupedKey = false)
+    public function group($maxLevel = 1, $multipleValues = false, $removeGroupedKey = false)
     {
-        $this->accessor = Arr::group($this->accessor, $maxLevel, $replaceLast, $removeGroupedKey);
+        $this->accessor = Arr::group($this->accessor, $maxLevel, $multipleValues, $removeGroupedKey);
 
         return $this;
     }

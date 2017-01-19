@@ -956,7 +956,11 @@ class Arr
 
     public static function filter(array &$array, callable $callable = null)
     {
-        return array_filter($array, $callable, ARRAY_FILTER_USE_BOTH);
+        if ($callable) {
+            return array_filter($array, $callable, ARRAY_FILTER_USE_BOTH);
+        }
+
+        return array_filter($array);
     }
 
     public static function filterRecursive(array &$array, callable $callable = null)
@@ -1226,6 +1230,10 @@ class Arr
         }
         unset($value);
 
-        return array_filter($array, $callable, ARRAY_FILTER_USE_BOTH);
+        if ($callable) {
+            return array_filter($array, $callable, ARRAY_FILTER_USE_BOTH);
+        }
+
+        return array_filter($array);
     }
 }
