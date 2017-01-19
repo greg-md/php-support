@@ -20,18 +20,18 @@ const INDEX_DELIMITER = '.';
 * [getRef](#getref) - Get a value reference or an array of values reference from an array;
 * [getForce](#getforce) - Get a value or an array of values from an array. If the key does not exists, it is added to the array;
 * [getForceRef](#getforceref) - Get a value reference or an array of values reference from an array. If the key does not exists, it is added to the array;
-* [getArray](#getarray) - Get a value as array from an array;
-* [getArrayRef](#getarrayref) - Get a value reference as array from an array;
-* [getArrayForce](#getarrayforce) - Get a value as array from an array. If the key does not exists, it is added to the array;
+* [getArray](#getarray) - Get a value as array or an array of values as array from an array;
+* [getArrayRef](#getarrayref) - Get a value reference as array or an array of values reference as array from an array;
+* [getArrayForce](#getarrayforce) - Get a value as array or an array of values as array from an array. If the key does not exists, it is added to the array;
 * [getArrayForceRef](#getarrayforceref) - Get a value reference as array from an array. If the key does not exists, it is added to the array;
-* [getIndex](#getindex) - Get a value from an array, using index;
-* [getIndexRef](#getindexref) - Get a value reference from an array, using index;
-* [getIndexForce](#getindexforce) - Get a value from an array, using index. If the index does not exists, it is added to the array;
-* [getIndexForceRef](#getindexforceref) - Get a value reference from an array, using index. If the index does not exists, it is added to the array;
-* [getIndexArray](#getindexarray) - Get a value as array from an array, using index;
-* [getIndexArrayRef](#getindexarrayref) - Get a value reference as array from an array, using index;
-* [getIndexArrayForce](#getindexarrayforce) - Get a value as array from an array, using index. If the index does not exists, it is added to the array;
-* [getIndexArrayForceRef](#getindexarrayforceref) - Get a value reference as array from an array, using index. If the index does not exists, it is added to the array;
+* [getIndex](#getindex) - Get a value or an array of values from an array, using index;
+* [getIndexRef](#getindexref) - Get a value reference or an array of values reference from an array, using index;
+* [getIndexForce](#getindexforce) - Get a value or an array of values from an array, using index. If the index does not exists, it is added to the array;
+* [getIndexForceRef](#getindexforceref) - Get a value reference or an array of values reference from an array, using index. If the index does not exists, it is added to the array;
+* [getIndexArray](#getindexarray) - Get a value as array or an array of values as array from an array, using index;
+* [getIndexArrayRef](#getindexarrayref) - Get a value reference as array or an array of values reference as array from an array, using index;
+* [getIndexArrayForce](#getindexarrayforce) - Get a value as array or an array of values as array from an array, using index. If the index does not exists, it is added to the array;
+* [getIndexArrayForceRef](#getindexarrayforceref) - Get a value reference as array or an array of values reference as array from an array, using index. If the index does not exists, it is added to the array;
 * [del](#del) - Delete a value from an array;
 * [delIndex](#delindex) - Delete a value from an array, using index;
 * [append](#append) - Append a value to an array;
@@ -212,7 +212,7 @@ $baz = 'BAZ2';
 Get a value or an array of values from an array.
 
 ```php
-get(array &$array, string $key, string $else = null): mixed
+get(array &$array, string|array $key, string|array $else = null): mixed
 ```
 
 `$array` - The array;  
@@ -229,10 +229,10 @@ $array = ['foo' => 'FOO'];
 
 ## getRef
 
-Get a value or an array of values from an array.
+Get a value reference or an array of values reference from an array.
 
 ```php
-getRef(array &$array, string $key, string &$else = null): mixed
+getRef(array &$array, string|array $key, string|array &$else = null): mixed
 ```
 
 `$array` - The array;  
@@ -257,7 +257,7 @@ Get a value or an array of values from an array.
 If the key does not exists, it is added to the array.
 
 ```php
-getForce(array &$array, string $key, string $else = null): mixed
+getForce(array &$array, string|array $key, string|array $else = null): mixed
 ```
 
 `$array` - The array;  
@@ -280,7 +280,7 @@ Get a value reference or an array of values reference from an array.
 If the key does not exists, it is added to the array.
 
 ```php
-getForceRef(array &$array, string $key, string &$else = null): mixed
+getForceRef(array &$array, string|array $key, string|array &$else = null): mixed
 ```
 
 `$array` - The array;  
@@ -297,4 +297,288 @@ $bar = &\Greg\Support\Arr::getForceRef($array, 'bar'); // result: null
 $bar = 'BAR';
 
 // $array: ['foo' => 'FOO', 'bar' => 'BAR']
+```
+
+## getArray
+
+Get a value as array or an array of values as array from an array.
+
+```php
+getArray(array &$array, string|array $key, string $else|array = null): mixed
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$else` - If the key does not exists, return this value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+\Greg\Support\Arr::getArray($array, 'foo'); // result: ['FOO']
+```
+
+## getArrayRef
+
+Get a value reference as array or an array of values reference as array from an array.
+
+```php
+getArrayRef(array &$array, string|array $key, string|array &$else = null): mixed
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$else` - If the key does not exists, return this value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+$foo = &\Greg\Support\Arr::getArrayRef($array, 'foo'); // result: ['FOO']
+
+// $array: ['foo' => ['FOO']]
+
+$foo[0] = 'FOO2';
+
+// $array: ['foo' => ['FOO2']]
+```
+
+## getArrayForce
+
+Get a value as array or an array of values as array from an array.
+If the key does not exists, it is added to the array.
+
+```php
+getArrayForce(array &$array, string|array $key, string|array $else = null): mixed
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$else` - If the key does not exists, return this value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+\Greg\Support\Arr::getArrayForce($array, 'bar'); // result: []
+
+// $array = ['foo' => 'FOO', 'bar' => []]
+```
+
+## getArrayForceRef
+
+Get a value reference as array or an array of values reference as array from an array.
+If the key does not exists, it is added to the array.
+
+```php
+getArrayForceRef(array &$array, string|array $key, string|array &$else = null): mixed
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$else` - If the key does not exists, return this value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+$bar = &\Greg\Support\Arr::getArrayForceRef($array, 'bar'); // result: []
+
+$bar[0] = 'BAR';
+
+// $array: ['foo' => 'FOO', 'bar' => ['BAR']]
+```
+
+## getIndex
+
+Get a value or an array of values from an array, using index.
+
+```php
+getIndex(array &$array, string|array $index, string|array $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$else` - If the index does not exists, return this value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => 'BAR']];
+
+\Greg\Support\Arr::getIndex($array, 'foo.bar'); // result: BAR
+```
+
+## getIndexRef
+
+Get a value reference or an array of values reference from an array, using index.
+
+```php
+getIndexRef(array &$array, string|array $index, string|array &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$else` - If the index does not exists, return this value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => 'BAR']];
+
+$bar = &\Greg\Support\Arr::getIndexRef($array, 'foo.bar'); // result: BAR
+
+$bar = 'BAR2';
+
+// $array: ['foo' => ['bar' => 'BAR2']]
+```
+
+## getIndexForce
+
+Get a value or an array of values from an array, using index. If the index does not exists, it is added to the array.
+
+```php
+getIndexForce(array &$array, string|array $index, string|array $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$else` - If the index does not exists, return this value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+\Greg\Support\Arr::getIndexForce($array, 'bar.baz'); // result: null
+
+// $array = ['foo' => 'FOO', 'bar' => ['baz' => null]]
+```
+
+## getIndexForceRef
+
+Get a value reference or an array of values reference from an array, using index. If the index does not exists, it is added to the array.
+
+```php
+getIndexForceRef(array &$array, string|array $index, string|array &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$else` - If the index does not exists, return this value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+$baz = &\Greg\Support\Arr::getIndexForceRef($array, 'bar.baz'); // result: null
+
+$baz = 'BAZ';
+
+// $array: ['foo' => 'FOO', 'bar' => ['baz' => 'BAZ']]
+```
+
+## getIndexArray
+
+Get a value as array or an array of values as array from an array, using index.
+
+```php
+getIndexArray(array &$array, string|array $index, string $else|array = null, string $delimiter = self::INDEX_DELIMITER): mixed
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$else` - If the index does not exists, return this value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => 'BAR']];
+
+\Greg\Support\Arr::getIndexArray($array, 'foo.bar'); // result: ['BAR']
+```
+
+## getIndexArrayRef
+
+Get a value reference as array or an array of values reference as array from an array, using index.
+
+```php
+getIndexArrayRef(array &$array, string|array $index, string|array &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$else` - If the index does not exists, return this value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => 'BAR']];
+
+$foo = &\Greg\Support\Arr::getIndexArrayRef($array, 'foo.bar'); // result: ['BAR']
+
+// $array: ['foo' => ['bar' => ['BAR']]]
+
+$foo[0] = 'BAR2';
+
+// $array: ['foo' => ['bar' => ['BAR2']]]
+```
+
+## getIndexArrayForce
+
+Get a value as array or an array of values as array from an array, using index. If the index does not exists, it is added to the array.
+
+```php
+getIndexArrayForce(array &$array, string|array $index, string|array $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$else` - If the index does not exists, return this value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+\Greg\Support\Arr::getIndexArrayForce($array, 'bar.baz'); // result: []
+
+// $array = ['foo' => 'FOO', 'bar' => ['baz' => []]]
+```
+
+## getIndexArrayForceRef
+
+Get a value reference as array or an array of values reference as array from an array, using index. If the index does not exists, it is added to the array.
+
+```php
+getIndexArrayForceRef(array &$array, string|array $index, string|array &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$else` - If the index does not exists, return this value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+$baz = &\Greg\Support\Arr::getIndexArrayForceRef($array, 'bar.baz'); // result: []
+
+$baz[0] = 'BAZ';
+
+// $array = ['foo' => 'FOO', 'bar' => ['baz' => ['BAZ']]]
 ```
