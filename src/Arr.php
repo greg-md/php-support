@@ -622,26 +622,6 @@ class Arr
         return $array;
     }
 
-    public static function suffix(array &$array, $suffix)
-    {
-        foreach ($array as &$value) {
-            $value .= $suffix;
-        }
-        unset($value);
-
-        return $array;
-    }
-
-    public static function prefix(array &$array, $prefix)
-    {
-        foreach ($array as &$value) {
-            $value = $prefix . $value;
-        }
-        unset($value);
-
-        return $array;
-    }
-
     public static function append(array &$array, $value, ...$values)
     {
         array_push($array, $value, ...$values);
@@ -770,6 +750,26 @@ class Arr
         $lastIndex = array_pop($indexes);
 
         return static::prependKeyRef(static::getIndexArrayForceRef($array, implode($delimiter, $indexes)), $lastIndex, $value);
+    }
+
+    public static function suffix(array &$array, $suffix)
+    {
+        foreach ($array as &$value) {
+            $value .= $suffix;
+        }
+        unset($value);
+
+        return $array;
+    }
+
+    public static function prefix(array &$array, $prefix)
+    {
+        foreach ($array as &$value) {
+            $value = $prefix . $value;
+        }
+        unset($value);
+
+        return $array;
     }
 
     public static function first(array &$array, callable $callable = null, $else = null)
@@ -1046,6 +1046,8 @@ class Arr
         foreach ($array as $index => &$value) {
             $sub = static::unpackToIndexPath($new, $index, $delimiter);
 
+            $sub[0] = (array) $sub[0];
+
             static::set($sub[0], $sub[1], $value);
         }
         unset($value);
@@ -1059,6 +1061,8 @@ class Arr
 
         foreach ($array as $index => &$value) {
             $sub = static::unpackToIndexPath($new, $index, $delimiter);
+
+            $sub[0] = (array) $sub[0];
 
             static::setRef($sub[0], $sub[1], $value);
         }

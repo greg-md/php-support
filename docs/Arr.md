@@ -32,8 +32,8 @@ const INDEX_DELIMITER = '.';
 * [getIndexArrayRef](#getindexarrayref) - Get a value reference as array or an array of values reference as array from an array, using index;
 * [getIndexArrayForce](#getindexarrayforce) - Get a value as array or an array of values as array from an array, using index. If the index does not exists, it is added to the array;
 * [getIndexArrayForceRef](#getindexarrayforceref) - Get a value reference as array or an array of values reference as array from an array, using index. If the index does not exists, it is added to the array;
-* [del](#del) - Delete a value from an array;
-* [delIndex](#delindex) - Delete a value from an array, using index;
+* [del](#del) - Delete a value or an array of values from an array;
+* [delIndex](#delindex) - Delete a value or an array of values from an array, using index;
 * [append](#append) - Append a value to an array;
 * [appendRef](#appendref) - Append a value reference to an array;
 * [appendKey](#appendkey) - Append a key-value to an array;
@@ -581,4 +581,183 @@ $baz = &\Greg\Support\Arr::getIndexArrayForceRef($array, 'bar.baz'); // result: 
 $baz[0] = 'BAZ';
 
 // $array = ['foo' => 'FOO', 'bar' => ['baz' => ['BAZ']]]
+```
+
+## del
+
+Delete a value or an array of values from an array.
+
+```php
+del(array &$array, string|array $key): array
+```
+
+`$array` - The array;  
+`$key` - Key.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+\Greg\Support\Arr::del($array, 'foo'); // result: []
+```
+
+## delIndex
+
+Delete a value or an array of values from an array, using index.
+
+```php
+delIndex(array &$array, string|array $index, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => 'BAR']];
+
+\Greg\Support\Arr::del($array, 'foo.bar'); // result: ['foo' => []]
+```
+
+## append
+
+Append a value to an array.
+
+```php
+append(array &$array, mixed $value, mixed ...$values): array
+```
+
+`$array` - The array;  
+`$value` - Value;  
+`...$values` - Other values.
+
+_Example:_
+
+```php
+$array = ['foo'];
+
+\Greg\Support\Arr::append($array, 'bar'); // result: ['foo', 'bar']
+```
+
+## appendRef
+
+Append a value reference to an array.
+
+```php
+appendRef(array &$array, mixed &$value, mixed &...$values): array
+```
+
+`$array` - The array;  
+`$value` - Value reference;  
+`...$values` - Other values reference.
+
+_Example:_
+
+```php
+$array = ['foo'];
+
+$bar = 'bar';
+
+\Greg\Support\Arr::appendRef($array, $bar); // result: ['foo', 'bar']
+
+$bar = 'bar2';
+
+// $array: ['foo', 'bar2']
+```
+
+## appendKey
+
+Append a key-value to an array.
+
+```php
+appendKey(array &$array, string $key, mixed $value = null): array
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$value` - Value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+
+\Greg\Support\Arr::appendKey($array, 'foo', 'FOO2'); // result: ['bar' => 'BAR', 'foo' => 'FOO2']
+```
+
+## appendKeyRef
+
+Append a key-value reference to an array.
+
+```php
+appendKeyRef(array &$array, string $key, mixed &$value = null): array
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$value` - Value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+
+$foo = 'FOO2';
+
+\Greg\Support\Arr::appendRef($array, 'foo', $foo); // result: ['bar' => 'BAR', 'foo' => 'FOO2']
+
+$foo = 'FOO3';
+
+// $array: ['bar' => 'BAR', 'foo' => 'FOO3']
+```
+
+## appendIndex
+
+Append an index-value to an array.
+
+```php
+appendIndex(array &$array, string $index, mixed $value = null, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$value` - Value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => 'BAR', 'baz' => 'BAZ']];
+
+\Greg\Support\Arr::appendIndex($array, 'foo.bar', 'BAR2'); // result: ['foo' => ['baz' => 'BAZ', 'bar' => 'BAR2']]
+```
+
+## appendIndexRef
+
+Append an index-value reference to an array.
+
+```php
+appendIndexRef(array &$array, string $index, mixed &$value = null, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$value` - Value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => 'BAR', 'baz' => 'BAZ']];
+
+$bar = 'BAR2';
+
+\Greg\Support\Arr::appendRef($array, 'foo.bar', $bar); // result: ['foo' => ['baz' => 'BAZ', 'bar' => 'BAR2']]
+
+$bar = 'BAR3';
+
+// $array: ['foo' => ['baz' => 'BAZ', 'bar' => 'BAR3']]
 ```
