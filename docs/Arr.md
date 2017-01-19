@@ -212,7 +212,7 @@ $baz = 'BAZ2';
 Get a value or an array of values from an array.
 
 ```php
-get(array &$array, string|array $key, string|array $else = null): mixed
+get(array &$array, string|array $key, mixed|array<mixed> $else = null): mixed
 ```
 
 `$array` - The array;  
@@ -232,7 +232,7 @@ $array = ['foo' => 'FOO'];
 Get a value reference or an array of values reference from an array.
 
 ```php
-getRef(array &$array, string|array $key, string|array &$else = null): mixed
+getRef(array &$array, string|array $key, mixed|array<mixed> &$else = null): mixed
 ```
 
 `$array` - The array;  
@@ -257,7 +257,7 @@ Get a value or an array of values from an array.
 If the key does not exists, it is added to the array.
 
 ```php
-getForce(array &$array, string|array $key, string|array $else = null): mixed
+getForce(array &$array, string|array $key, mixed|array<mixed> $else = null): mixed
 ```
 
 `$array` - The array;  
@@ -280,7 +280,7 @@ Get a value reference or an array of values reference from an array.
 If the key does not exists, it is added to the array.
 
 ```php
-getForceRef(array &$array, string|array $key, string|array &$else = null): mixed
+getForceRef(array &$array, string|array $key, mixed|array<mixed> &$else = null): mixed
 ```
 
 `$array` - The array;  
@@ -304,7 +304,7 @@ $bar = 'BAR';
 Get a value as array or an array of values as array from an array.
 
 ```php
-getArray(array &$array, string|array $key, string $else|array = null): mixed
+getArray(array &$array, string|array $key, mixed|array<mixed> $else = null): mixed
 ```
 
 `$array` - The array;  
@@ -324,7 +324,7 @@ $array = ['foo' => 'FOO'];
 Get a value reference as array or an array of values reference as array from an array.
 
 ```php
-getArrayRef(array &$array, string|array $key, string|array &$else = null): mixed
+getArrayRef(array &$array, string|array $key, mixed|array<mixed> &$else = null): mixed
 ```
 
 `$array` - The array;  
@@ -351,7 +351,7 @@ Get a value as array or an array of values as array from an array.
 If the key does not exists, it is added to the array.
 
 ```php
-getArrayForce(array &$array, string|array $key, string|array $else = null): mixed
+getArrayForce(array &$array, string|array $key, mixed|array<mixed> $else = null): mixed
 ```
 
 `$array` - The array;  
@@ -374,7 +374,7 @@ Get a value reference as array or an array of values reference as array from an 
 If the key does not exists, it is added to the array.
 
 ```php
-getArrayForceRef(array &$array, string|array $key, string|array &$else = null): mixed
+getArrayForceRef(array &$array, string|array $key, mixed|array<mixed> &$else = null): mixed
 ```
 
 `$array` - The array;  
@@ -398,7 +398,7 @@ $bar[0] = 'BAR';
 Get a value or an array of values from an array, using index.
 
 ```php
-getIndex(array &$array, string|array $index, string|array $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+getIndex(array &$array, string|array $index, mixed|array<mixed> $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
 ```
 
 `$array` - The array;  
@@ -419,7 +419,7 @@ $array = ['foo' => ['bar' => 'BAR']];
 Get a value reference or an array of values reference from an array, using index.
 
 ```php
-getIndexRef(array &$array, string|array $index, string|array &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+getIndexRef(array &$array, string|array $index, mixed|array<mixed> &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
 ```
 
 `$array` - The array;  
@@ -444,7 +444,7 @@ $bar = 'BAR2';
 Get a value or an array of values from an array, using index. If the index does not exists, it is added to the array.
 
 ```php
-getIndexForce(array &$array, string|array $index, string|array $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+getIndexForce(array &$array, string|array $index, mixed|array<mixed> $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
 ```
 
 `$array` - The array;  
@@ -467,7 +467,7 @@ $array = ['foo' => 'FOO'];
 Get a value reference or an array of values reference from an array, using index. If the index does not exists, it is added to the array.
 
 ```php
-getIndexForceRef(array &$array, string|array $index, string|array &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+getIndexForceRef(array &$array, string|array $index, mixed|array<mixed> &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
 ```
 
 `$array` - The array;  
@@ -492,7 +492,7 @@ $baz = 'BAZ';
 Get a value as array or an array of values as array from an array, using index.
 
 ```php
-getIndexArray(array &$array, string|array $index, string $else|array = null, string $delimiter = self::INDEX_DELIMITER): mixed
+getIndexArray(array &$array, string|array $index, mixed|array<mixed> $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
 ```
 
 `$array` - The array;  
@@ -513,7 +513,7 @@ $array = ['foo' => ['bar' => 'BAR']];
 Get a value reference as array or an array of values reference as array from an array, using index.
 
 ```php
-getIndexArrayRef(array &$array, string|array $index, string|array &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+getIndexArrayRef(array &$array, string|array $index, mixed|array<mixed> &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
 ```
 
 `$array` - The array;  
@@ -540,7 +540,7 @@ $foo[0] = 'BAR2';
 Get a value as array or an array of values as array from an array, using index. If the index does not exists, it is added to the array.
 
 ```php
-getIndexArrayForce(array &$array, string|array $index, string|array $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+getIndexArrayForce(array &$array, string|array $index, mixed|array<mixed> $else = null, string $delimiter = self::INDEX_DELIMITER): mixed
 ```
 
 `$array` - The array;  
@@ -563,7 +563,7 @@ $array = ['foo' => 'FOO'];
 Get a value reference as array or an array of values reference as array from an array, using index. If the index does not exists, it is added to the array.
 
 ```php
-getIndexArrayForceRef(array &$array, string|array $index, string|array &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
+getIndexArrayForceRef(array &$array, string|array $index, mixed|array<mixed> &$else = null, string $delimiter = self::INDEX_DELIMITER): mixed
 ```
 
 `$array` - The array;  
@@ -1032,4 +1032,27 @@ $unpacked = \Greg\Support\Arr::packIndexes($array); // result: ['foo' => ['bar' 
 $baz = 'BAZ2';
 
 // $unpacked: ['foo' => ['bar' => ['baz' => 'BAZ2']]]
+```
+
+## first
+
+Get the first value of an array.
+
+```php
+first(array &$array, callable $callable($value): boolean = null, mixed $else = null): mixed
+```
+
+`$array` - The array;  
+`$callable` - Callable to filter values;  
+    `$value` - Value.  
+`$else` - If the value was not found, return this value.
+
+_Example:_
+
+```php
+$accessor = [1, 2, 3];
+
+Arr::first($accessor); // result: 1
+
+Arr::first($accessor, function ($value) { return $value === 2; }); // result: 2
 ```

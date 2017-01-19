@@ -834,26 +834,6 @@ class Arr
         return $new;
     }
 
-    public static function suffix(array &$array, $suffix)
-    {
-        foreach ($array as &$value) {
-            $value .= $suffix;
-        }
-        unset($value);
-
-        return $array;
-    }
-
-    public static function prefix(array &$array, $prefix)
-    {
-        foreach ($array as &$value) {
-            $value = $prefix . $value;
-        }
-        unset($value);
-
-        return $array;
-    }
-
     public static function first(array &$array, callable $callable = null, $else = null)
     {
         return static::firstRef($array, $callable, $else);
@@ -940,6 +920,26 @@ class Arr
         }
 
         return $else;
+    }
+
+    public static function suffix(array &$array, $suffix)
+    {
+        foreach ($array as &$value) {
+            $value .= $suffix;
+        }
+        unset($value);
+
+        return $array;
+    }
+
+    public static function prefix(array &$array, $prefix)
+    {
+        foreach ($array as &$value) {
+            $value = $prefix . $value;
+        }
+        unset($value);
+
+        return $array;
     }
 
     public static function map(array &$array, callable $callable, array &...$arrays)

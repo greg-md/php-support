@@ -614,11 +614,13 @@ _Example:_
 Parse URLs from a string.
 
 ```php
-parseUrls(string $string, callable $callable): string
+parseUrls(string $string, callable $callable($url, $href): string): string
 ```
 
 `$string` - The string;  
-`$callable` - A callable to transform decorate de URL.
+`$callable` - A callable to transform decorate de URL.  
+    `$url` - Original URL;  
+    `$href` - Absolute URL.
 
 _Example:_
 
