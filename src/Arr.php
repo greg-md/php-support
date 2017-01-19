@@ -752,6 +752,88 @@ class Arr
         return static::prependKeyRef(static::getIndexArrayForceRef($array, implode($delimiter, $indexes)), $lastIndex, $value);
     }
 
+    public static function fixIndexes(array &$array, $delimiter = self::INDEX_DELIMITER)
+    {
+        $packed = static::packIndexes($array, $delimiter);
+
+        return static::unpackIndexes($packed, $delimiter);
+    }
+
+    public static function fixIndexesRef(array &$array, $delimiter = self::INDEX_DELIMITER)
+    {
+        $packed = static::packIndexesRef($array, $delimiter);
+
+        return static::unpackIndexesRef($packed, $delimiter);
+    }
+
+    public static function packIndexes(array &$array, $delimiter = self::INDEX_DELIMITER)
+    {
+        $new = [];
+
+        foreach ($array as $key => &$value) {
+            if (is_array($value)) {
+                foreach (static::packIndexes($value) as $k => $v) {
+                    $new[$key . $delimiter . $k] = $v;
+                }
+            } else {
+                $new[$key] = $value;
+            }
+        }
+        unset($value);
+
+        return $new;
+    }
+
+    public static function packIndexesRef(array &$array, $delimiter = self::INDEX_DELIMITER)
+    {
+        $new = [];
+
+        foreach ($array as $key => &$value) {
+            if (is_array($value)) {
+                foreach (static::packIndexesRef($value) as $k => &$v) {
+                    $new[$key . $delimiter . $k] = &$v;
+                }
+            } else {
+                $new[$key] = &$value;
+            }
+        }
+        unset($value);
+
+        return $new;
+    }
+
+    public static function unpackIndexes(array &$array, $delimiter = self::INDEX_DELIMITER)
+    {
+        $new = [];
+
+        foreach ($array as $index => &$value) {
+            $sub = static::unpackToIndexPath($new, $index, $delimiter);
+
+            $sub[0] = (array) $sub[0];
+
+            static::set($sub[0], $sub[1], $value);
+        }
+        unset($value);
+
+        return $new;
+    }
+
+    public static function unpackIndexesRef(array &$array, $delimiter = self::INDEX_DELIMITER)
+    {
+        $new = [];
+
+        foreach ($array as $index => &$value) {
+            $sub = static::unpackToIndexPath($new, $index, $delimiter);
+
+            $sub[0] = (array) $sub[0];
+
+            static::setRef($sub[0], $sub[1], $value);
+        }
+        unset($value);
+
+        return $new;
+    }
+
     public static function suffix(array &$array, $suffix)
     {
         foreach ($array as &$value) {
@@ -987,88 +1069,6 @@ class Arr
         unset($value);
 
         return $array;
-    }
-
-    public static function fixIndexes(array &$array, $delimiter = self::INDEX_DELIMITER)
-    {
-        $packed = static::packIndexes($array, $delimiter);
-
-        return static::unpackIndexes($packed, $delimiter);
-    }
-
-    public static function fixIndexesRef(array &$array, $delimiter = self::INDEX_DELIMITER)
-    {
-        $packed = static::packIndexesRef($array, $delimiter);
-
-        return static::unpackIndexesRef($packed, $delimiter);
-    }
-
-    public static function packIndexes(array &$array, $delimiter = self::INDEX_DELIMITER)
-    {
-        $new = [];
-
-        foreach ($array as $key => &$value) {
-            if (is_array($value)) {
-                foreach (static::packIndexes($value) as $k => $v) {
-                    $new[$key . $delimiter . $k] = $v;
-                }
-            } else {
-                $new[$key] = $value;
-            }
-        }
-        unset($value);
-
-        return $new;
-    }
-
-    public static function packIndexesRef(array &$array, $delimiter = self::INDEX_DELIMITER)
-    {
-        $new = [];
-
-        foreach ($array as $key => &$value) {
-            if (is_array($value)) {
-                foreach (static::packIndexesRef($value) as $k => &$v) {
-                    $new[$key . $delimiter . $k] = &$v;
-                }
-            } else {
-                $new[$key] = &$value;
-            }
-        }
-        unset($value);
-
-        return $new;
-    }
-
-    public static function unpackIndexes(array &$array, $delimiter = self::INDEX_DELIMITER)
-    {
-        $new = [];
-
-        foreach ($array as $index => &$value) {
-            $sub = static::unpackToIndexPath($new, $index, $delimiter);
-
-            $sub[0] = (array) $sub[0];
-
-            static::set($sub[0], $sub[1], $value);
-        }
-        unset($value);
-
-        return $new;
-    }
-
-    public static function unpackIndexesRef(array &$array, $delimiter = self::INDEX_DELIMITER)
-    {
-        $new = [];
-
-        foreach ($array as $index => &$value) {
-            $sub = static::unpackToIndexPath($new, $index, $delimiter);
-
-            $sub[0] = (array) $sub[0];
-
-            static::setRef($sub[0], $sub[1], $value);
-        }
-        unset($value);
-
-        return $new;
     }
 
     public static function values(&$array)

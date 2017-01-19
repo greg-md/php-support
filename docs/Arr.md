@@ -901,3 +901,135 @@ $baz = 'BAZ3';
 
 // $array: ['foo' => ['baz' => 'BAZ3', 'bar' => 'BAR']]
 ```
+
+## fixIndexes
+
+Fix indexes of an array.
+
+```php
+fixIndexes(array &$array, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo.bar' => ['baz' => 'BAZ']];
+
+\Greg\Support\Arr::fixIndexes($array); // result: ['foo' => ['bar' => ['baz' => 'BAZ']]]
+```
+
+## fixIndexesRef
+
+Fix indexes of an array, using values reference.
+
+```php
+fixIndexesRef(array &$array, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$baz = 'BAZ';
+
+$array = ['foo.bar' => ['baz' => &$baz]];
+
+$fixed = \Greg\Support\Arr::fixIndexes($array); // result: ['foo' => ['bar' => ['baz' => 'BAZ']]]
+
+$baz = 'BAZ2';
+
+// $fixed: ['foo' => ['bar' => ['baz' => 'BAZ2']]]
+```
+
+## packIndexes
+
+Pack indexes of an array.
+
+```php
+packIndexes(array &$array, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => ['baz' => 'BAZ']]];
+
+\Greg\Support\Arr::packIndexes($array); // result: ['foo.bar.baz' => 'BAZ']
+```
+
+## packIndexesRef
+
+Pack indexes of an array, using values reference.
+
+```php
+packIndexes(array &$array, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$baz = 'BAZ';
+
+$array = ['foo' => ['bar' => ['baz' => &$baz]]];
+
+$packed = \Greg\Support\Arr::packIndexes($array); // result: ['foo.bar.baz' => 'BAZ']
+
+$baz = 'BAZ2';
+
+// $packed: ['foo.bar.baz' => 'BAZ2']
+```
+
+## unpackIndexes
+
+Unpack indexes of an array.
+
+```php
+unpackIndexes(array &$array, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo.bar.baz' => 'BAZ'];
+
+\Greg\Support\Arr::packIndexes($array); // result: ['foo' => ['bar' => ['baz' => 'BAZ']]]
+```
+
+## unpackIndexesRef
+
+Unpack indexes of an array, using values reference.
+
+```php
+unpackIndexes(array &$array, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$baz = 'BAZ';
+
+$array = ['foo.bar.baz' => &$baz];
+
+$unpacked = \Greg\Support\Arr::packIndexes($array); // result: ['foo' => ['bar' => ['baz' => 'BAZ']]]
+
+$baz = 'BAZ2';
+
+// $unpacked: ['foo' => ['bar' => ['baz' => 'BAZ2']]]
+```
