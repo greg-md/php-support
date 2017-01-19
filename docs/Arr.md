@@ -1044,7 +1044,7 @@ first(array &$array, callable $callable($value): boolean = null, mixed $else = n
 
 `$array` - The array;  
 `$callable` - Callable to filter values;  
-    `$value` - Value.  
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value.  
 `$else` - If the value was not found, return this value.
 
 _Example:_

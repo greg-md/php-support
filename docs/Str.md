@@ -619,8 +619,8 @@ parseUrls(string $string, callable $callable($url, $href): string): string
 
 `$string` - The string;  
 `$callable` - A callable to transform decorate de URL.  
-    `$url` - Original URL;  
-    `$href` - Absolute URL.
+&nbsp;&nbsp;&nbsp;&nbsp;`$url` - Original URL;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$href` - Absolute URL.
 
 _Example:_
 
