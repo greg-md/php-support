@@ -966,16 +966,18 @@ class Arr
         return static::_filterRecursive($copy, $callable);
     }
 
-    public static function group(array $arrays, $maxLevel = 1, $replaceLast = true, $removeGroupedKey = false)
+    public static function group(array $arrays, $maxLevel = 1, $multipleValues = false, $removeGroupedKey = false)
     {
         $grouped = [];
 
         foreach ($arrays as &$array) {
+            $array = (array) $array;
+
             if (($maxLevel instanceof \Closure)) {
-                if ($replaceLast) {
-                    $grouped[$maxLevel($array)] = $array;
-                } else {
+                if ($multipleValues) {
                     $grouped[$maxLevel($array)][] = $array;
+                } else {
+                    $grouped[$maxLevel($array)] = $array;
                 }
             } else {
                 $current = &$grouped;
@@ -1008,10 +1010,10 @@ class Arr
                     }
                 }
 
-                if ($replaceLast) {
-                    $current = $array;
-                } else {
+                if ($multipleValues) {
                     $current[] = $array;
+                } else {
+                    $current = $array;
                 }
             }
         }

@@ -644,7 +644,7 @@ class ArrTest extends TestCase
                 'b' => '4',
                 'c' => '44',
             ],
-        ], Arr::group($accessor, 'a', true, true));
+        ], Arr::group($accessor, 'a', false, true));
 
         $this->assertEquals([
             1 => [
@@ -674,7 +674,7 @@ class ArrTest extends TestCase
                     'c' => '44',
                 ],
             ],
-        ], Arr::group($accessor, 2, true, true));
+        ], Arr::group($accessor, 2, false, true));
 
         $this->assertEquals([
             1 => [

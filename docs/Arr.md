@@ -1130,9 +1130,9 @@ map(array &$array, callable(mixed $value, mixed ...$values): string $callable, a
 ```
 
 `$array` - The array;  
-`$callable` - Callable;
+`$callable` - Callable;  
 &nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
-&nbsp;&nbsp;&nbsp;&nbsp;`...$values` - Other values from `...$arrays`.
+&nbsp;&nbsp;&nbsp;&nbsp;`...$values` - Other values from `...$arrays`.  
 `...$arrays` - Variable list of array arguments to run through the callback function.
 
 _Example:_
@@ -1156,7 +1156,7 @@ filter(array &$array, callable(mixed $value, string $key): boolean $callable = n
 ```
 
 `$array` - The array;  
-`$callable` - Callable.
+`$callable` - Callable.  
 &nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
 &nbsp;&nbsp;&nbsp;&nbsp;`$key` - Key.
 
@@ -1166,4 +1166,53 @@ _Example:_
 $array = [1, 2, null, 0, 3, ''];
 
 Arr::filter($array); // result: [0 => 1, 1 => 2, 4 => 3]
+```
+
+## filter
+
+Filter an array recursively. See [filter](#filter) method.
+
+## group
+
+Group an array.
+
+```php
+group(array $arrays, int|string|array|callable(array $value) $maxLevel = 1, boolean $multipleValues = false, boolean $removeGroupedKey = false): array
+```
+
+`$array` - An array of arrays;  
+`$maxLevel` - Group maximum level;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value.  
+`$multipleValues` - Allow to set all values in an array;
+`$removeGroupedKey` - Remove grouped key from the array.
+_Example:_
+
+```php
+$array = [
+    [
+        'a' => '1',
+        'b' => '2',
+        'c' => '22',
+    ],
+    [
+        'a' => '3',
+        'b' => '4',
+        'c' => '44',
+    ],
+];
+
+$grouped = Arr::group($array, 'a');
+
+// $grouped: [
+//     1 => [
+//         'a' => '1',
+//         'b' => '2',
+//         'c' => '22',
+//     ],
+//     3 => [
+//         'a' => '3',
+//         'b' => '4',
+//         'c' => '44',
+//     ],
+// ]
 ```
