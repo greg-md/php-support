@@ -244,7 +244,7 @@ _Example:_
 ```php
 $array = ['foo' => 'FOO'];
 
-$foo = \Greg\Support\Arr::getRef($array, 'foo'); // result: FOO
+$foo = &\Greg\Support\Arr::getRef($array, 'foo'); // result: FOO
 
 $foo = 'FOO2';
 
