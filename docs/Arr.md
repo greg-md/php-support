@@ -10,14 +10,14 @@ const INDEX_DELIMITER = '.';
 
 # Methods:
 
-* [has](#has) - Determine if a key exists in an array;
-* [hasIndex](#hasindex) - Determine if an index exists in an array;
+* [has](#has) - Determine if a key or an array of keys exists in an array;
+* [hasIndex](#hasindex) - Determine if an index or an array of indexes exists in an array;
 * [set](#set) - Set a value to an array;
 * [setRef](#setref) - Set a value reference to an array;
 * [setIndex](#setindex) - Set a value to an array, using index;
 * [setIndexRef](#setindexref) - Set a value reference to an array, using index;
-* [get](#get) - Get a value from an array;
-* [getRef](#getref) - Get a value reference from an array;
+* [get](#get) - Get a value or an array of values from an array;
+* [getRef](#getref) - Get a value reference or an array of values reference from an array;
 * [getForce](#getforce) - Get a value from an array. If the key does not exists, it is added to the array;
 * [getForceRef](#getforceref) - Get a value reference from an array. If the key does not exists, it is added to the array;
 * [getArray](#getarray) - Get a value as array from an array;
@@ -76,7 +76,7 @@ const INDEX_DELIMITER = '.';
 
 ## has
 
-Determine if a key exists in an array.
+Determine if a key or an array of keys exists in an array.
 
 ```php
 has(array &$array, string|array $key): boolean
@@ -95,7 +95,7 @@ $array = ['foo' => 'FOO', 'bar' => 'BAR'];
 
 ## hasIndex
 
-Determine if an index exists in an array.
+Determine if an index or an array of indexes exists in an array.
 
 ```php
 hasIndex(array &$array, string|array $index, string $delimiter = self::INDEX_DELIMITER): boolean
@@ -205,4 +205,48 @@ $baz = 'BAZ';
 $baz = 'BAZ2';
 
 // $array: ['foo' => 'FOO', 'bar' => ['baz' => 'BAZ2']];
+```
+
+## get
+
+Get a value or an array of values from an array.
+
+```php
+get(array &$array, string $key, string $else = null): mixed
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$else` - If the key does not exists, return this value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+\Greg\Support\Arr::get($array, 'foo'); // result: FOO
+```
+
+## getRef
+
+Get a value or an array of values from an array.
+
+```php
+getRef(array &$array, string $key, string &$else = null): mixed
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$else` - If the key does not exists, return this value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+$foo = \Greg\Support\Arr::getRef($array, 'foo'); // result: FOO
+
+$foo = 'FOO2';
+
+// $array: ['foo' => 'FOO2']
 ```
