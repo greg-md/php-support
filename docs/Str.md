@@ -614,7 +614,7 @@ _Example:_
 Parse URLs from a string.
 
 ```php
-parseUrls(string $string, callable($url, $href): string $callable): string
+parseUrls(string $string, callable(string $url, string $href): string $callable): string
 ```
 
 `$string` - The string;  

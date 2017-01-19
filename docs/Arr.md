@@ -1039,12 +1039,13 @@ $baz = 'BAZ2';
 Get the first value of an array.
 
 ```php
-first(array &$array, callable($value): boolean $callable = null, mixed $else = null): mixed
+first(array &$array, callable(mixed $value, string $key): boolean $callable = null, mixed $else = null): mixed
 ```
 
 `$array` - The array;  
 `$callable` - Callable to filter values;  
-&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value.  
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$key` - Key.  
 `$else` - If the value was not found, return this value.
 
 _Example:_
@@ -1055,4 +1056,60 @@ $accessor = [1, 2, 3];
 Arr::first($accessor); // result: 1
 
 Arr::first($accessor, function ($value) { return $value === 2; }); // result: 2
+```
+
+## firstRef
+
+Get the first value reference of an array. See [first](#first) method.
+
+## last
+
+Get the last value of an array.
+
+```php
+last(array &$array, callable(mixed $value, string $key): boolean $callable = null, mixed $else = null): mixed
+```
+
+`$array` - The array;  
+`$callable` - Callable to filter values;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$key` - Key.  
+`$else` - If the value was not found, return this value.
+
+_Example:_
+
+```php
+$accessor = [1, 2, 3];
+
+Arr::last($accessor); // result: 3
+
+Arr::last($accessor, function ($value) { return $value === 2; }); // result: 2
+```
+
+## lastRef
+
+Get the last value reference of an array. See [last](#last) method.
+
+## firstKey
+
+Get the first key of an array.
+
+```php
+firstKey(array &$array, callable(string $key, mixed $value): boolean $callable = null, mixed $else = null): mixed
+```
+
+`$array` - The array;  
+`$callable` - Callable to filter keys;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$key` - Key;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value.  
+`$else` - If the value was not found, return this value.
+
+_Example:_
+
+```php
+$accessor = [1 => 'one', 2 => 'two', 3 => 'three'];
+
+Arr::firstKey($accessor); // result: 1
+
+Arr::firstKey($accessor, function ($key) { return $key === 2; }); // result: 2
 ```
