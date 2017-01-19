@@ -115,7 +115,7 @@ $array = ['foo' => 'bar' => 'BAR'];
 
 ## set
 
-Set a value to an array;
+Set a value to an array.
 
 ```php
 set(array &$array, string $key, mixed $value): array
@@ -135,7 +135,7 @@ $array = ['foo' => 'FOO'];
 
 ## setRef
 
-Set a value reference to an array;
+Set a value reference to an array.
 
 ```php
 setRef(array &$array, string $key, mixed &$value): array
@@ -157,4 +157,52 @@ $bar = 'BAR';
 $bar = 'BAR2';
 
 // $array: ['foo' => 'FOO', 'bar' => 'BAR2'];
+```
+
+## setIndex
+
+Set a value to an array, using index.
+
+```php
+setIndex(array &$array, string $index, mixed $value, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$value` - Value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+\Greg\Support\Arr::setIndex($array, 'bar.baz', 'BAZ'); // result: ['foo' => 'FOO', 'bar' => ['baz' => 'BAZ']]
+```
+
+## setIndexRef
+
+Set a value reference to an array, using index.
+
+```php
+setIndexRef(array &$array, string $index, mixed &$value, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$value` - Value reference;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+$baz = 'BAZ';
+
+\Greg\Support\Arr::setIndexRef($array, 'bar.baz', $baz); // result: ['foo' => 'FOO', 'bar' => ['baz' => 'BAZ']]
+
+$baz = 'BAZ2';
+
+// $array: ['foo' => 'FOO', 'bar' => ['baz' => 'BAZ2']];
 ```
