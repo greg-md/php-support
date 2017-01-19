@@ -1039,7 +1039,7 @@ $baz = 'BAZ2';
 Get the first value of an array.
 
 ```php
-first(array &$array, callable $callable($value): boolean = null, mixed $else = null): mixed
+first(array &$array, callable($value): boolean $callable = null, mixed $else = null): mixed
 ```
 
 `$array` - The array;  
