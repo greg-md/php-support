@@ -707,7 +707,7 @@ $array = ['foo' => 'FOO', 'bar' => 'BAR'];
 
 $foo = 'FOO2';
 
-\Greg\Support\Arr::appendRef($array, 'foo', $foo); // result: ['bar' => 'BAR', 'foo' => 'FOO2']
+\Greg\Support\Arr::appendKeyRef($array, 'foo', $foo); // result: ['bar' => 'BAR', 'foo' => 'FOO2']
 
 $foo = 'FOO3';
 
@@ -755,9 +755,149 @@ $array = ['foo' => ['bar' => 'BAR', 'baz' => 'BAZ']];
 
 $bar = 'BAR2';
 
-\Greg\Support\Arr::appendRef($array, 'foo.bar', $bar); // result: ['foo' => ['baz' => 'BAZ', 'bar' => 'BAR2']]
+\Greg\Support\Arr::appendIndexRef($array, 'foo.bar', $bar); // result: ['foo' => ['baz' => 'BAZ', 'bar' => 'BAR2']]
 
 $bar = 'BAR3';
 
 // $array: ['foo' => ['baz' => 'BAZ', 'bar' => 'BAR3']]
+```
+
+## prepend
+
+Prepend a value to an array.
+
+```php
+prepend(array &$array, mixed $value, mixed ...$values): array
+```
+
+`$array` - The array;  
+`$value` - Value;  
+`...$values` - Other values.
+
+_Example:_
+
+```php
+$array = ['foo'];
+
+\Greg\Support\Arr::prepend($array, 'bar'); // result: ['bar', 'foo']
+```
+
+## prependRef
+
+Prepend a value reference to an array.
+
+```php
+prependRef(array &$array, mixed &$value, mixed &...$values): array
+```
+
+`$array` - The array;  
+`$value` - Value reference;  
+`...$values` - Other values reference.
+
+_Example:_
+
+```php
+$array = ['foo'];
+
+$bar = 'bar';
+
+\Greg\Support\Arr::prependRef($array, $bar); // result: ['bar', 'foo']
+
+$bar = 'bar2';
+
+// $array: ['bar2', 'foo']
+```
+
+## prependKey
+
+Prepend a key-value to an array.
+
+```php
+prependKey(array &$array, string $key, mixed $value = null): array
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$value` - Value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+
+\Greg\Support\Arr::prependKey($array, 'bar', 'BAR2'); // result: ['bar' => 'BAR2', 'foo' => 'FOO']
+```
+
+## prependKeyRef
+
+Prepend a key-value reference to an array.
+
+```php
+prependKeyRef(array &$array, string $key, mixed &$value = null): array
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$value` - Value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+
+$bar = 'BAR2';
+
+\Greg\Support\Arr::prependKeyRef($array, 'bar', $bar); // result: ['bar' => 'BAR2', 'foo' => 'FOO']
+
+$bar = 'BAR3';
+
+// $array: ['bar' => 'BAR3', 'foo' => 'FOO']
+```
+
+## prependIndex
+
+Prepend an index-value to an array.
+
+```php
+prependIndex(array &$array, string $index, mixed $value = null, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$value` - Value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => 'BAR', 'baz' => 'BAZ']];
+
+\Greg\Support\Arr::prependIndex($array, 'foo.baz', 'BAZ2'); // result: ['foo' => ['baz' => 'BAZ2', 'bar' => 'BAR']]
+```
+
+## prependIndexRef
+
+Prepend an index-value reference to an array.
+
+```php
+prependIndexRef(array &$array, string $index, mixed &$value = null, string $delimiter = self::INDEX_DELIMITER): array
+```
+
+`$array` - The array;  
+`$index` - Index;  
+`$value` - Value;  
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => ['bar' => 'BAR', 'baz' => 'BAZ']];
+
+$baz = 'BAZ2';
+
+\Greg\Support\Arr::prependRef($array, 'foo.baz', $baz); // result: ['foo' => ['baz' => 'BAZ2', 'bar' => 'BAR']]
+
+$baz = 'BAZ3';
+
+// $array: ['foo' => ['baz' => 'BAZ3', 'bar' => 'BAR']]
 ```
