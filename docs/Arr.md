@@ -18,8 +18,8 @@ const INDEX_DELIMITER = '.';
 * [setIndexRef](#setindexref) - Set a value reference to an array, using index;
 * [get](#get) - Get a value or an array of values from an array;
 * [getRef](#getref) - Get a value reference or an array of values reference from an array;
-* [getForce](#getforce) - Get a value from an array. If the key does not exists, it is added to the array;
-* [getForceRef](#getforceref) - Get a value reference from an array. If the key does not exists, it is added to the array;
+* [getForce](#getforce) - Get a value or an array of values from an array. If the key does not exists, it is added to the array;
+* [getForceRef](#getforceref) - Get a value reference or an array of values reference from an array. If the key does not exists, it is added to the array;
 * [getArray](#getarray) - Get a value as array from an array;
 * [getArrayRef](#getarrayref) - Get a value reference as array from an array;
 * [getArrayForce](#getarrayforce) - Get a value as array from an array. If the key does not exists, it is added to the array;
@@ -249,4 +249,52 @@ $foo = &\Greg\Support\Arr::getRef($array, 'foo'); // result: FOO
 $foo = 'FOO2';
 
 // $array: ['foo' => 'FOO2']
+```
+
+## getForce
+
+Get a value or an array of values from an array.
+If the key does not exists, it is added to the array.
+
+```php
+getForce(array &$array, string $key, string $else = null): mixed
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$else` - If the key does not exists, return this value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+\Greg\Support\Arr::getForce($array, 'bar'); // result: null
+
+// $array = ['foo' => 'FOO', 'bar' => null]
+```
+
+## getForceRef
+
+Get a value reference or an array of values reference from an array.
+If the key does not exists, it is added to the array.
+
+```php
+getForceRef(array &$array, string $key, string &$else = null): mixed
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$else` - If the key does not exists, return this value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO'];
+
+$bar = &\Greg\Support\Arr::getForceRef($array, 'bar'); // result: null
+
+$bar = 'BAR';
+
+// $array: ['foo' => 'FOO', 'bar' => 'BAR']
 ```
