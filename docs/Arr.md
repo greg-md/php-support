@@ -2,6 +2,12 @@
 
 `\Greg\Support\Arr` is working with arrays.
 
+# Constants
+
+```php
+const INDEX_DELIMITER = '.';
+```
+
 # Methods:
 
 * [has](#has) - Determine if a key exists in an array;
@@ -66,18 +72,41 @@
 * [unpackIndexesRef](#unpackIndexesRef) - Unpack indexes of an array, using values reference;
 * [valuesRecursive](#valuesRecursive) - Get values of an array recursively;
 
-## camelCase
+## has
 
-Transform a string to `CamelCase`.
+Determine if a key exists in an array.
 
 ```php
-camelCase(string $string): string
+has(array &$array, string|array $key): boolean
 ```
 
-`$string` - The string.
+`$array` - The array.
+`$key` - It could be a key or an array of keys.
 
 _Example:_
 
 ```php
-\Greg\Support\Str::camelCase('camel case'); // result: CamelCase
+$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+
+\Greg\Support\Arr::has($array, 'foo'); // result: true
+```
+
+## hasIndex
+
+Determine if an index exists in an array.
+
+```php
+hasIndex(array &$array, string $index, string $delimiter = self::INDEX_DELIMITER): boolean
+```
+
+`$array` - The array.
+`$index` - It could be an index or an array of indexes.
+`$delimiter` - Index delimiter.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+
+\Greg\Support\Arr::hasIndex($array, 'foo'); // result: true
 ```
