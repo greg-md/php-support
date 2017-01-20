@@ -26,12 +26,10 @@ class Obj
 
     public static function baseName($class)
     {
-        $class = is_object($class) ? get_class($class) : $class;
-
-        return basename(str_replace('\\', '/', $class));
+        return basename(str_replace('\\', '/', is_object($class) ? get_class($class) : $class));
     }
 
-    public static function classExists($name, array $prefixes = [], $namePrefix = null)
+    public static function exists($name, $prefix = null, $suffix = null)
     {
         $name = array_map(function ($name) {
             return Str::phpCamelCase($name);
@@ -39,15 +37,28 @@ class Obj
 
         $name = implode('\\', $name);
 
-        foreach ($prefixes as $prefix) {
-            $class = $prefix . $namePrefix . $name;
+        foreach ((array) $prefix as $classPrefix) {
+            foreach ((array) $suffix as $classSuffix) {
+                $class = $classPrefix . $name . $classSuffix;
 
-            if (class_exists($class)) {
-                return $class;
+                if (class_exists($class)) {
+                    return $class;
+                }
             }
         }
 
         return false;
+    }
+
+    public static function uses($class)
+    {
+        $traits = class_uses($class);
+
+        foreach ($traits as $trait) {
+            $traits += static::uses($trait);
+        }
+
+        return array_unique($traits);
     }
 
     public static function usesRecursive($class, $breakOn = null)
@@ -59,37 +70,10 @@ class Obj
                 break;
             }
 
-            $results += static::traitUsesRecursive($class);
+            $results += static::uses($class);
         }
 
         return array_unique($results);
-    }
-
-    public static function traitUsesRecursive($trait)
-    {
-        $traits = class_uses($trait);
-
-        foreach ($traits as $trait) {
-            $traits += static::traitUsesRecursive($trait);
-        }
-
-        return $traits;
-    }
-
-    public static function parentClasses($className)
-    {
-        return static::fetchParentClasses(new \ReflectionClass($className));
-    }
-
-    protected static function fetchParentClasses(\ReflectionClass $class, &$classes = [])
-    {
-        if ($parent = $class->getParentClass()) {
-            $classes[$parent->getName()] = $parent->getName();
-
-            return static::fetchParentClasses($parent, $classes);
-        }
-
-        return $classes;
     }
 
     protected static function mixedArgs(callable $callable, array &$args = [])
@@ -160,6 +144,10 @@ class Obj
 //                } elseif (is_callable($expectedCallback)) {
 //                    $returnArgs[] = &call_user_func_array($expectedCallback, [$expectedArg]);
                 } else {
+                    if (!$returnArgs and $expectedArg->isOptional()) {
+                        continue;
+                    }
+
                     $returnArgs[] = static::expectedArg($expectedArg);
                 }
             }
@@ -181,7 +169,7 @@ class Obj
                         $assocArgs[$interface] = &$value;
                     }
 
-                    foreach (static::parentClasses($value) as $class) {
+                    foreach (class_parents($value) as $class) {
                         $assocArgs[$class] = &$value;
                     }
                 } else {

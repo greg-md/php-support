@@ -72,7 +72,7 @@ class ObjTest extends TestCase
             return func_get_args();
         }, 1, $foo, 2));
 
-        $this->assertEquals([1, 2, null], Obj::callMixed(function ($one, $two, Foo $foo = null) {
+        $this->assertEquals([1, 2], Obj::callMixed(function ($one, $two, Foo $foo = null) {
             return func_get_args();
         }, 1, 2));
 
@@ -110,9 +110,9 @@ class ObjTest extends TestCase
     /** @test */
     public function it_searches_for_a_class()
     {
-        $this->assertEquals(FooBar::class, Obj::classExists('Bar', ['Greg\\Support\\Tests\\'], 'Foo'));
+        $this->assertEquals(FooBar::class, Obj::exists('Foo', ['Greg\\Support\\Tests\\'], 'Bar'));
 
-        $this->assertFalse(Obj::classExists('Undefined', ['Greg\\Support\\Tests\\'], 'Foo'));
+        $this->assertFalse(Obj::exists('Undefined', ['Greg\\Support\\Tests\\'], 'Bar'));
     }
 
     /** @test */
@@ -132,12 +132,14 @@ class ObjTest extends TestCase
     }
 
     /** @test */
+    /*
     public function it_searches_for_parent_classes()
     {
         $classes = Obj::parentClasses(FooBar::class);
 
         $this->assertArrayHasKey(Foo::class, $classes);
     }
+    */
 
     /** @test */
     public function it_throws_exception_if_arg_type_is_required()
