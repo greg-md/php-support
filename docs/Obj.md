@@ -5,13 +5,13 @@
 # Methods:
 
 * [call](#call) - Call a callable with arguments;
-* [callRef](#callRef) - Call a callable with arguments reference;
-* [callMixed](#callMixed) - Call a callable with mixed arguments. You don't care anymore of arguments order;
-* [callMixedRef](#callMixedRef) - Call a callable with mixed arguments reference. You don't care anymore of arguments order;
-* [baseName](#baseName) - Get basename of a class;
+* [callRef](#callref) - Call a callable with arguments reference;
+* [callMixed](#callmixed) - Call a callable with mixed arguments. You don't care anymore of arguments order;
+* [callMixedRef](#callmixedref) - Call a callable with mixed arguments reference. You don't care anymore of arguments order;
+* [baseName](#basename) - Get basename of a class;
 * [exists](#exists) - Determine if a class exists;
 * [uses](#uses) - Get all uses of a class;
-* [usesRecursive](#usesRecursive) - Get all uses of a class and its parents;
+* [usesRecursive](#usesrecursive) - Get all uses of a class and its parents;
 
 ## call
 

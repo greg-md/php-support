@@ -129,7 +129,7 @@ class Url
         return $url;
     }
 
-    public static function base($path, $absolute = false)
+    public static function base($path = '/', $absolute = false)
     {
         $relative = Request::baseUri() . $path;
 
