@@ -21,7 +21,7 @@ Call a callable with arguments.
 call(callable(...$args): mixed $callable, ...$args): mixed
 ```
 
-`$callable` - Callable;
+`$callable` - Callable;  
 &nbsp;&nbsp;&nbsp;&nbsp;`...$args` - Arguments that was set in `...$args`;  
 `...$args` - Callable arguments.
 
@@ -43,7 +43,7 @@ Call a callable with mixed arguments. You don't care anymore of arguments order.
 callMixed(callable(...$args): mixed $callable, ...$args): mixed
 ```
 
-`$callable` - Callable;
+`$callable` - Callable;  
 &nbsp;&nbsp;&nbsp;&nbsp;`...$args` - Arguments that was set in `...$args`;  
 `...$args` - Callable arguments.
 
