@@ -210,7 +210,7 @@ host(string $absolute, boolean $stripWWW = true): string
 ```
 
 `$absolute` - The URL;  
-`$stripWWW` - Strip www.
+`$stripWWW` - Strip www from URL.
 
 _Example:_
 
@@ -228,7 +228,7 @@ hostLevel(string $absolute, int $level = 2, boolean $stripWWW = true): string
 
 `$absolute` - The URL;  
 `$level` - Host level;  
-`$stripWWW` - Strip www.
+`$stripWWW` - Strip www from URL.
 
 _Example:_
 
