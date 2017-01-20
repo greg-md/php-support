@@ -65,11 +65,10 @@ const INDEX_DELIMITER = '.';
 * [filter](#filter) - Filter an array;
 * [filterRecursive](#filterrecursive) - Filter an array recursively;
 * [group](#group) - Group an array;
-* [inArrayValues](#inarrayvalues) - Determine if values exists in an array;
+* [in](#inarrayvalues) - Determine if value or an array of values exists in an array;
 * [pairs](#pairs) - Combine an array with key-value;
 * [isFulfilled](#isfulfilled) - Determine if an array is fulfilled;
-* [each](#each) - Parse an array an exchange their key-value;
-* [count](#count) - Count an array;
+* [each](#each) - Parse an array into new one;
 * [pack](#pack) - Pack an array;
 * [values](#values) - Get values of an array;
 * [valuesRecursive](#valuesrecursive) - Get values of an array recursively;
@@ -1053,9 +1052,9 @@ _Example:_
 ```php
 $array = [1, 2, 3];
 
-Arr::first($array); // result: 1
+\Greg\Support\Arr::first($array); // result: 1
 
-Arr::first($array, function ($value) { return $value === 2; }); // result: 2
+\Greg\Support\Arr::first($array, function ($value) { return $value === 2; }); // result: 2
 ```
 
 ## firstRef
@@ -1089,9 +1088,9 @@ _Example:_
 ```php
 $array = [1 => 'one', 2 => 'two', 3 => 'three'];
 
-Arr::firstKey($array); // result: 1
+\Greg\Support\Arr::firstKey($array); // result: 1
 
-Arr::firstKey($array, function ($key) { return $key === 2; }); // result: 2
+\Greg\Support\Arr::firstKey($array, function ($key) { return $key === 2; }); // result: 2
 ```
 
 ## lastKey
@@ -1114,7 +1113,7 @@ _Example:_
 ```php
 $array = ['foo', 'bar'];
 
-Arr::prefix($array, 'pre_'); // result: ['pre_foo', 'pre_bar'] 
+\Greg\Support\Arr::prefix($array, 'pre_'); // result: ['pre_foo', 'pre_bar'] 
 ```
 
 ## suffix
@@ -1140,7 +1139,7 @@ _Example:_
 ```php
 $array = [1, 2, 3];
 
-Arr::map($array, function ($n) { return pow($n, 2); }); // result: [1, 4, 9]
+\Greg\Support\Arr::map($array, function ($n) { return pow($n, 2); }); // result: [1, 4, 9]
 ```
 
 ## mapRecursive
@@ -1165,10 +1164,10 @@ _Example:_
 ```php
 $array = [1, 2, null, 0, 3, ''];
 
-Arr::filter($array); // result: [0 => 1, 1 => 2, 4 => 3]
+\Greg\Support\Arr::filter($array); // result: [0 => 1, 1 => 2, 4 => 3]
 ```
 
-## filter
+## filterRecursive
 
 Filter an array recursively. See [filter](#filter) method.
 
@@ -1202,7 +1201,7 @@ $array = [
     ],
 ];
 
-$grouped = Arr::group($array, 'a');
+$grouped = \Greg\Support\Arr::group($array, 'a');
 
 // $grouped: [
 //     1 => [
@@ -1216,4 +1215,143 @@ $grouped = Arr::group($array, 'a');
 //         'c' => '44',
 //     ],
 // ]
+```
+
+## in
+
+Determine if value or an array of values exists in an array.
+
+```php
+in(array &$array, string|array $value, boolean $strict = false): boolean
+```
+
+`$array` - The array;  
+`$value` - Value;  
+`$string` - Enable strict mode.
+
+_Example:_
+
+```php
+$array = ['foo', 'bar'];
+
+\Greg\Support\Arr::in($array, 'foo'); // result: true
+\Greg\Support\Arr::in($array, ['foo', 'baz']); // result: false
+```
+
+## pairs
+
+Combine an array with key-value.
+
+```php
+pairs(array &$array, string $key, string $value): array
+```
+
+`$array` - The array;  
+`$key` - Key;  
+`$value` - Value.
+
+_Example:_
+
+```php
+$array = [['foo' => 'FOO', 'bar' => 'BAR'], ['foo' => 'FOO2', 'bar' => 'BAR2']];
+
+\Greg\Support\Arr::pairs($array, 'foo', 'bar'); // result: ['FOO' => 'BAR', 'FOO2' => 'BAR2']
+```
+
+## isFulfilled
+
+Determine if an array is fulfilled.
+
+```php
+isFulfilled(array &$array, callable(mixed $value, string $key): boolean $callable = null): boolean
+```
+
+`$array` - The array;  
+`$callable` - Callable.  
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$key` - Key.
+
+_Example:_
+
+```php
+$array = ['foo', 'bar', null];
+
+\Greg\Support\Arr::isFulfilled($array); // result: false
+```
+
+## each
+
+Parse an array into new one.
+
+```php
+each(array &$array, callable(mixed $value, string $key): array[mixed $value, string $key] $callable): array
+```
+
+`$array` - The array;  
+`$callable` - Callable.  
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$key` - Key.
+
+_Example:_
+
+```php
+$array = ['foo', 'bar'];
+
+\Greg\Support\Arr::each($array, function($value, $key) { return [$key, $value]; }); // result: ['foo' => 0, 'bar' => 1]
+```
+
+## pack
+
+Pack an array.
+
+```php
+pack(array $array, string $glue = null): array
+```
+
+`$array` - The array;  
+`$glue` - Glue.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+
+\Greg\Support\Arr::pack($array, '-'); // result: ['foo' => 'foo-FOO', 'bar' => 'bar-BAR']
+```
+
+## values
+
+Get values of an array.
+
+```php
+values(array $array): array
+```
+
+`$array` - The array.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+
+\Greg\Support\Arr::values($array); // result: ['FOO', 'BAR']
+```
+
+## valuesRecursive
+
+Get values of an array recursively.
+
+```php
+valuesRecursive(&$array, int $until = 0): array
+```
+
+`$array` - The array;  
+`$until` - Max level to go recursive until the value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => ['baz' => 'BAZ']];
+
+\Greg\Support\Arr::values($array); // result: ['FOO', ['BAZ']]
 ```

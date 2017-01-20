@@ -202,13 +202,13 @@ class Obj
 
     protected static function countMixableParams($expectedArgs)
     {
-        return Arr::count($expectedArgs, function (\ReflectionParameter $expectedArg) {
+        return count(Arr::filter($expectedArgs, function (\ReflectionParameter $expectedArg) {
             try {
                 return !$expectedArg->getClass();
             } catch (\Exception $e) {
                 return false;
             }
-        });
+        }));
     }
 
     protected static function expectedArg(\ReflectionParameter $expectedArg)

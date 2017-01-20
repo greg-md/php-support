@@ -1026,9 +1026,9 @@ class Arr
         return $grouped;
     }
 
-    public static function inArrayValues(&$array, array $values, $strict = false)
+    public static function in(array &$array, $values, $strict = false)
     {
-        foreach ($values as $value) {
+        foreach ((array) $values as $value) {
             if (!in_array($value, $array, $strict)) {
                 return false;
             }
@@ -1037,14 +1037,14 @@ class Arr
         return true;
     }
 
-    public static function pairs(&$array, $key, $value)
+    public static function pairs(array &$array, $key, $value)
     {
         return array_combine(array_column($array, $key), array_column($array, $value));
     }
 
-    public static function isFulfilled(array &$array, ...$args)
+    public static function isFulfilled(array &$array, callable $callable = null)
     {
-        return count(array_filter($array, ...$args)) == count($array);
+        return count(static::filter($array, $callable)) == count($array);
     }
 
     public static function each(array &$array, callable $callable)
@@ -1058,11 +1058,6 @@ class Arr
         }
 
         return $new;
-    }
-
-    public static function count(&$array, callable $callable)
-    {
-        return count(array_filter($array, $callable));
     }
 
     public static function pack(array $array, $glue = null)
@@ -1082,7 +1077,7 @@ class Arr
 
     public static function valuesRecursive(&$array, $until = 0)
     {
-        $values = array_values($array);
+        $values = static::values($array);
 
         foreach ($values as &$value) {
             if (is_array($value) and !static::breakThis($value, $until)) {

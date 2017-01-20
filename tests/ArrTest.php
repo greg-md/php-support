@@ -692,13 +692,13 @@ class ArrTest extends TestCase
         }));
     }
 
-    public function testInArrayValues()
+    public function testIn()
     {
         $accessor = [1, 2, null, [0, 3, '']];
 
-        $this->assertTrue(Arr::inArrayValues($accessor, [1, 2]));
+        $this->assertTrue(Arr::in($accessor, [1, 2]));
 
-        $this->assertFalse(Arr::inArrayValues($accessor, [1, 2, 'b']));
+        $this->assertFalse(Arr::in($accessor, [1, 2, 'b']));
     }
 
     public function testPairs()
@@ -737,15 +737,6 @@ class ArrTest extends TestCase
         });
 
         $this->assertEquals([1, 4, 9], $result);
-    }
-
-    public function testCount()
-    {
-        $accessor = [1, 2, 3];
-
-        $this->assertEquals(1, Arr::count($accessor, function ($value) {
-            return $value === 1;
-        }));
     }
 
     public function testPack()
