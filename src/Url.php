@@ -81,13 +81,13 @@ class Url
         return $host;
     }
 
-    public static function hostLevel($absolute, $level = 2)
+    public static function hostLevel($absolute, $level = 2, $stripWWW = true)
     {
         $host = parse_url(static::shortSchema($absolute), PHP_URL_HOST);
 
         $host = mb_strtolower($host);
 
-        if (substr($host, 0, 4) == 'www.') {
+        if ($stripWWW and substr($host, 0, 4) == 'www.') {
             $host = substr($host, 4);
         }
 
