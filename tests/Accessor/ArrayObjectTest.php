@@ -383,13 +383,13 @@ class ArrayObjectTest extends TestCase
     /**
      * @depends testExchange
      */
-    public function testInArrayValues()
+    public function testIn()
     {
         $this->arrayObject->exchange([1, 2]);
 
-        $this->assertTrue($this->arrayObject->inArrayValues([1, 2]));
+        $this->assertTrue($this->arrayObject->in([1, 2]));
 
-        $this->assertFalse($this->arrayObject->inArrayValues([1, '2'], true));
+        $this->assertFalse($this->arrayObject->in([1, '2'], true));
     }
 
     public function testMerge()
