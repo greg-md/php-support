@@ -77,7 +77,7 @@ baseName(string|object $class): string
 _Example:_
 
 ```php
-\Greg\Support\Obj::baseName('\Foo\Bar'); // result: Bar
+\Greg\Support\Obj::baseName(Foo\Bar::class); // result: Bar
 ```
 
 ## exists
@@ -98,3 +98,38 @@ _Example:_
 // Let say we have a class \Foo\BarStrategy
 \Greg\Support\Obj::exists('Bar', 'Foo\\', 'Strategy'); // result: true
 ```
+
+## uses
+
+Get all uses of a class.
+
+```php
+uses(string|object $class): array
+```
+
+`$class` - The class.
+
+_Example:_
+
+```php
+trait FooTrait
+{
+
+}
+
+trait BarTrait
+{
+    use FooTrait;
+}
+
+class Baz
+{
+    use BarTrait;
+}
+
+\Greg\Support\Obj::uses(Baz::class); // result: ['BarTrait' => 'BarTrait', 'FooTrait' => 'FooTrait']
+```
+
+## usesRecursive
+
+Get all uses of a class and its parents. See [uses](#uses) method.
