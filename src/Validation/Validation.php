@@ -3,32 +3,35 @@
 namespace Greg\Support\Validation;
 
 use Greg\Support\Arr;
+use Greg\Support\Obj;
 
 class Validation
 {
-    protected $namespaces = [
-        'Greg\\Support\\Validation',
+    protected $prefixes = [
+        'Greg\\Support\\Validation\\',
     ];
 
-    protected $suffix = 'Validator';
+    protected $suffixes = [
+        'Validator',
+    ];
 
     /**
      * @var ValidatorStrategy[][]
      */
     protected $validators = [];
 
-    public function __construct($validators = [], $namespaces = [], $suffix = null)
+    public function __construct(array $validators = [], $prefix = null, $suffix = null)
     {
         if ($num = func_num_args()) {
             $this->addValidators((array) $validators);
         }
 
         if ($num > 1) {
-            $this->addNamespaces((array) $namespaces);
+            $this->addPrefix((array) $prefix);
         }
 
         if ($num > 2) {
-            $this->setSuffix($suffix);
+            $this->addSuffix((array) $suffix);
         }
 
         return $this;
@@ -41,16 +44,16 @@ class Validation
         return $this;
     }
 
-    public function addNamespaces(array $namespaces)
+    public function addPrefix($prefix)
     {
-        $this->namespaces = array_merge($this->namespaces, $namespaces);
+        $this->prefixes = array_merge($this->prefixes, (array) $prefix);
 
         return $this;
     }
 
-    public function setSuffix($name)
+    public function addSuffix($suffix)
     {
-        $this->suffix = (string) $name;
+        $this->suffixes = array_merge($this->suffixes, (array) $suffix);
 
         return $this;
     }
@@ -82,12 +85,8 @@ class Validation
 
     protected function getClassByName($name)
     {
-        foreach ($this->namespaces as $namespace) {
-            $className = $namespace . '\\' . ucfirst($name) . $this->suffix;
-
-            if (class_exists($className)) {
-                return $className;
-            }
+        if ($className = Obj::exists(ucfirst($name), $this->prefixes, $this->suffixes)) {
+            return $className;
         }
 
         throw new ValidationException('Validator `' . $name . '` not found.');
