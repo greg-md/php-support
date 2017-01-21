@@ -71,7 +71,7 @@ const INDEX_DELIMITER = '.';
 * [each](#each) - Parse an array into new one;
 * [pack](#pack) - Pack an array;
 * [values](#values) - Get values of an array;
-* [valuesRecursive](#valuesrecursive) - Get values of an array recursively;
+* [valuesRecursive](#valuesrecursive) - Get values of an array recursively.
 
 ## has
 

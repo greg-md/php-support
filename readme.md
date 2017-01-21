@@ -30,6 +30,8 @@ Support classes for PHP
 * **Accessor**
     * [AccessorTrait](docs/AccessorTrait.md) - A trait for **private** usage of the storage in a class;
     * [AccessorStaticTrait](docs/AccessorStaticTrait.md) - A trait for **private** usage of the storage in a static class;
+    * [ArrayAccessorTrait](docs/ArrayAccessorTrait.md) - A trait for **public** usage of an storage in a static class;
+    * [ArrayAccessorStaticTrait](docs/ArrayAccessorStaticTrait.md) - A trait for **public** usage of an storage in a class;
     * [ArrayAccessTrait](docs/ArrayAccessTrait.md) - A trait for **public** usage of the storage in a class;
     * [ArrayAccessStaticTrait](docs/ArrayAccessStaticTrait.md) - A trait for **public** usage of the storage in a static class;
     * [CountableTrait](docs/CountableTrait.md) - A trait for [Countable](http://php.net/manual/en/class.countable.php) interface;

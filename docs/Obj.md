@@ -11,7 +11,7 @@
 * [baseName](#basename) - Get basename of a class;
 * [exists](#exists) - Determine if a class exists;
 * [uses](#uses) - Get all uses of a class;
-* [usesRecursive](#usesrecursive) - Get all uses of a class and its parents;
+* [usesRecursive](#usesrecursive) - Get all uses of a class and its parents.
 
 ## call
 

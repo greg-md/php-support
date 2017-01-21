@@ -38,7 +38,7 @@
 * [parseUrls](#parseurls) - Parse URLs from a string;
 * [isEmpty](#isempty) - Determine if a variable is empty;
 * [isScalar](#isscalar) - Determine if a variable is scalar;
-* [isDigit](#isdigit) - Determine if a string is a digit;
+* [isDigit](#isdigit) - Determine if a string is a digit.
 
 ## camelCase
 

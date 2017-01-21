@@ -9,17 +9,17 @@ class DateTimeTest extends TestCase
 {
     public function testToCurrentYearInterval()
     {
-        $this->assertEquals('2014 - ' . date('Y'), DateTime::toCurrentYearInterval('2014'));
+        $this->assertEquals('2014 - ' . date('Y'), DateTime::yearInterval('2014'));
     }
 
     public function testFormatTime()
     {
-        $this->assertEquals(date('Y-m-d H:i:s', strtotime('+1 year')), DateTime::formatTime('Y-m-d H:i:s', '+1 year'));
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime('+1 year')), DateTime::transform('Y-m-d H:i:s', '+1 year'));
     }
 
     public function testFormatTimeLocale()
     {
-        $this->assertEquals(strftime('%Y', strtotime('+1 year')), DateTime::formatTimeLocale('%Y', '+1 year'));
+        $this->assertEquals(strftime('%Y', strtotime('+1 year')), DateTime::transformLocale('%Y', '+1 year'));
     }
 
     public function testDiffTime()
@@ -29,43 +29,43 @@ class DateTimeTest extends TestCase
 
     public function testToDateTimeString()
     {
-        $this->assertEquals(date('Y-m-d H:i', strtotime('tomorrow')), DateTime::toDateTimeString('tomorrow', false));
+        $this->assertEquals(date('Y-m-d H:i', strtotime('tomorrow')), DateTime::dateTimeString('tomorrow', false));
     }
 
     public function testToISO8601()
     {
-        $this->assertEquals(date('c'), DateTime::toISO8601('now'));
+        $this->assertEquals(date('c'), DateTime::iso8601('now'));
     }
 
     public function testToDateString()
     {
-        $this->assertEquals(date('Y-m-d'), DateTime::toDateString('now'));
+        $this->assertEquals(date('Y-m-d'), DateTime::dateString('now'));
     }
 
     public function testToTimeString()
     {
-        $this->assertEquals(date('H:i:s'), DateTime::toTimeString('now'));
+        $this->assertEquals(date('H:i:s'), DateTime::timeString('now'));
     }
 
     public function testToYearString()
     {
-        $this->assertEquals(date('Y'), DateTime::toYearString('now'));
+        $this->assertEquals(date('Y'), DateTime::year('now'));
 
-        $this->assertEquals(date('y'), DateTime::toYearString('now', false));
+        $this->assertEquals(date('y'), DateTime::year('now', false));
     }
 
     public function testToMonthString()
     {
-        $this->assertEquals(date('m'), DateTime::toMonthString('now'));
+        $this->assertEquals(date('m'), DateTime::month('now'));
     }
 
     public function testToDayString()
     {
-        $this->assertEquals(date('d'), DateTime::toDayString('now'));
+        $this->assertEquals(date('d'), DateTime::day('now'));
     }
 
     public function testUntilNowTime()
     {
-        $this->assertEquals(2, DateTime::untilNowTime('-2 seconds'));
+        $this->assertEquals(2, DateTime::untilNow('-2 seconds'));
     }
 }

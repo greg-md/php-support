@@ -20,6 +20,16 @@ class File
         return $this->fileName;
     }
 
+    public function getExtension($point = false)
+    {
+        return $this->checkedExtension($this->fileName, $point);
+    }
+
+    public function getMime()
+    {
+        return $this->checkedMime($this->fileName);
+    }
+
     public static function check($filename, $throwException = true)
     {
         if (!file_exists($filename)) {
@@ -38,28 +48,11 @@ class File
         return static::check($fileName, false);
     }
 
-    public function getExtension($point = false)
-    {
-        return $this->checkedExtension($this->fileName, $point);
-    }
-
     public static function extension($fileName, $point = false)
     {
         static::check($fileName);
 
         return static::checkedExtension($fileName, $point);
-    }
-
-    protected static function checkedExtension($fileName, $point = false)
-    {
-        $fileName = explode('.', $fileName);
-
-        return ($point ? '.' : '') . (count($fileName) > 1 ? end($fileName) : null);
-    }
-
-    public function getMime()
-    {
-        return $this->checkedMime($this->fileName);
     }
 
     public static function mime($fileName)
@@ -69,13 +62,20 @@ class File
         return static::checkedMime($fileName);
     }
 
-    protected static function checkedMime($fileName)
-    {
-        return (new \finfo())->file($fileName, FILEINFO_MIME_TYPE);
-    }
-
     public static function makeDir($fileName, $recursive = false)
     {
         return Dir::make(dirname($fileName), $recursive);
+    }
+
+    protected static function checkedExtension($fileName, $point = false)
+    {
+        $fileName = explode('.', $fileName);
+
+        return ($point ? '.' : '') . (count($fileName) > 1 ? end($fileName) : null);
+    }
+
+    protected static function checkedMime($fileName)
+    {
+        return (new \finfo())->file($fileName, FILEINFO_MIME_TYPE);
     }
 }

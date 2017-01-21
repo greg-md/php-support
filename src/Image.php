@@ -4,6 +4,31 @@ namespace Greg\Support;
 
 class Image extends File
 {
+    public function getType()
+    {
+        return $this->checkedType($this->fileName());
+    }
+
+    public function getSize()
+    {
+        return $this->size($this->fileName());
+    }
+
+    public function getResource()
+    {
+        return $this->checkedResource($this->fileName());
+    }
+
+    public function getWidth()
+    {
+        return $this->checkedWidth($this->fileName());
+    }
+
+    public function getHeight()
+    {
+        return $this->checkedHeight($this->fileName());
+    }
+
     public static function check($filename, $throwException = true)
     {
         if (!parent::check($filename, $throwException)) {
@@ -21,16 +46,39 @@ class Image extends File
         return true;
     }
 
-    public function getType()
-    {
-        return $this->checkedType($this->fileName());
-    }
-
     public static function type($fileName)
     {
         static::check($fileName);
 
         return static::checkedType($fileName);
+    }
+
+    public static function size($fileName)
+    {
+        static::check($fileName);
+
+        return static::checkedSize($fileName);
+    }
+
+    public static function resource($fileName)
+    {
+        static::check($fileName);
+
+        return static::checkedResource($fileName);
+    }
+
+    public static function width($fileName)
+    {
+        static::check($fileName);
+
+        return static::checkedWidth($fileName);
+    }
+
+    public static function height($fileName)
+    {
+        static::check($fileName);
+
+        return static::checkedHeight($fileName);
     }
 
     protected static function checkedType($fileName)
@@ -44,18 +92,6 @@ class Image extends File
         }
 
         return $type;
-    }
-
-    public function getSize()
-    {
-        return $this->size($this->fileName());
-    }
-
-    public static function size($fileName)
-    {
-        static::check($fileName);
-
-        return static::checkedSize($fileName);
     }
 
     protected static function checkedSize($fileName)
@@ -75,18 +111,6 @@ class Image extends File
         }
 
         return [$width, $height];
-    }
-
-    public function getResource()
-    {
-        return $this->checkedResource($this->fileName());
-    }
-
-    public static function resource($fileName)
-    {
-        static::check($fileName);
-
-        return static::checkedResource($fileName);
     }
 
     protected static function checkedResource($fileName)
@@ -119,18 +143,6 @@ class Image extends File
         return $image;
     }
 
-    public function getWidth()
-    {
-        return $this->checkedWidth($this->fileName());
-    }
-
-    public static function width($fileName)
-    {
-        static::check($fileName);
-
-        return static::checkedWidth($fileName);
-    }
-
     protected static function checkedWidth($fileName)
     {
         list($width, $height) = static::checkedSize($fileName);
@@ -138,18 +150,6 @@ class Image extends File
         unset($height);
 
         return $width;
-    }
-
-    public function getHeight()
-    {
-        return $this->checkedHeight($this->fileName());
-    }
-
-    public static function height($fileName)
-    {
-        static::check($fileName);
-
-        return static::checkedHeight($fileName);
     }
 
     protected static function checkedHeight($fileName)
