@@ -226,7 +226,7 @@ class ResponseTest extends TestCase
 
         $this->sendAndCheckTrue(!Response::isModifiedSince(time(), 60));
 
-        $this->sendAndCheckTrue(Response::isModifiedSince(time() - 30, 60));
+        $this->sendAndCheckTrue((bool) Response::isModifiedSince(time() - 30, 60));
 
         $_SERVER['HTTP_IF_NONE_MATCH'] = 'wrong';
 

@@ -42,7 +42,7 @@ Support classes for PHP
     * [Request](docs/Http/Request.md) - Working with `http request` in an object-oriented way;
     * [Response](docs/Http/Response.md) - Working with `http response` in an object-oriented way.
 * **Validation**
-    * [Validation](docs/Validation.md) - Validate parameters against validators;
+    * [Validation](docs/Validation/Validation.md) - Validate parameters against validators;
     * [ValidatorStrategy](docs/ValidatorStrategy.md) - A strategy for validators.
 * **Validators**
     * [DateTimeFromValidator](docs/DateTimeFromValidator.md) - Validate a `DateTime` to be grater than another `DateTime`;
