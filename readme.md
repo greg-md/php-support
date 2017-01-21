@@ -19,11 +19,11 @@ Support classes for PHP
 * [Arr](docs/Arr.md) - Working with arrays;
 * [Obj](docs/Obj.md) - Working with objects;
 * [Url](docs/Url.md) - Working with URLs;
-* [Dir](docs/DateTime.md) - Working with directories;
+* [Dir](docs/Dir.md) - Working with directories;
 * [File](docs/File.md) - Working with files;
 * [Image](docs/Image.md) - Working with images;
 * [Html](docs/Html.md) - Working with html;
-* [Session](docs/ServerIni.md) - Working with `$_SESSION`;
+* [Session](docs/Session.md) - Working with `$_SESSION`;
 * [DateTime](docs/DateTime.md) - Working with dates and times;
 * [Server](docs/Server.md) - Working with server configurations;
 * [Config](docs/Config.md) - Working with config files.
