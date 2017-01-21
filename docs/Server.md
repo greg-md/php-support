@@ -4,25 +4,25 @@
 
 # Methods:
 
-* [scriptName](#scriptName) - Get script name;
-* [scriptFile](#scriptFile) - Get script file;
-* [requestTime](#requestTime) - Get request time;
-* [requestMicroTime](#requestMicroTime) - Get request micro time;
-* [documentRoot](#documentRoot) - Get document root;
+* [scriptName](#scriptname) - Get script name;
+* [scriptFile](#scriptfile) - Get script file;
+* [requestTime](#requesttime) - Get request time;
+* [requestMicroTime](#requestmicrotime) - Get request micro time;
+* [documentRoot](#documentroot) - Get document root;
 * [has](#has) - Determine if has a configuration;
 * [get](#get) - Get a configuration;
 * [encoding](#encoding) - Get/Set encoding;
 * [timezone](#timezone) - Get/Set timezone;
-* [iniAll](#iniAll) - Get all ini configurations;
-* [iniGet](#iniGet) - Get an ini configuration;
-* [iniSet](#iniSet) - Set an ini configuration;
-* [appendIncPath](#appendIncPath) - Append to included paths;
-* [prependIncPath](#prependIncPath) - Prepend to included paths;
-* [resetIncPath](#resetIncPath) - Reset included paths;
-* [existsInIncPaths](#existsInIncPaths) - Determine if a path exists in included paths;
-* [errorsAsExceptions](#errorsAsExceptions) - Act errors as exceptions;
-* [disableErrors](#disableErrors) - Disable errors;
-* [restoreErrors](#restoreErrors) - Restore errors.
+* [iniAll](#iniall) - Get all ini configurations;
+* [iniGet](#iniget) - Get an ini configuration;
+* [iniSet](#iniset) - Set an ini configuration;
+* [appendIncPath](#appendincpath) - Append to included paths;
+* [prependIncPath](#prependincpath) - Prepend to included paths;
+* [resetIncPath](#resetincpath) - Reset included paths;
+* [existsInIncPaths](#existsinincpaths) - Determine if a path exists in included paths;
+* [errorsAsExceptions](#errorsasexceptions) - Act errors as exceptions;
+* [disableErrors](#disableerrors) - Disable errors;
+* [restoreErrors](#restoreerrors) - Restore errors.
 
 ## method
 

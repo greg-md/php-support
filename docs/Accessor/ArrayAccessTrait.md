@@ -11,8 +11,6 @@ class Storage implements \ArrayAccess
 {
     use \Greg\Support\Accessor\ArrayAccessTrait;
 }
-
-$storage = new Storage();
 ```
 
 # Methods:

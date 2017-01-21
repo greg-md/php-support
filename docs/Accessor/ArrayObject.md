@@ -4,17 +4,16 @@
 
 # Methods:
 
-* [__construct](#__construct) - Constructor;
-* [toArray](#toArray) - Transform to array;
+* [toArray](#toarray) - Transform to array;
 * [exchange](#exchange) - Exchange array;
-* [exchangeRef](#exchangeRef) - Exchange array reference;
+* [exchangeRef](#exchangeref) - Exchange array reference;
 * [append](#append) - Append a value;
-* [appendRef](#appendRef) - Append a value reference;
-* [appendKey](#appendKey) - Append a key-value;
-* [appendKeyRef](#appendKeyRef) - Append a key-value reference;
-* [prependRef](#prependRef) - Prepend a value reference;
-* [prependKey](#prependKey) - Prepend a key-value;
-* [prependKeyRef](#prependKeyRef) - Prepend a key-value reference;
+* [appendRef](#appendref) - Append a value reference;
+* [appendKey](#appendkey) - Append a key-value;
+* [appendKeyRef](#appendkeyref) - Append a key-value reference;
+* [prependRef](#prependref) - Prepend a value reference;
+* [prependKey](#prependkey) - Prepend a key-value;
+* [prependKeyRef](#prependkeyref) - Prepend a key-value reference;
 * [asort](#asort) - Asort array;
 * [ksort](#ksort) - Ksort array;
 * [natcasesort](#natcasesort) - Natcasesort array;
@@ -28,23 +27,23 @@
 * [first](#first) - Get first value;
 * [last](#last) - Get last value;
 * [clear](#clear) - Clear array;
-* [inArray](#inArray) - Determine if a key is in array;
+* [inArray](#inarray) - Determine if a key is in array;
 * [in](#in) - Determine if a value is in array;
 * [merge](#merge) - Merge with an array;
-* [mergeRecursive](#mergeRecursive) - Merge with an array recursively;
-* [mergePrepend](#mergePrepend) - Merge prepend with an array recursively;
-* [mergePrependRecursive](#mergePrependRecursive) - Merge prepend with an array recursively;
-* [mergeValues](#mergeValues) - Merge values;
+* [mergeRecursive](#mergerecursive) - Merge with an array recursively;
+* [mergePrepend](#mergeprepend) - Merge prepend with an array recursively;
+* [mergePrependRecursive](#mergeprependrecursive) - Merge prepend with an array recursively;
+* [mergeValues](#mergevalues) - Merge values;
 * [replace](#replace) - Replace with an array;
-* [replaceRecursive](#replaceRecursive) - Replace with an array recursively;
-* [replacePrepend](#replacePrepend) - Replace prepend with an array;
-* [replacePrependRecursive](#replacePrependRecursive) - Replace prepend with an array recursively;
-* [replaceValues](#replaceValues) - Replace values;
+* [replaceRecursive](#replacerecursive) - Replace with an array recursively;
+* [replacePrepend](#replaceprepend) - Replace prepend with an array;
+* [replacePrependRecursive](#replaceprependrecursive) - Replace prepend with an array recursively;
+* [replaceValues](#replacevalues) - Replace values;
 * [diff](#diff) - Diff array;
 * [map](#map) - Map array;
-* [mapRecursive](#mapRecursive) - Map array recursively;
+* [mapRecursive](#maprecursive) - Map array recursively;
 * [filter](#filter) - Filter array;
-* [filterRecursive](#filterRecursive) - Filter array recursively;
+* [filterRecursive](#filterrecursive) - Filter array recursively;
 * [reverse](#reverse) - Reverse array;
 * [chunk](#chunk) - Chunk array;
 * [implode](#implode) - Implode array;
@@ -60,6 +59,10 @@
 * [krsort](#krsort) - Krsort array;
 * [keys](#keys) - Get keys of array;
 * [values](#values) - Get values of array.
+
+**Magic methods:**
+
+* [__construct](#__construct) - Constructor;
 
 ## method
 

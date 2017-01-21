@@ -1,6 +1,6 @@
 # Html Documentation
 
-`\Greg\Support\Html` is working with html.
+`\Greg\Support\Tools\Html` is working with html.
 
 # Methods:
 

@@ -1,8 +1,6 @@
 <?php
 
-namespace Greg\Support;
-
-use Greg\Support\Tools\SubHtml;
+namespace Greg\Support\Tools;
 
 class Html
 {

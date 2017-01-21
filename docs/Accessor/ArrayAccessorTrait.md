@@ -16,8 +16,6 @@ class Storage
         return $this->storage;
     }
 }
-
-$storage = new Storage();
 ```
 
 # Methods:

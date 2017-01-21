@@ -22,5 +22,5 @@ class Storage implements \IteratorAggregate
 
 See [IteratorAggregate](http://php.net/manual/en/class.iteratoraggregate.php) interface.
 
-* [getIteratorClass](#getIteratorClass) - Get iterator class;
-* [setIteratorClass](#setIteratorClass) - Set iterator class;
+* [getIteratorClass](#getiteratorclass) - Get iterator class;
+* [setIteratorClass](#setiteratorclass) - Set iterator class;

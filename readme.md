@@ -22,7 +22,6 @@ Support classes for PHP
 * [Dir](docs/Dir.md) - Working with directories;
 * [File](docs/File.md) - Working with files;
 * [Image](docs/Image.md) - Working with images;
-* [Html](docs/Html.md) - Working with html;
 * [Session](docs/Session.md) - Working with `$_SESSION`;
 * [DateTime](docs/DateTime.md) - Working with dates and times;
 * [Server](docs/Server.md) - Working with server configurations;
@@ -43,8 +42,9 @@ Support classes for PHP
     * [Request](docs/Http/Request.md) - Working with `http request` in an object-oriented way;
     * [Response](docs/Http/Response.md) - Working with `http response` in an object-oriented way.
 * **Tools**
-    * [Color](docs/Color.md) - Some color tools;
-    * [Math](docs/Math.md) - Some math tools;
-    * [Regex](docs/Regex.md) - Some regular expression tools.
-    * [InNamespaceRegex](docs/InNamespaceRegex.md) - Generate a regular expression to search in desired namespaces. Ex: `{{ Find Me! }}`.
-    * [SubHtml](docs/SubHtml.md) - Extract a substring from a html with all needed tags.
+    * [Html](docs/Tools/Html.md) - Working with html;
+    * [Color](docs/Tools/Color.md) - Working with colors;
+    * [Math](docs/Tools/Math.md) - Working with math;
+    * [Regex](docs/Tools/Regex.md) - Working with regular expressions;
+    * [InNamespaceRegex](docs/Tools/InNamespaceRegex.md) - Generate a regular expression to search in desired namespaces. Ex: `{{ Find Me! }}`;
+    * [SubHtml](docs/Tools/SubHtml.md) - Extract a substring from a html with all needed tags.

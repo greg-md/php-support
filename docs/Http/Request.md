@@ -39,57 +39,60 @@ const UPLOAD_ERROR = [
 
 # Methods:
 
-* [__construct](#__construct) - Constructor;
 * [validate](#validate) - Validate params;
 * [protocol](#protocol) - Get protocol;
-* [clientHost](#clientHost) - Get client host;
-* [serverHost](#serverHost) - Get server host;
-* [serverAdmin](#serverAdmin) - Get server admin;
+* [clientHost](#clienthost) - Get client host;
+* [serverHost](#serverhost) - Get server host;
+* [serverAdmin](#serveradmin) - Get server admin;
 * [secured](#secured) - Get secured state;
-* [isSecured](#isSecured) - Determine if secured;
+* [isSecured](#issecured) - Determine if secured;
 * [with](#with) - Get requested with;
 * [port](#port) - Get port;
 * [agent](#agent) - Get agent;
 * [ip](#ip) - Get IP;
 * [uri](#uri) - Get URI;
 * [method](#method) - Get method;
-* [baseUri](#baseUri) - Get base URI;
-* [uriPath](#uriPath) - Get URI path;
-* [uriQuery](#uriQuery) - Get URI query;
-* [relativeUri](#relativeUri) - Get relative URI;
-* [relativeUriPath](#relativeUriPath) - Get relative URI path;
+* [baseUri](#baseuri) - Get base URI;
+* [uriPath](#uripath) - Get URI path;
+* [uriQuery](#uriquery) - Get URI query;
+* [relativeUri](#relativeuri) - Get relative URI;
+* [relativeUriPath](#relativeuripath) - Get relative URI path;
 * [referrer](#referrer) - Get referrer;
-* [modifiedSince](#modifiedSince) - Get modified since;
+* [modifiedSince](#modifiedsince) - Get modified since;
 * [match](#match) - Get match;
 * [time](#time) - Get time;
-* [microTime](#microTime) - Get micro time;
-* [isAjax](#isAjax) - Determine if request is an ajax request;
+* [microTime](#microtime) - Get micro time;
+* [isAjax](#isajax) - Determine if request is an ajax request;
 * [header](#header) - Get a header;
-* [humanReadableFiles](#humanReadableFiles) - Transform `$_FILES` to human readable data;
+* [humanReadableFiles](#humanreadablefiles) - Transform `$_FILES` to human readable data;
 * [has](#has) - Determine if has a key or an array of keys in `$_REQUEST`;
-* [hasIndex](#hasIndex) - Determine if has an index or an array of indexes in `$_REQUEST`;
+* [hasIndex](#hasindex) - Determine if has an index or an array of indexes in `$_REQUEST`;
 * [param](#param) - Get a param or an array of params by key from `$_REQUEST`;
-* [paramArray](#paramArray) - Get an array param or an array of array params from `$_REQUEST`;
-* [paramIndex](#paramIndex) - Get a param or an array of params by index from `$_REQUEST`;
-* [paramIndexArray](#paramIndexArray) - Get an array param or an array of array params by index from `$_REQUEST`;
-* [hasGet](#hasGet) - Determine if has a key or an array of keys in `$_GET`;
-* [hasIndexGet](#hasIndexGet) - Determine if has an index or an array of indexes in `$_GET`;
+* [paramArray](#paramarray) - Get an array param or an array of array params from `$_REQUEST`;
+* [paramIndex](#paramindex) - Get a param or an array of params by index from `$_REQUEST`;
+* [paramIndexArray](#paramindexarray) - Get an array param or an array of array params by index from `$_REQUEST`;
+* [hasGet](#hasget) - Determine if has a key or an array of keys in `$_GET`;
+* [hasIndexGet](#hasindexget) - Determine if has an index or an array of indexes in `$_GET`;
 * [get](#get) - Get a param or an array of params by key from `$_GET`;
-* [getArray](#getArray) - Get an array param or an array of array params from `$_GET`;
-* [getIndex](#getIndex) - Get a param or an array of params by index from `$_GET`;
-* [getIndexArray](#getIndexArray) - Get an array param or an array of array params by index from `$_GET`;
-* [hasPost](#hasPost) - Determine if has a key or an array of keys in `$_POST`;
-* [hasIndexPost](#hasIndexPost) - Determine if has an index or an array of indexes in `$_POST`;
+* [getArray](#getarray) - Get an array param or an array of array params from `$_GET`;
+* [getIndex](#getindex) - Get a param or an array of params by index from `$_GET`;
+* [getIndexArray](#getindexarray) - Get an array param or an array of array params by index from `$_GET`;
+* [hasPost](#haspost) - Determine if has a key or an array of keys in `$_POST`;
+* [hasIndexPost](#hasindexpost) - Determine if has an index or an array of indexes in `$_POST`;
 * [post](#post) - Get a param or an array of params by key from `$_POST`;
-* [postArray](#postArray) - Get an array param or an array of array params from `$_POST`;
-* [postIndex](#postIndex) - Get a param or an array of params by index from `$_POST`;
-* [postIndexArray](#postIndexArray) - Get an array param or an array of array params by index from `$_POST`;
-* [hasFile](#hasFile) - Determine if has a key or an array of keys in `$_FILES`;
-* [hasIndexFile](#hasIndexFile) - Determine if has an index or an array of indexes in `$_FILES`;
+* [postArray](#postarray) - Get an array param or an array of array params from `$_POST`;
+* [postIndex](#postindex) - Get a param or an array of params by index from `$_POST`;
+* [postIndexArray](#postindexarray) - Get an array param or an array of array params by index from `$_POST`;
+* [hasFile](#hasfile) - Determine if has a key or an array of keys in `$_FILES`;
+* [hasIndexFile](#hasindexfile) - Determine if has an index or an array of indexes in `$_FILES`;
 * [file](#file) - Get a param or an array of params by key from `$_FILES`;
-* [fileArray](#fileArray) - Get an array param or an array of array params from `$_FILES`;
-* [fileIndex](#fileIndex) - Get a param or an array of params by index from `$_FILES`;
-* [fileIndexArray](#fileIndexArray) - Get an array param or an array of array params by index from `$_FILES`;
+* [fileArray](#filearray) - Get an array param or an array of array params from `$_FILES`;
+* [fileIndex](#fileindex) - Get a param or an array of params by index from `$_FILES`;
+* [fileIndexArray](#fileindexarray) - Get an array param or an array of array params by index from `$_FILES`;
+
+**Magic methods:**
+
+* [__construct](#__construct) - Constructor;
 
 ## method
 

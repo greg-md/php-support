@@ -1,8 +1,8 @@
 <?php
 
-namespace Greg\Support\Tests;
+namespace Greg\Support\Tests\Tools;
 
-use Greg\Support\Html;
+use Greg\Support\Tools\Html;
 use PHPUnit\Framework\TestCase;
 
 class HtmlTest extends TestCase
