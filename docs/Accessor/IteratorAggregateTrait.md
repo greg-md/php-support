@@ -5,23 +5,22 @@ A trait for [IteratorAggregate](http://php.net/manual/en/class.iteratoraggregate
 _Example:_
 
 ```php
-class Storage implements \Countable
+class Storage implements \IteratorAggregate
 {
     private $storage = [];
 
-    use \Greg\Support\Accessor\CountableTrait;
+    use \Greg\Support\Accessor\IteratorAggregateTrait;
 
     private function &getAccessor()
     {
         return $this->storage;
     }
 }
-
-$storage = new Storage();
-
-echo $storage->count();
 ```
 
 # Methods:
 
-See [Countable](http://php.net/manual/en/class.countable.php) interface.
+See [IteratorAggregate](http://php.net/manual/en/class.iteratoraggregate.php) interface.
+
+* [getIteratorClass](#getIteratorClass) - Get iterator class;
+* [setIteratorClass](#setIteratorClass) - Set iterator class;

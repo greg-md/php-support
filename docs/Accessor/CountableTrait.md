@@ -16,10 +16,6 @@ class Storage implements \Countable
         return $this->storage;
     }
 }
-
-$storage = new Storage();
-
-echo $storage->count();
 ```
 
 # Methods:

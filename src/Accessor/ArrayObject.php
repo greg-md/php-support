@@ -186,7 +186,7 @@ class ArrayObject implements \ArrayAccess, \IteratorAggregate, \Serializable, \C
         return in_array($value, $this->accessor, $strict);
     }
 
-    public function in(array $values, $strict = false)
+    public function in($values, $strict = false)
     {
         return Arr::in($this->accessor, $values, $strict);
     }
