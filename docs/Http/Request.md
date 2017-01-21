@@ -88,7 +88,7 @@ const UPLOAD_ERROR = [
 * [file](#file) - Get a param or an array of params by key from `$_FILES`;
 * [fileArray](#filearray) - Get an array param or an array of array params from `$_FILES`;
 * [fileIndex](#fileindex) - Get a param or an array of params by index from `$_FILES`;
-* [fileIndexArray](#fileindexarray) - Get an array param or an array of array params by index from `$_FILES`;
+* [fileIndexArray](#fileindexarray) - Get an array param or an array of array params by index from `$_FILES`.
 
 **Magic methods:**
 

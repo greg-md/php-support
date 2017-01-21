@@ -31,7 +31,7 @@
 * [trim](#trim) - Enable/Disable trim of the string;
 * [isTrimmed](#istrimmed) - Determine if allow trim;
 * [replaceCallback](#replacecallback) - Replace namespace;
-* [toString](#tostring) - Get regex code;
+* [toString](#tostring) - Get regex code.
 
 **Magic methods:**
 

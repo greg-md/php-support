@@ -9,7 +9,7 @@
 * [quote](#quote) - Quote a string;
 * [pattern](#pattern) - Get a pattern;
 * [setDelimiter](#setdelimiter) - Set delimiter;
-* [getDelimiter](#getdelimiter) - Get delimiter;
+* [getDelimiter](#getdelimiter) - Get delimiter.
 
 ## method
 

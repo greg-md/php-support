@@ -109,7 +109,7 @@ const CODES = [
 * [sendContentType](#sendcontenttype) - Send content type;
 * [sendDisposition](#senddisposition) - Send disposition;
 * [flush](#flush) - Flush the output buffer;
-* [isModifiedSince](#ismodifiedsince) - Determine if the request was modified;
+* [isModifiedSince](#ismodifiedsince) - Determine if the request was modified.
 
 **Magic methods**
 

@@ -6,7 +6,7 @@
 
 * [generate](#generate) - Generate a color from interval;
 * [hex2rgb](#hex2rgb) - Transform hex color to rgb color;
-* [rgb2hex](#rgb2hex) - Transform rgb color to hex color;
+* [rgb2hex](#rgb2hex) - Transform rgb color to hex color.
 
 ## method
 

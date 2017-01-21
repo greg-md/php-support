@@ -9,7 +9,7 @@ Throws: `\Greg\Support\Validation\ValidationException`.
 * [addValidators](#addvalidators) - Add validators;
 * [addPrefix](#addprefix) - Add a prefix or an array of prefixes;
 * [addSuffix](#addsuffix) - Add a suffix or an array of suffixes;
-* [validate](#validate) - Validate parameters;
+* [validate](#validate) - Validate parameters.
 
 # Validators
 

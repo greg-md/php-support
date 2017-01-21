@@ -5,7 +5,7 @@
 # Methods:
 
 * [canonicalDivision](#canonicaldivision) - Get canonical division on a number;
-* [cryptoRandSecure](#cryptorandsecure) - Get a cryptographically random number;
+* [cryptoRandSecure](#cryptorandsecure) - Get a cryptographically random number.
 
 ## method
 
