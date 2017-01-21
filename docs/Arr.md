@@ -270,7 +270,7 @@ $array = ['foo' => 'FOO'];
 
 \Greg\Support\Arr::getForce($array, 'bar'); // result: null
 
-// $array = ['foo' => 'FOO', 'bar' => null]
+// $array: ['foo' => 'FOO', 'bar' => null]
 ```
 
 ## getForceRef
@@ -364,7 +364,7 @@ $array = ['foo' => 'FOO'];
 
 \Greg\Support\Arr::getArrayForce($array, 'bar'); // result: []
 
-// $array = ['foo' => 'FOO', 'bar' => []]
+// $array: ['foo' => 'FOO', 'bar' => []]
 ```
 
 ## getArrayForceRef
@@ -458,7 +458,7 @@ $array = ['foo' => 'FOO'];
 
 \Greg\Support\Arr::getIndexForce($array, 'bar.baz'); // result: null
 
-// $array = ['foo' => 'FOO', 'bar' => ['baz' => null]]
+// $array: ['foo' => 'FOO', 'bar' => ['baz' => null]]
 ```
 
 ## getIndexForceRef
@@ -554,7 +554,7 @@ $array = ['foo' => 'FOO'];
 
 \Greg\Support\Arr::getIndexArrayForce($array, 'bar.baz'); // result: []
 
-// $array = ['foo' => 'FOO', 'bar' => ['baz' => []]]
+// $array: ['foo' => 'FOO', 'bar' => ['baz' => []]]
 ```
 
 ## getIndexArrayForceRef
@@ -579,7 +579,7 @@ $baz = &\Greg\Support\Arr::getIndexArrayForceRef($array, 'bar.baz'); // result: 
 
 $baz[0] = 'BAZ';
 
-// $array = ['foo' => 'FOO', 'bar' => ['baz' => ['BAZ']]]
+// $array: ['foo' => 'FOO', 'bar' => ['baz' => ['BAZ']]]
 ```
 
 ## del

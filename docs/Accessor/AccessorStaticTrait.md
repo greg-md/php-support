@@ -1,31 +1,21 @@
-# AccessorTrait Documentation
+# AccessorStaticTrait Documentation
 
-`\Greg\Support\Accessor\AccessorTrait` is a **private** storage trait for object usage.
+`\Greg\Support\Accessor\AccessorStaticTrait` is a **private** storage trait for static usage.
 You don't care anymore about setting a storage variable and creating base methods for using it. 
 
 _Example:_
 
 ```php
-class Options
+class InMemory
 {
-    use \Greg\Support\Accessor\AccessorTrait;
-    
-    public function __construct(array $options)
-    {
-        $this->setAccessor($options);
-    }
+    use \Greg\Support\Accessor\AccessorStaticTrait;
 
-    public function has($key)
-    {
-        return $this->inAccessor($key);
-    }
-
-    public function get($key)
+    public static function get($key)
     {
         return $this->getFromAccessor($key);
     }
 
-    public function set($key, $value)
+    public static function set($key, $value)
     {
         return $this->setToAccessor($key, $value);
     }
@@ -36,7 +26,7 @@ class Options
 
 * [getAccessor](#getaccessor) - Get storage;
 * [setAccessor](#setaccessor) - Set storage;
-* [inAccessor](#inaccessor) - Check if keys exists in storage;
+* [inAccessor](#inaccessor) - Determine if keys exists in storage;
 * [getFromAccessor](#getfromaccessor) - Get values from storage;
 * [setToAccessor](#settoaccessor) - Set a value to storage;
 * [addToAccessor](#addtoaccessor) - Add values to storage;
