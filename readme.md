@@ -39,8 +39,8 @@ Support classes for PHP
     * [SerializableTrait](docs/Accessor/SerializableTrait.md) - A trait for [Serializable](http://php.net/manual/en/class.serializable.php) interface;
     * [ArrayObject](docs/Accessor/ArrayObject.md) - Array as an object.
 * **Http**
-    * [Request](docs/Request.md) - Working with `http request` in an object-oriented way;
-    * [Response](docs/Response.md) - Working with `http response` in an object-oriented way.
+    * [Request](docs/Http/Request.md) - Working with `http request` in an object-oriented way;
+    * [Response](docs/Http/Response.md) - Working with `http response` in an object-oriented way.
 * **Validation**
     * [Validation](docs/Validation.md) - Validate parameters against validators;
     * [ValidatorStrategy](docs/ValidatorStrategy.md) - A strategy for validators.

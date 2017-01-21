@@ -147,39 +147,6 @@ class Response
         return $this->setLocation(Request::uri());
     }
 
-    public function send()
-    {
-        if ($disposition = $this->getDisposition()) {
-            $this->sendDisposition($disposition, $this->getFileName());
-        }
-
-        $contentType = [];
-
-        if ($type = $this->getContentType()) {
-            $contentType[] = $type;
-        }
-
-        if ($charset = $this->getCharset()) {
-            $contentType[] = 'charset=' . $charset;
-        }
-
-        if ($contentType) {
-            $this->sendContentType(implode('; ', $contentType));
-        }
-
-        if ($code = $this->getCode()) {
-            $this->sendCode($code);
-        }
-
-        if ($location = $this->getLocation()) {
-            $this->sendLocation($location);
-        }
-
-        echo $this->getContent();
-
-        return $this;
-    }
-
     public function isHtml()
     {
         return $this->getContentType() == 'text/html';
@@ -272,6 +239,39 @@ class Response
     public function toString()
     {
         return (string) $this->getContent();
+    }
+
+    public function send()
+    {
+        if ($disposition = $this->getDisposition()) {
+            $this->sendDisposition($disposition, $this->getFileName());
+        }
+
+        $contentType = [];
+
+        if ($type = $this->getContentType()) {
+            $contentType[] = $type;
+        }
+
+        if ($charset = $this->getCharset()) {
+            $contentType[] = 'charset=' . $charset;
+        }
+
+        if ($contentType) {
+            $this->sendContentType(implode('; ', $contentType));
+        }
+
+        if ($code = $this->getCode()) {
+            $this->sendCode($code);
+        }
+
+        if ($location = $this->getLocation()) {
+            $this->sendLocation($location);
+        }
+
+        echo $this->getContent();
+
+        return $this;
     }
 
     public function __toString()
@@ -409,7 +409,7 @@ class Response
         return true;
     }
 
-    public static function isModifiedSince($timestamp, $maxAge = 0)
+    public static function isModifiedSince($timestamp, $maxAge = 0, $sendHeaders = true)
     {
         if (!Str::isDigit($timestamp)) {
             $timestamp = strtotime($timestamp);
@@ -439,10 +439,12 @@ class Response
 
         $eTag = '"' . md5($lastModified) . '"';
 
-        // Send the headers
-        header('Last-Modified: ' . $lastModified);
+        if ($sendHeaders) {
+            // Send the headers
+            header('Last-Modified: ' . $lastModified);
 
-        header('ETag: ' . $eTag);
+            header('ETag: ' . $eTag);
+        }
 
         $match = Request::match();
 
@@ -460,9 +462,11 @@ class Response
             return false; // if-modified-since is there but doesn't match
         }
 
-        // Nothing has changed since their last request - serve a 304
-        static::sendCode(304);
+        if ($sendHeaders) {
+            // Nothing has changed since their last request - serve a 304
+            static::sendCode(304);
+        }
 
-        return true;
+        return [$lastModified, $eTag];
     }
 }

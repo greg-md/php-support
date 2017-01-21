@@ -26,12 +26,6 @@ class Request
 
     const TYPE_PATCH = 'PATCH';
 
-    const URI_ALL = 'all';
-
-    const URI_PATH = 'path';
-
-    const URI_QUERY = 'query';
-
     const UPLOAD_ERROR = [
         UPLOAD_ERR_OK         => 'There is no error, the file uploaded with success.',
         UPLOAD_ERR_INI_SIZE   => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
