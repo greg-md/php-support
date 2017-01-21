@@ -26,7 +26,8 @@ Support classes for PHP
 * [Session](docs/Session.md) - Working with `$_SESSION`;
 * [DateTime](docs/DateTime.md) - Working with dates and times;
 * [Server](docs/Server.md) - Working with server configurations;
-* [Config](docs/Config.md) - Working with config files.
+* [Config](docs/Config.md) - Working with config files;
+* [Validation](docs/Validation.md) - Validate parameters against validators.
 * **Accessor**
     * [AccessorTrait](docs/Accessor/AccessorTrait.md) - A trait for **private** usage of the storage in a class;
     * [AccessorStaticTrait](docs/Accessor/AccessorStaticTrait.md) - A trait for **private** usage of the storage in a static class;
@@ -41,22 +42,6 @@ Support classes for PHP
 * **Http**
     * [Request](docs/Http/Request.md) - Working with `http request` in an object-oriented way;
     * [Response](docs/Http/Response.md) - Working with `http response` in an object-oriented way.
-* **Validation**
-    * [Validation](docs/Validation/Validation.md) - Validate parameters against validators;
-    * [ValidatorStrategy](docs/Validation/ValidatorStrategy.md) - A strategy for validators.
-* **Validators**
-    * [DateTimeFromValidator](docs/DateTimeFromValidator.md) - Validate a `DateTime` to be grater than another `DateTime`;
-    * [DateTimeToValidator](docs/DateTimeToValidator.md) - Validate a `DateTime` to be less than another `DateTime`;
-    * [EmailValidator](docs/EmailValidator.md) - Validate an email address;
-    * [EnumValidator](docs/EnumValidator.md) - Validate a value to exists in a stack;
-    * [EqualValidator](docs/EqualValidator.md) - Validate a value to be equal with another value;
-    * [IntValidator](docs/IntValidator.md) - Validate a value to be an integer;
-    * [LengthValidator](docs/LengthValidator.md) - Validate a string length;
-    * [MaxLengthValidator](docs/LengthValidator.md) - Validate a string maximum length;
-    * [MinLengthValidator](docs/MinLengthValidator.md) - Validate a string minimum length;
-    * [MaxValidator](docs/MaxValidator.md) - Validate a number to be less than another number;
-    * [MinValidator](docs/MinValidator.md) - Validate a number to be greater than another number;
-    * [RequiredValidator](docs/RequiredValidator.md) - Validate a value to be not empty.
 * **Tools**
     * [Color](docs/Color.md) - Some color tools;
     * [Math](docs/Math.md) - Some math tools;
