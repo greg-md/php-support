@@ -27,12 +27,12 @@ class DateTimeFromValidator implements ValidatorStrategy
             return [];
         }
 
-        $value = DateTime::toTimestamp($value);
+        $value = DateTime::timestamp($value);
 
-        $from = DateTime::toTimestamp($this->getFrom());
+        $from = DateTime::timestamp($this->getFrom());
 
         if ($this->includeFrom() ? $value < $from : $value <= $from) {
-            return ['DateTimeFromError' => 'Value should be greater than ' . DateTime::toDateTimeString($from) . '.'];
+            return ['DateTimeFromError' => 'Value should be greater than ' . DateTime::dateTimeString($from) . '.'];
         }
 
         return [];

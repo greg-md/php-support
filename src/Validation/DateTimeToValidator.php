@@ -24,12 +24,12 @@ class DateTimeToValidator implements ValidatorStrategy
     public function validate($value, array $values = [])
     {
         if ($value) {
-            $value = DateTime::toTimestamp($value);
+            $value = DateTime::timestamp($value);
 
-            $to = DateTime::toTimestamp($this->getTo());
+            $to = DateTime::timestamp($this->getTo());
 
             if ($this->includeTo() ? $value > $to : $value >= $to) {
-                return ['DateTimeToError' => 'Value should be less than ' . DateTime::toDateTimeString($to) . '.'];
+                return ['DateTimeToError' => 'Value should be less than ' . DateTime::dateTimeString($to) . '.'];
             }
         }
 
