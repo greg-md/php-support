@@ -20,18 +20,4 @@ Extends: [`\DateTime`](http://php.net/manual/en/class.datetime.php).
 * [day](#day) - Get day of a time;
 * [untilNow](#untilnow) - Get time until now.
 
-## method
-
-Description.
-
-```php
-method(mixed ...$args): mixed
-```
-
-`...$args` - Arguments.
-
-_Example:_
-
-```php
-\Greg\Support\DateTime::method(...$args);
-```
+**Methods description is under construction.**

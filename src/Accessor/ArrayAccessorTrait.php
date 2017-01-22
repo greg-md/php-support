@@ -118,13 +118,13 @@ trait ArrayAccessorTrait
         return Arr::getIndexArrayForceRef($this->getAccessor(), $index, $else, $delimiter);
     }
 
-    public function del($key)
+    public function remove($key)
     {
-        return Arr::del($this->getAccessor(), $key);
+        return Arr::remove($this->getAccessor(), $key);
     }
 
-    public function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
+    public function removeIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::delIndex($this->getAccessor(), $index, $delimiter);
+        return Arr::removeIndex($this->getAccessor(), $index, $delimiter);
     }
 }

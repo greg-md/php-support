@@ -570,11 +570,11 @@ class Arr
         return $ref;
     }
 
-    public static function del(array &$array, $key)
+    public static function remove(array &$array, $key)
     {
         if (is_array($key)) {
             foreach (($keys = $key) as $k) {
-                static::del($array, $k);
+                static::remove($array, $k);
             }
         } else {
             unset($array[$key]);
@@ -583,18 +583,18 @@ class Arr
         return $array;
     }
 
-    public static function delIndex(array &$array, $index, $delimiter = self::INDEX_DELIMITER)
+    public static function removeIndex(array &$array, $index, $delimiter = self::INDEX_DELIMITER)
     {
         if (is_array($index)) {
             foreach (($indexes = $index) as $index) {
-                static::delIndex($array, $index, $delimiter);
+                static::removeIndex($array, $index, $delimiter);
             }
 
             return $array;
         }
 
         if (strpos($index, $delimiter) === false) {
-            return static::del($array, $index);
+            return static::remove($array, $index);
         }
 
         $keys = explode($delimiter, $index);
@@ -963,11 +963,30 @@ class Arr
         return array_filter($array);
     }
 
-    public static function filterRecursive(array &$array, callable $callable = null)
+    public static function filterRecursive(array &$array, callable $callable = null, $until = 0)
     {
         $copy = $array;
 
-        return static::_filterRecursive($copy, $callable);
+        return static::_filterRecursive($copy, $callable, $until);
+    }
+
+    public static function values(&$array)
+    {
+        return array_values($array);
+    }
+
+    public static function valuesRecursive(&$array, $until = 0)
+    {
+        $values = static::values($array);
+
+        foreach ($values as &$value) {
+            if (is_array($value) and !static::breakThis($value, $until)) {
+                $value = static::valuesRecursive($value, $until);
+            }
+        }
+        unset($value);
+
+        return $values;
     }
 
     public static function group(array $arrays, $maxLevel = 1, $multipleValues = false, $removeGroupedKey = false)
@@ -1068,25 +1087,6 @@ class Arr
         unset($value);
 
         return $array;
-    }
-
-    public static function values(&$array)
-    {
-        return array_values($array);
-    }
-
-    public static function valuesRecursive(&$array, $until = 0)
-    {
-        $values = static::values($array);
-
-        foreach ($values as &$value) {
-            if (is_array($value) and !static::breakThis($value, $until)) {
-                $value = static::valuesRecursive($value, $until);
-            }
-        }
-        unset($value);
-
-        return $values;
     }
 
     protected static function breakThis(array &$array, $until)
@@ -1216,11 +1216,11 @@ class Arr
         return $myRef;
     }
 
-    protected static function _filterRecursive(array &$array, callable $callable = null)
+    protected static function _filterRecursive(array &$array, callable $callable = null, $until = 0)
     {
         foreach ($array as &$value) {
-            if (is_array($value)) {
-                $value = static::_filterRecursive($value, $callable);
+            if (is_array($value) and !static::breakThis($value, $until)) {
+                $value = static::_filterRecursive($value, $callable, $until);
             }
         }
         unset($value);

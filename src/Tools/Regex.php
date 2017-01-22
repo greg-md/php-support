@@ -6,7 +6,7 @@ class Regex
 {
     private static $delimiter = '#';
 
-    public static function inNamespace($start, $end = null, $recursive = false)
+    public static function inNamespace($start, $end = null, $recursive = null)
     {
         return new InNamespaceRegex($start, $end, $recursive);
     }

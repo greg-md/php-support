@@ -4,30 +4,16 @@
 
 # Methods:
 
-* [setStart](#setStart) - Set start from;
-* [getStart](#getStart) - Get start from;
-* [setLength](#setLength) - Set length;
-* [getLength](#getLength) - Set length;
-* [setDelimiter](#setDelimiter) - Set delimiter;
-* [getDelimiter](#getDelimiter) - Get delimiter;
-* [setSuffix](#setSuffix) - Set suffix;
-* [getSuffix](#getSuffix) - Get suffix;
-* [forceSuffix](#forceSuffix) - Enable/Disable forced suffix;
-* [isSuffixForced](#isSuffixForced) - Determine if suffix is forced;
+* [setStart](#setstart) - Set start from;
+* [getStart](#getstart) - Get start from;
+* [setLength](#setlength) - Set length;
+* [getLength](#getlength) - Set length;
+* [setDelimiter](#setdelimiter) - Set delimiter;
+* [getDelimiter](#getdelimiter) - Get delimiter;
+* [setSuffix](#setsuffix) - Set suffix;
+* [getSuffix](#getsuffix) - Get suffix;
+* [forceSuffix](#forcesuffix) - Enable/Disable forced suffix;
+* [isSuffixForced](#issuffixforced) - Determine if suffix is forced;
 * [parse](#parse) - Parse an html.
 
-## method
-
-Description.
-
-```php
-method(mixed ...$args): mixed
-```
-
-`...$args` - Arguments.
-
-_Example:_
-
-```php
-\Greg\Support\Html::method(...$args);
-```
+**Methods description is under construction.**

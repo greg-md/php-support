@@ -10,11 +10,9 @@ class InNamespaceRegex
 
     protected $recursive = false;
 
-    protected $recursiveGroup = null;
+    protected $disableIn = [];
 
     protected $capture = true;
-
-    protected $capturedKey = null;
 
     protected $allowEmpty = true;
 
@@ -22,18 +20,16 @@ class InNamespaceRegex
 
     protected $escape = null;
 
-    protected $disableIn = [];
-
     protected $newLines = false;
 
     protected $trim = false;
 
-    public function __construct($start, $end = null, $recursive = false)
+    public function __construct($start, $end = null, $recursive = null)
     {
         $this->setIn($start, $end);
 
-        if ($recursive) {
-            $this->recursive();
+        if ($recursive !== null) {
+            $this->recursive($recursive);
         }
 
         return $this;
@@ -41,15 +37,11 @@ class InNamespaceRegex
 
     public function setIn($start, $end = null)
     {
-        $this->setStart($start);
-
         if ($end === null) {
             $end = $start;
         }
 
-        $this->setEnd($end);
-
-        return $this;
+        return $this->setStart($start)->setEnd($end);
     }
 
     public function getIn()
@@ -60,6 +52,8 @@ class InNamespaceRegex
     public function setStart($value)
     {
         $this->start = (string) $value;
+
+        return $this;
     }
 
     public function getStart()
@@ -70,6 +64,8 @@ class InNamespaceRegex
     public function setEnd($value)
     {
         $this->end = (string) $value;
+
+        return $this;
     }
 
     public function getEnd()
@@ -77,29 +73,9 @@ class InNamespaceRegex
         return $this->end;
     }
 
-    public function disableInQuotes()
-    {
-        $this->disableIn("'");
-
-        $this->disableIn('"');
-
-        return $this;
-    }
-
-    public function disableIn($start = null, $end = null)
-    {
-        if (func_num_args()) {
-            $this->disableIn[] = [$start, $end ?: $start];
-
-            return $this;
-        }
-
-        return $this->disableIn;
-    }
-
     public function recursive($type = true)
     {
-        $this->recursive = (bool) $type;
+        $this->recursive = $type;
 
         return $this;
     }
@@ -109,38 +85,37 @@ class InNamespaceRegex
         return (bool) $this->recursive;
     }
 
-    public function setRecursiveGroup($value)
+    public function disableIn($start, $end = null)
     {
-        $this->recursiveGroup = (string) $value;
+        if ($end === null) {
+            $end = $start;
+        }
+
+        $this->disableIn[] = [$start, $end];
 
         return $this;
     }
 
-    public function getRecursiveGroup()
+    public function disableInQuotes()
     {
-        return $this->recursiveGroup;
+        return $this->disableIn("'")->disableIn('"');
+    }
+
+    public function getDisabledIn()
+    {
+        return $this->disableIn;
     }
 
     public function capture($value = true)
     {
-        $this->capture = (bool) $value;
+        $this->capture = $value;
 
         return $this;
     }
 
-    public function isCaptured()
+    public function hasCapture()
     {
         return (bool) $this->capture;
-    }
-
-    public function setCapturedKey($value)
-    {
-        $this->capturedKey = (string) $value;
-    }
-
-    public function getCapturedKey()
-    {
-        return $this->capturedKey;
     }
 
     public function allowEmpty($value = true)
@@ -158,6 +133,8 @@ class InNamespaceRegex
     public function setMatch($value)
     {
         $this->match = (string) $value;
+
+        return $this;
     }
 
     public function getMatch()
@@ -168,6 +145,8 @@ class InNamespaceRegex
     public function setEscape($value)
     {
         $this->escape = (string) $value;
+
+        return $this;
     }
 
     public function getEscape()
@@ -182,7 +161,7 @@ class InNamespaceRegex
         return $this;
     }
 
-    public function isUsingNewLines()
+    public function isAllowedNewLines()
     {
         return (bool) $this->newLines;
     }
@@ -208,11 +187,11 @@ class InNamespaceRegex
     {
         $captureS = $captureE = null;
 
-        if ($this->isCaptured()) {
+        if ($this->capture) {
             $captureS = '(';
 
-            if ($capturedKey = $this->getCapturedKey()) {
-                $captureS .= "?'{$capturedKey}'";
+            if ($this->capture !== true) {
+                $captureS .= "?'" . preg_quote($this->capture) . "'";
             }
 
             $captureE = ')';
@@ -239,7 +218,7 @@ class InNamespaceRegex
         // Allow all instead of start and end
         $allows[] = "(?!{$start})(?!{$end}).";
 
-        if ($this->isUsingNewLines()) {
+        if ($this->isAllowedNewLines()) {
             $allows[] = '\r?\n';
         }
 
@@ -247,17 +226,13 @@ class InNamespaceRegex
             $this->getMatch() ?: '(?:' . implode('|', $allows) . ')',
         ];
 
-        if ($this->isRecursive()) {
-            if ($recursiveGroup = $this->getRecursiveGroup()) {
-                $matches[] = '\g\'' . $recursiveGroup . '\'';
-            } else {
-                $matches[] = '(?R)';
-            }
+        if ($this->recursive) {
+            $matches[] = $this->recursive === true ? '(?R)' : '\g\'' . $this->recursive . '\'';
         }
 
         $matches = implode('|', $matches);
 
-        $flag = ($this->isAllowedEmpty() ? '*' : '+') . '?';
+        $flag = ($this->allowEmpty ? '*' : '+') . '?';
 
         $trim = $this->isTrimmed() ? '\s*' : '';
 

@@ -8,18 +8,4 @@
 * [hex2rgb](#hex2rgb) - Transform hex color to rgb color;
 * [rgb2hex](#rgb2hex) - Transform rgb color to hex color.
 
-## method
-
-Description.
-
-```php
-method(mixed ...$args): mixed
-```
-
-`...$args` - Arguments.
-
-_Example:_
-
-```php
-\Greg\Support\Html::method(...$args);
-```
+**Methods description is under construction.**

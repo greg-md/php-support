@@ -42,8 +42,8 @@ class Storage
 * [getIndexArrayRef](#getindexarrayref) - Get a value reference as array or an array of values reference as array from accessor, using index;
 * [getIndexArrayForce](#getindexarrayforce) - Get a value as array or an array of values as array from accessor, using index. If the index does not exists, it is added to the array;
 * [getIndexArrayForceRef](#getindexarrayforceref) - Get a value reference as array or an array of values reference as array from accessor, using index. If the index does not exists, it is added to the array;
-* [del](#del) - Delete a value or an array of values from accessor;
-* [delIndex](#delindex) - Delete a value or an array of values from accessor, using index.
+* [remove](#remove) - Remove a value or an array of values from accessor;
+* [removeIndex](#removeIndex) - Remove a value or an array of values from accessor, using index.
 
 ## has
 
@@ -532,12 +532,12 @@ $baz[0] = 'BAZ';
 // accessor: ['foo' => 'FOO', 'bar' => ['baz' => ['BAZ']]]
 ```
 
-## del
+## remove
 
-Delete a value or an array of values from accessor.
+Remove a value or an array of values from accessor.
 
 ```php
-del(string|array $key): array
+remove(string|array $key): array
 ```
 
 `$key` - Key.
@@ -547,15 +547,15 @@ _Example:_
 ```php
 // accessor: ['foo' => 'FOO'];
 
-$storage->del('foo'); // result: []
+$storage->remove('foo'); // result: []
 ```
 
-## delIndex
+## removeIndex
 
-Delete a value or an array of values from accessor, using index.
+Remove a value or an array of values from accessor, using index.
 
 ```php
-delIndex(string|array $index, string $delimiter = self::INDEX_DELIMITER): array
+removeIndex(string|array $index, string $delimiter = self::INDEX_DELIMITER): array
 ```
 
 `$index` - Index;  
@@ -566,5 +566,5 @@ _Example:_
 ```php
 // accessor: ['foo' => ['bar' => 'BAR']];
 
-$storage->del('foo.bar'); // result: ['foo' => []]
+$storage->remove('foo.bar'); // result: ['foo' => []]
 ```

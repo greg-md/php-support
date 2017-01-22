@@ -5,7 +5,7 @@
 # Methods:
 
 * [make](#make) - Make a directory;
-* [unlink](#unlink) - Delete a directory;
+* [unlink](#unlink) - Remove a directory;
 * [copy](#copy) - Copy a directory.
 
 ## make
@@ -27,7 +27,7 @@ _Example:_
 
 ## unlink
 
-Delete a directory.
+Remove a directory.
 
 ```php
 unlink(string $dir): boolean

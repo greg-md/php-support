@@ -25,6 +25,6 @@ trait ArrayAccessTrait
 
     public function offsetUnset($key)
     {
-        return $this->del($key);
+        return $this->remove($key);
     }
 }

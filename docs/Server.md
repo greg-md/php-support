@@ -24,18 +24,4 @@
 * [disableErrors](#disableerrors) - Disable errors;
 * [restoreErrors](#restoreerrors) - Restore errors.
 
-## method
-
-Description.
-
-```php
-method(mixed ...$args): mixed
-```
-
-`...$args` - Arguments.
-
-_Example:_
-
-```php
-\Greg\Support\Server::method(...$args);
-```
+**Methods description is under construction.**

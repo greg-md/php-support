@@ -24,3 +24,5 @@ See [IteratorAggregate](http://php.net/manual/en/class.iteratoraggregate.php) in
 
 * [getIteratorClass](#getiteratorclass) - Get iterator class;
 * [setIteratorClass](#setiteratorclass) - Set iterator class.
+
+**Methods description is under construction.**

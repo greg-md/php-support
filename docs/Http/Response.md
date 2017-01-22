@@ -113,21 +113,7 @@ const CODES = [
 
 **Magic methods**
 
-* [__construct](#__construct) - Constructor;
-* [__toString](#__toString) - Magic method. See [toString](#toString);
+* [__construct](#__construct);
+* [__toString](#__toString);
 
-## method
-
-Description.
-
-```php
-method(mixed ...$args): mixed
-```
-
-`...$args` - Arguments.
-
-_Example:_
-
-```php
-\Greg\Support\Image::method(...$args);
-```
+**Methods description is under construction.**

@@ -20,7 +20,7 @@ class Session
     {
         $flash = static::getArray(self::$flashKey);
 
-        static::del(self::$flashKey);
+        static::remove(self::$flashKey);
 
         self::$flashLoaded = true;
 
@@ -223,12 +223,12 @@ class Session
         return $_SESSION;
     }
 
-    public static function del($key = null)
+    public static function remove($key = null)
     {
         static::start();
 
         if (func_num_args()) {
-            return Arr::del(static::getAccessor(), $key);
+            return Arr::remove(static::getAccessor(), $key);
         }
 
         return $_SESSION = [];

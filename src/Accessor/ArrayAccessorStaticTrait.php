@@ -118,13 +118,13 @@ trait ArrayAccessorStaticTrait
         return Arr::getIndexArrayForceRef(static::getAccessor(), $index, $else, $delimiter);
     }
 
-    public static function del($key)
+    public static function remove($key)
     {
-        return Arr::del(static::getAccessor(), $key);
+        return Arr::remove(static::getAccessor(), $key);
     }
 
-    public static function delIndex($index, $delimiter = Arr::INDEX_DELIMITER)
+    public static function removeIndex($index, $delimiter = Arr::INDEX_DELIMITER)
     {
-        return Arr::delIndex(static::getAccessor(), $index, $delimiter);
+        return Arr::removeIndex(static::getAccessor(), $index, $delimiter);
     }
 }

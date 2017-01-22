@@ -11,6 +11,8 @@ Throws: `\Greg\Support\Validation\ValidationException`.
 * [addSuffix](#addsuffix) - Add a suffix or an array of suffixes;
 * [validate](#validate) - Validate parameters.
 
+**Methods description is under construction.**
+
 # Validators
 
 * [dateTimeFrom](#datetimefrom) - Validate a `DateTime` to be grater than another `DateTime`;
@@ -29,19 +31,3 @@ Throws: `\Greg\Support\Validation\ValidationException`.
 # Validator Strategy
 
 `\Greg\Support\Validation\ValidatorStrategy` is a strategy for custom validators.
-
-## method
-
-Description.
-
-```php
-method(mixed ...$args): mixed
-```
-
-`...$args` - Arguments.
-
-_Example:_
-
-```php
-\Greg\Support\Image::method(...$args);
-```

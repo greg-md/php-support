@@ -23,18 +23,4 @@ Uses: [`\Greg\Support\Accessor\ArrayAccessorStaticTrait`](ArrayAccessorStaticTra
 * [unserialize](#unserialize) - Unserialize session data;
 * [resetLifetime](#resetlifetime) - Reset cookie session lifetime.
 
-## method
-
-Description.
-
-```php
-method(mixed ...$args): mixed
-```
-
-`...$args` - Arguments.
-
-_Example:_
-
-```php
-\Greg\Support\Session::method(...$args);
-```
+**Methods description is under construction.**

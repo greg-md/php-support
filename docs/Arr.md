@@ -32,8 +32,8 @@ const INDEX_DELIMITER = '.';
 * [getIndexArrayRef](#getindexarrayref) - Get a value reference as array or an array of values reference as array from an array, using index;
 * [getIndexArrayForce](#getindexarrayforce) - Get a value as array or an array of values as array from an array, using index. If the index does not exists, it is added to the array;
 * [getIndexArrayForceRef](#getindexarrayforceref) - Get a value reference as array or an array of values reference as array from an array, using index. If the index does not exists, it is added to the array;
-* [del](#del) - Delete a value or an array of values from an array;
-* [delIndex](#delindex) - Delete a value or an array of values from an array, using index;
+* [remove](#remove) - Remove a value or an array of values from an array;
+* [removeIndex](#removeIndex) - Remove a value or an array of values from an array, using index;
 * [append](#append) - Append a value to an array;
 * [appendRef](#appendref) - Append a value reference to an array;
 * [appendKey](#appendkey) - Append a key-value to an array;
@@ -64,14 +64,14 @@ const INDEX_DELIMITER = '.';
 * [mapRecursive](#maprecursive) - Map an array recursively;
 * [filter](#filter) - Filter an array;
 * [filterRecursive](#filterrecursive) - Filter an array recursively;
+* [values](#values) - Get values of an array;
+* [valuesRecursive](#valuesrecursive) - Get values of an array recursively.
 * [group](#group) - Group an array;
 * [in](#inarrayvalues) - Determine if value or an array of values exists in an array;
 * [pairs](#pairs) - Combine an array with key-value;
 * [isFulfilled](#isfulfilled) - Determine if an array is fulfilled;
 * [each](#each) - Parse an array into new one;
 * [pack](#pack) - Pack an array;
-* [values](#values) - Get values of an array;
-* [valuesRecursive](#valuesrecursive) - Get values of an array recursively.
 
 ## has
 
@@ -582,12 +582,12 @@ $baz[0] = 'BAZ';
 // $array: ['foo' => 'FOO', 'bar' => ['baz' => ['BAZ']]]
 ```
 
-## del
+## remove
 
-Delete a value or an array of values from an array.
+Remove a value or an array of values from an array.
 
 ```php
-del(array &$array, string|array $key): array
+remove(array &$array, string|array $key): array
 ```
 
 `$array` - The array;  
@@ -598,15 +598,15 @@ _Example:_
 ```php
 $array = ['foo' => 'FOO'];
 
-\Greg\Support\Arr::del($array, 'foo'); // result: []
+\Greg\Support\Arr::remove($array, 'foo'); // result: []
 ```
 
-## delIndex
+## removeIndex
 
-Delete a value or an array of values from an array, using index.
+Remove a value or an array of values from an array, using index.
 
 ```php
-delIndex(array &$array, string|array $index, string $delimiter = self::INDEX_DELIMITER): array
+removeIndex(array &$array, string|array $index, string $delimiter = self::INDEX_DELIMITER): array
 ```
 
 `$array` - The array;  
@@ -618,7 +618,7 @@ _Example:_
 ```php
 $array = ['foo' => ['bar' => 'BAR']];
 
-\Greg\Support\Arr::del($array, 'foo.bar'); // result: ['foo' => []]
+\Greg\Support\Arr::remove($array, 'foo.bar'); // result: ['foo' => []]
 ```
 
 ## append
@@ -1169,7 +1169,62 @@ $array = [1, 2, null, 0, 3, ''];
 
 ## filterRecursive
 
-Filter an array recursively. See [filter](#filter) method.
+Filter an array recursively.
+
+```php
+filter(array &$array, callable(mixed $value, string $key): boolean $callable = null, int $until = 0): array
+```
+
+`$array` - The array;  
+`$callable` - Callable;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$value` - Value;  
+&nbsp;&nbsp;&nbsp;&nbsp;`$key` - Key.
+`$until` - Max level to go recursive until the value.
+
+_Example:_
+
+```php
+$array = [1, 2, [null], 0, 3, ''];
+
+\Greg\Support\Arr::filter($array); // result: [0 => 1, 1 => 2, 4 => 3]
+```
+
+## values
+
+Get values of an array.
+
+```php
+values(array $array): array
+```
+
+`$array` - The array.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => 'BAR'];
+
+\Greg\Support\Arr::values($array); // result: ['FOO', 'BAR']
+```
+
+## valuesRecursive
+
+Get values of an array recursively.
+
+```php
+valuesRecursive(&$array, int $until = 0): array
+```
+
+`$array` - The array;  
+`$until` - Max level to go recursive until the value.
+
+_Example:_
+
+```php
+$array = ['foo' => 'FOO', 'bar' => ['baz' => 'BAZ']];
+
+\Greg\Support\Arr::values($array); // result: ['FOO', ['BAZ']]
+```
 
 ## group
 
@@ -1317,41 +1372,4 @@ _Example:_
 $array = ['foo' => 'FOO', 'bar' => 'BAR'];
 
 \Greg\Support\Arr::pack($array, '-'); // result: ['foo' => 'foo-FOO', 'bar' => 'bar-BAR']
-```
-
-## values
-
-Get values of an array.
-
-```php
-values(array $array): array
-```
-
-`$array` - The array.
-
-_Example:_
-
-```php
-$array = ['foo' => 'FOO', 'bar' => 'BAR'];
-
-\Greg\Support\Arr::values($array); // result: ['FOO', 'BAR']
-```
-
-## valuesRecursive
-
-Get values of an array recursively.
-
-```php
-valuesRecursive(&$array, int $until = 0): array
-```
-
-`$array` - The array;  
-`$until` - Max level to go recursive until the value.
-
-_Example:_
-
-```php
-$array = ['foo' => 'FOO', 'bar' => ['baz' => 'BAZ']];
-
-\Greg\Support\Arr::values($array); // result: ['FOO', ['BAZ']]
 ```

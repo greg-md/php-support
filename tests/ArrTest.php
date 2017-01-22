@@ -342,14 +342,14 @@ class ArrTest extends TestCase
     {
         $accessor = ['a' => 1, 'b' => 2, 'c' => 3];
 
-        $this->assertEquals(['c' => 3], Arr::del($accessor, ['a', 'b']));
+        $this->assertEquals(['c' => 3], Arr::removeIndex($accessor, ['a', 'b']));
     }
 
     public function testDelIndex()
     {
         $accessor = ['a' => ['a' => 1], 'b' => ['b' => 2], 'c' => 3];
 
-        $this->assertEquals(['a' => [], 'c' => 3], Arr::delIndex($accessor, ['a.a', 'b.b.0', 'b', 'e.e']));
+        $this->assertEquals(['a' => [], 'c' => 3], Arr::removeIndex($accessor, ['a.a', 'b.b.0', 'b', 'e.e']));
     }
 
     public function testSuffix()

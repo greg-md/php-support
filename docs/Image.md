@@ -17,18 +17,4 @@ Extends: [`\Greg\Support\File`](File.md).
 * [width](#width) - Get width of an image;
 * [height](#height) - Get height of an image.
 
-## method
-
-Description.
-
-```php
-method(mixed ...$args): mixed
-```
-
-`...$args` - Arguments.
-
-_Example:_
-
-```php
-\Greg\Support\Image::method(...$args);
-```
+**Methods description is under construction.**

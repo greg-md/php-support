@@ -172,7 +172,7 @@ class SessionTest extends TestCase
 
         $_SESSION['foo'] = 'bar';
 
-        Session::del();
+        Session::remove();
 
         $this->assertEquals([], $_SESSION);
     }

@@ -50,7 +50,7 @@ class InNamespaceRegexTest extends TestCase
         $this->assertEquals([
             ["'", "'"],
             ['"', '"'],
-        ], $this->regex->disableIn());
+        ], $this->regex->getDisabledIn());
     }
 
     public function testRecursive()
@@ -62,7 +62,7 @@ class InNamespaceRegexTest extends TestCase
 
     public function testRecursiveGroup()
     {
-        $this->regex->recursive()->setRecursiveGroup('foo');
+        $this->regex->recursive('foo');
 
         $this->assertEquals('\{\{((?>(?:(?!\{\{)(?!\}\}).)|\g\'foo\')*?)\}\}', $this->regex->toString());
     }
@@ -76,7 +76,7 @@ class InNamespaceRegexTest extends TestCase
 
     public function testCapturedKey()
     {
-        $this->regex->setCapturedKey('bar');
+        $this->regex->capture('bar');
 
         $this->assertEquals('\{\{(?\'bar\'(?>(?:(?!\{\{)(?!\}\}).))*?)\}\}', $this->regex->toString());
     }

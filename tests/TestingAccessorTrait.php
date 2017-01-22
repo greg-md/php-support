@@ -639,7 +639,7 @@ trait TestingAccessorTrait
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
 
-            $this->assertEquals([], $object->del('foo'));
+            $this->assertEquals([], $object->removeIndex('foo'));
         }
 
         //
@@ -647,7 +647,7 @@ trait TestingAccessorTrait
         if ($staticObject = $this->staticObject()) {
             $this->staticAccessor()['foo'] = 'bar';
 
-            $this->assertEquals([], $staticObject::del('foo'));
+            $this->assertEquals([], $staticObject::removeIndex('foo'));
         }
     }
 
@@ -659,7 +659,7 @@ trait TestingAccessorTrait
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
 
-            $this->assertEquals(['foo' => []], $object->delIndex('foo.bar'));
+            $this->assertEquals(['foo' => []], $object->removeIndex('foo.bar'));
         }
 
         //
@@ -667,7 +667,7 @@ trait TestingAccessorTrait
         if ($staticObject = $this->staticObject()) {
             $this->staticAccessor()['foo'] = ['bar' => 'biz'];
 
-            $this->assertEquals(['foo' => []], $staticObject::delIndex('foo.bar'));
+            $this->assertEquals(['foo' => []], $staticObject::removeIndex('foo.bar'));
         }
     }
 

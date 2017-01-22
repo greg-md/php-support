@@ -12,12 +12,12 @@ class InMemory
 
     public static function get($key)
     {
-        return $this->getFromAccessor($key);
+        return static::getFromAccessor($key);
     }
 
     public static function set($key, $value)
     {
-        return $this->setToAccessor($key, $value);
+        return static::setToAccessor($key, $value);
     }
 }
 ```

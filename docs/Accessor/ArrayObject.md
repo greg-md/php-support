@@ -62,20 +62,6 @@
 
 **Magic methods:**
 
-* [__construct](#__construct) - Constructor;
+* [__construct](#__construct);
 
-## method
-
-Description.
-
-```php
-method(mixed ...$args): mixed
-```
-
-`...$args` - Arguments.
-
-_Example:_
-
-```php
-\Greg\Support\Server::method(...$args);
-```
+**Methods description is under construction.**
