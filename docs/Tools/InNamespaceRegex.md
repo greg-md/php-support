@@ -2,6 +2,18 @@
 
 `\Greg\Support\Tools\InNamespaceRegex` generate a regular expression to search in desired namespaces. Ex: `{{ Find Me! }}`.
 
+# Table of contents:
+
+* [Magic methods](#magic-methods)
+* [Methods](#methods)
+
+# Magic methods:
+
+* [__construct](#__construct);
+* [__toString](#__tostring);
+
+**Methods description is under construction.**
+
 # Methods:
 
 * [setIn](#setin) - Set namespace;
@@ -30,9 +42,5 @@
 * [isTrimmed](#istrimmed) - Determine if allow trim;
 * [replaceCallback](#replacecallback) - Replace namespace;
 * [toString](#tostring) - Get regex code.
-
-**Magic methods:**
-
-* [__toString](#__tostring);
 
 **Methods description is under construction.**

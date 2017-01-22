@@ -2,6 +2,10 @@
 
 `\Greg\Support\Dir` is working with directories.
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [make](#make) - Make a directory;

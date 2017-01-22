@@ -2,7 +2,33 @@
 
 `\Greg\Support\Accessor\ArrayObject` is an array as an object.
 
+Implements: [`\ArrayAccess`](http://php.net/manual/en/class.arrayaccess.php),
+            [`\IteratorAggregate`](http://php.net/manual/en/class.iteratoraggregate.php),
+            [`\Serializable`](http://php.net/manual/en/class.serializable.php),
+            [`\Countable`](http://php.net/manual/en/class.countable.php).
+
+Uses: [`\Greg\Support\Accessor\ArrayAccessTrait`](ArrayAccessTrait.md),
+      [`\Greg\Support\Accessor\IteratorAggregateTrait`](IteratorAggregateTrait.md),
+      [`\Greg\Support\Accessor\SerializableTrait`](SerializableTrait.md),
+      [`\Greg\Support\Accessor\CountableTrait`](CountableTrait.md).
+
+# Table of contents:
+
+* [Magic methods](#magic-methods)
+* [Methods](#methods)
+
+# Magic methods:
+
+* [__construct](#__construct);
+
+**Methods description is under construction.**
+
 # Methods:
+
+Includes [ArrayAccessTrait](ArrayAccessTrait.md),
+         [IteratorAggregateTrait](IteratorAggregateTrait.md),
+         [SerializableTrait](SerializableTrait.md)
+         and [CountableTrait](CountableTrait.md) methods.
 
 * [toArray](#toarray) - Transform to array;
 * [exchange](#exchange) - Exchange array;
@@ -59,9 +85,5 @@
 * [krsort](#krsort) - Krsort array;
 * [keys](#keys) - Get keys of array;
 * [values](#values) - Get values of array.
-
-**Magic methods:**
-
-* [__construct](#__construct);
 
 **Methods description is under construction.**

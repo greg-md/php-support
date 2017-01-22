@@ -2,6 +2,10 @@
 
 `\Greg\Support\Config` is working with config files.
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [dir](#dir) - Get a config from a directory;

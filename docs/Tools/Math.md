@@ -2,6 +2,10 @@
 
 `\Greg\Support\Tools\Math` is working with math.
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [canonicalDivision](#canonicaldivision) - Get canonical division on a number;

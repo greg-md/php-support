@@ -2,6 +2,10 @@
 
 `\Greg\Support\Str` is working with strings.
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [camelCase](#camelcase) - Transform a string to `CamelCase`;
@@ -207,41 +211,6 @@ _Example:_
 ```php
 \Greg\Support\Str::lispCase('LisP cASe'); // return: Lisp-case
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## phpCamelCase
 

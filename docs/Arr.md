@@ -2,6 +2,11 @@
 
 `\Greg\Support\Arr` is working with arrays.
 
+# Table of contents:
+
+* [Constants](#constants)
+* [Methods](#methods)
+
 # Constants:
 
 ```php

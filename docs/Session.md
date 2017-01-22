@@ -4,6 +4,10 @@
 
 Uses: [`\Greg\Support\Accessor\ArrayAccessorStaticTrait`](ArrayAccessorStaticTrait.md).
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [reloadFlash](#reloadflash) - Reload flash container;

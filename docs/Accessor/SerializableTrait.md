@@ -1,6 +1,6 @@
 # SerializableTrait Documentation
 
-A trait for [SerializableTrait](http://php.net/manual/en/class.serializable.php) interface.
+A trait for [`\Serializable`](http://php.net/manual/en/class.serializable.php) interface.
 
 _Example:_
 
@@ -25,6 +25,10 @@ class Storage implements \Serializable
 }
 ```
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
-See [SerializableTrait](http://php.net/manual/en/class.serializable.php) interface.
+Includes [`\Serializable`](http://php.net/manual/en/class.serializable.php) methods.

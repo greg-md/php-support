@@ -1,8 +1,10 @@
 # ArrayAccessTrait Documentation
 
-A trait for **public** usage of the storage in a class with [`\ArrayAccess`](http://php.net/manual/en/class.arrayaccess.php) support.
+`\Greg\Support\Accessor\ArrayAccessTrait` is a trait for **public** usage of the storage in a class
+    with [`\ArrayAccess`](http://php.net/manual/en/class.arrayaccess.php) support.
 
-Use: [`\Greg\Support\Accessor\AccessorTrait`](AccessorTrait.md), [`\Greg\Support\Accessor\ArrayAccessorTrait`](ArrayAccessorTrait.md).
+Uses: [`\Greg\Support\Accessor\AccessorTrait`](AccessorTrait.md),
+      [`\Greg\Support\Accessor\ArrayAccessorTrait`](ArrayAccessorTrait.md).
 
 _Example:_
 
@@ -13,6 +15,12 @@ class Storage implements \ArrayAccess
 }
 ```
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
-See trait uses.
+Includes [AccessorTrait](AccessorTrait.md),
+         [ArrayAccessorTrait](ArrayAccessorTrait.md)
+         and [`\ArrayAccess`](http://php.net/manual/en/class.arrayaccess.php) methods.

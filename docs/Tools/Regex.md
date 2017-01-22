@@ -2,6 +2,10 @@
 
 `\Greg\Support\Tools\Regex` is working with regular expressions.
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [inNamespace](#innamespace) - Get regex of a string in a namespace;

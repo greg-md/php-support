@@ -4,7 +4,13 @@
 
 Extends: [`\DateTime`](http://php.net/manual/en/class.datetime.php).
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
+
+Includes [`\DateTime`](http://php.net/manual/en/class.datetime.php) methods.
 
 * [yearInterval](#yearinterval) - Get a string interval to current year;
 * [transform](#transform) - Transform a time;

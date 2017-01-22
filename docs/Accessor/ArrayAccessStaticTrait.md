@@ -1,8 +1,9 @@
 # ArrayAccessStaticTrait Documentation
 
-A trait for **public** usage of the storage in a static class.
+`\Greg\Support\Accessor\ArrayAccessStaticTrait` is a trait for **public** usage of the storage in a static class.
 
-Use: [`\Greg\Support\Accessor\AccessorStaticTrait`](AccessorStaticTrait.md), [`\Greg\Support\Accessor\ArrayAccessorStaticTrait`](ArrayAccessorStaticTrait.md).
+Uses: [`\Greg\Support\Accessor\AccessorStaticTrait`](AccessorStaticTrait.md),
+      [`\Greg\Support\Accessor\ArrayAccessorStaticTrait`](ArrayAccessorStaticTrait.md).
 
 _Example:_
 
@@ -13,6 +14,11 @@ class Storage
 }
 ```
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
-See trait uses.
+Includes [AccessorStaticTrait](AccessorStaticTrait.md)
+         and [ArrayAccessorStaticTrait](ArrayAccessorStaticTrait.md) methods.

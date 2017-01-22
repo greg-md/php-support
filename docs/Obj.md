@@ -2,6 +2,10 @@
 
 `\Greg\Support\Obj` is working with objects.
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [call](#call) - Call a callable with arguments;

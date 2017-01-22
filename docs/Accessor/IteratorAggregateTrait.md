@@ -1,6 +1,6 @@
 # IteratorAggregateTrait Documentation
 
-A trait for [IteratorAggregate](http://php.net/manual/en/class.iteratoraggregate.php) interface.
+A trait for [`\IteratorAggregate`](http://php.net/manual/en/class.iteratoraggregate.php) interface.
 
 _Example:_
 
@@ -18,9 +18,13 @@ class Storage implements \IteratorAggregate
 }
 ```
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
-See [IteratorAggregate](http://php.net/manual/en/class.iteratoraggregate.php) interface.
+Includes [`\IteratorAggregate`](http://php.net/manual/en/class.iteratoraggregate.php) methods.
 
 * [getIteratorClass](#getiteratorclass) - Get iterator class;
 * [setIteratorClass](#setiteratorclass) - Set iterator class.

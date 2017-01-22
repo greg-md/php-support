@@ -1,6 +1,6 @@
 # CountableTrait Documentation
 
-A trait for [Countable](http://php.net/manual/en/class.countable.php) interface.
+A trait for [`\Countable`](http://php.net/manual/en/class.countable.php) interface.
 
 _Example:_
 
@@ -18,6 +18,10 @@ class Storage implements \Countable
 }
 ```
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
-See [Countable](http://php.net/manual/en/class.countable.php) interface.
+Includes [`\Countable`](http://php.net/manual/en/class.countable.php) methods.

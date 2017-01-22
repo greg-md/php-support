@@ -2,6 +2,10 @@
 
 `\Greg\Support\Server` is working with server configurations.
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [scriptName](#scriptname) - Get script name;

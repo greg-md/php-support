@@ -22,6 +22,10 @@ class InMemory
 }
 ```
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [getAccessor](#getaccessor) - Get storage;

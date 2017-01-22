@@ -2,6 +2,10 @@
 
 `\Greg\Support\Tools\Color` is working with colors.
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [generate](#generate) - Generate a color from interval;

@@ -18,6 +18,10 @@ class Storage
 }
 ```
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [has](#has) - Determine if a key or an array of keys exists in accessor;

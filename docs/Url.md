@@ -2,6 +2,11 @@
 
 `\Greg\Support\Url` is working with URLs.
 
+# Table of contents:
+
+* [Constants](#constants)
+* [Methods](#methods)
+
 # Constants
 
 ```php

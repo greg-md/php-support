@@ -2,6 +2,10 @@
 
 `\Greg\Support\Tools\SubHtml` Extract a sub-html from a html.
 
+# Table of contents:
+
+* [Methods](#methods)
+
 # Methods:
 
 * [setStart](#setstart) - Set start from;

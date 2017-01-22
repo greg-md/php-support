@@ -4,6 +4,12 @@
 
 Throws: `\Greg\Support\Http\ResponseException`.
 
+# Table of contents:
+
+* [Constants](#constants)
+* [Magic methods](#magic-methods)
+* [Methods](#methods)
+
 # Constants
 
 ```php
@@ -71,6 +77,13 @@ const CODES = [
 ];
 ```
 
+# Magic methods
+
+* [__construct](#__construct);
+* [__toString](#__toString);
+
+**Methods description is under construction.**
+
 # Methods:
 
 * [back](#back) - Set redirection back;
@@ -110,10 +123,5 @@ const CODES = [
 * [sendDisposition](#senddisposition) - Send disposition;
 * [flush](#flush) - Flush the output buffer;
 * [isModifiedSince](#ismodifiedsince) - Determine if the request was modified.
-
-**Magic methods**
-
-* [__construct](#__construct);
-* [__toString](#__toString);
 
 **Methods description is under construction.**

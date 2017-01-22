@@ -4,6 +4,12 @@
 
 Throws: `\Greg\Support\Http\RequestException`.
 
+# Table of contents:
+
+* [Constants](#constants)
+* [Magic methods](#magic-methods)
+* [Methods](#methods)
+
 # Constants
 
 ```php
@@ -36,6 +42,12 @@ const UPLOAD_ERROR = [
     UPLOAD_ERR_EXTENSION  => 'A PHP extension stopped the file upload.',
 ];
 ```
+
+# Magic methods:
+
+* [__construct](#__construct);
+
+**Methods description is under construction.**
 
 # Methods:
 
@@ -89,9 +101,5 @@ const UPLOAD_ERROR = [
 * [fileArray](#filearray) - Get an array param or an array of array params from `$_FILES`;
 * [fileIndex](#fileindex) - Get a param or an array of params by index from `$_FILES`;
 * [fileIndexArray](#fileindexarray) - Get an array param or an array of array params by index from `$_FILES`.
-
-**Magic methods:**
-
-* [__construct](#__construct);
 
 **Methods description is under construction.**

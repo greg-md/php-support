@@ -4,6 +4,12 @@
 
 Throws: `\Greg\Support\Validation\ValidationException`.
 
+# Table of contents:
+
+* [Methods](#methods)
+* [Validators](#validators)
+* [Validator Strategy](#validator-strategy)
+
 # Methods:
 
 * [addValidators](#addvalidators) - Add validators;
@@ -31,3 +37,26 @@ Throws: `\Greg\Support\Validation\ValidationException`.
 # Validator Strategy
 
 `\Greg\Support\Validation\ValidatorStrategy` is a strategy for custom validators.
+
+_Example:_
+
+```php
+class CustomValidator implements \Greg\Support\Validation\ValidatorStrategy
+{
+    public function validate($value, array $values = [])
+    {
+        // @todo: validation strategy
+    }
+}
+```
+
+## validate
+
+Validate a value.
+
+```php
+validate(mixed $value, array $values = []): boolean;
+```
+
+`$value` - The value;  
+`$values` - Other values.
