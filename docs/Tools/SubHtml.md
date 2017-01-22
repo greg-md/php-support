@@ -1,6 +1,6 @@
-# Color Documentation
+# SubHtml Documentation
 
-`\Greg\Support\Tools\Color` is working with colors.
+`\Greg\Support\Tools\SubHtml` Extract a sub-html from a html.
 
 # Methods:
 
