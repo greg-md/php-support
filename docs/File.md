@@ -13,4 +13,8 @@
 * [mime](#mime) - Get mime of a file;
 * [makeDir](#makedir) - Make directory of a file.
 
+**Magic methods:**
+
+* [__construct](#__construct);
+
 **Methods description is under construction.**

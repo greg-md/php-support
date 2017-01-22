@@ -17,4 +17,8 @@ Extends: [`\Greg\Support\File`](File.md).
 * [width](#width) - Get width of an image;
 * [height](#height) - Get height of an image.
 
+**Magic methods:**
+
+* [__construct](#__construct);
+
 **Methods description is under construction.**
