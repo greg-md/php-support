@@ -409,7 +409,7 @@ class Response
         return true;
     }
 
-    public static function isModifiedSince($timestamp, $maxAge = 0, $sendHeaders = true)
+    public static function unmodified($timestamp, $maxAge = 0, $sendHeaders = true)
     {
         if (!Str::isDigit($timestamp)) {
             $timestamp = strtotime($timestamp);

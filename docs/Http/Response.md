@@ -122,6 +122,6 @@ const CODES = [
 * [sendContentType](#sendcontenttype) - Send content type;
 * [sendDisposition](#senddisposition) - Send disposition;
 * [flush](#flush) - Flush the output buffer;
-* [isModifiedSince](#ismodifiedsince) - Determine if the request was modified.
+* [unmodified](#unmodified) - Determine if the request is not modified.
 
 **Methods description is under construction.**

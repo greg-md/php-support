@@ -212,29 +212,29 @@ class ResponseTest extends TestCase
         $this->sendAndCheckTrue(Response::flush());
     }
 
-    public function testIsModifiedSince()
+    public function testModified()
     {
         $lastModified = substr(date('r', time() - 30), 0, -5) . 'GMT';
 
         $eTag = '"' . md5($lastModified) . '"';
 
-        $this->sendAndCheckTrue(!Response::isModifiedSince('now'));
+        $this->sendAndCheckTrue(!Response::unmodified('now'));
 
         $_SERVER['HTTP_IF_MODIFIED_SINCE'] = $lastModified;
 
         $_SERVER['HTTP_IF_NONE_MATCH'] = $eTag;
 
-        $this->sendAndCheckTrue(!Response::isModifiedSince(time(), 60));
+        $this->sendAndCheckTrue(!Response::unmodified(time(), 60));
 
-        $this->sendAndCheckTrue((bool) Response::isModifiedSince(time() - 30, 60));
+        $this->sendAndCheckTrue((bool) Response::unmodified(time() - 30, 60));
 
         $_SERVER['HTTP_IF_NONE_MATCH'] = 'wrong';
 
-        $this->sendAndCheckTrue(!Response::isModifiedSince(time(), 60));
+        $this->sendAndCheckTrue(!Response::unmodified(time(), 60));
 
         $_SERVER['HTTP_IF_MODIFIED_SINCE'] = null;
 
-        $this->sendAndCheckTrue(!Response::isModifiedSince(time() - 30, 20));
+        $this->sendAndCheckTrue(!Response::unmodified(time() - 30, 20));
 
         $lastModified = substr(date('r', time()), 0, -5) . 'GMT';
 
@@ -244,10 +244,10 @@ class ResponseTest extends TestCase
 
         $_SERVER['HTTP_IF_NONE_MATCH'] = $eTag;
 
-        $this->sendAndCheckTrue(!Response::isModifiedSince(time()));
+        $this->sendAndCheckTrue(!Response::unmodified(time()));
     }
 
-    public function testIsModifiedSinceIfExpired()
+    public function testUnmodifiedIfExpired()
     {
         $lastModified = substr(date('r', time() - 30), 0, -5) . 'GMT';
 
@@ -257,7 +257,7 @@ class ResponseTest extends TestCase
 
         $_SERVER['HTTP_IF_NONE_MATCH'] = $eTag;
 
-        $this->sendAndCheckTrue(!Response::isModifiedSince(time() - 30, 20));
+        $this->sendAndCheckTrue(!Response::unmodified(time() - 30, 20));
     }
 
     private function sendAndCheck($data = '', Response $response = null)
