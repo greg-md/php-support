@@ -77,10 +77,10 @@ const CODES = [
 ];
 ```
 
-# Magic methods
+# Magic methods:
 
-* [__construct](#__construct);
-* [__toString](#__toString);
+* [__construct](#__construct)
+* [__toString](#__toString)
 
 **Methods description is under construction.**
 

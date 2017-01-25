@@ -9,8 +9,8 @@
 
 # Magic methods:
 
-* [__construct](#__construct);
-* [__toString](#__tostring);
+* [__construct](#__construct)
+* [__toString](#__tostring)
 
 **Methods description is under construction.**
 

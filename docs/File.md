@@ -9,7 +9,7 @@
 
 # Magic methods:
 
-* [__construct](#__construct);
+* [__construct](#__construct)
 
 **Methods description is under construction.**
 
