@@ -7,7 +7,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/greg-md/php-support/v/unstable.svg)](https://packagist.org/packages/greg-md/php-support)
 [![License](https://poser.pugx.org/greg-md/php-support/license.svg)](https://packagist.org/packages/greg-md/php-support)
 
-Support classes for PHP
+Support classes for PHP.
 
 # Requirements
 
