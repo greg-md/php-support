@@ -205,7 +205,7 @@ class Url
         return curl_exec(static::init($absolute));
     }
 
-    protected function currentSchema()
+    protected static function currentSchema()
     {
         return (Request::isSecured() ? 'https' : 'http') . '://';
     }
