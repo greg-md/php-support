@@ -207,6 +207,11 @@ class Str
         return mb_substr($string, mb_strlen($shift));
     }
 
+    public static function pop($string, $pop)
+    {
+        return mb_substr($string, 0, mb_strlen($string) - mb_strlen($pop));
+    }
+
     public static function quote($string, $start = '"', $end = null)
     {
         if ($end === null) {

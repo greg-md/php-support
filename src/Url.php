@@ -24,15 +24,10 @@ class Url
 
     public static function schema($absolute)
     {
-        return (Request::isSecured() ? 'https' : 'http') . '://' . static::noSchema($absolute);
+        return static::currentSchema() . static::noSchema($absolute);
     }
 
-    public static function withSchema($absolute)
-    {
-        return static::hasSchema($absolute) ? $absolute : static::schema($absolute);
-    }
-
-    public static function shortSchema($absolute)
+    public static function shorted($absolute)
     {
         return '//' . static::noSchema($absolute);
     }
@@ -47,6 +42,26 @@ class Url
         return 'http://' . static::noSchema($absolute);
     }
 
+    public static function schemly($absolute)
+    {
+        return static::hasSchema($absolute) ? $absolute : static::currentSchema() . $absolute;
+    }
+
+    public static function shortly($absolute)
+    {
+        return static::hasSchema($absolute) ? $absolute : '//' . $absolute;
+    }
+
+    public static function securely($absolute)
+    {
+        return static::hasSchema($absolute) ? $absolute : 'https://' . $absolute;
+    }
+
+    public static function unsecurely($absolute)
+    {
+        return static::hasSchema($absolute) ? $absolute : 'http://' . $absolute;
+    }
+
     public static function absolute($relative)
     {
         if (static::hasSchema($relative)) {
@@ -58,12 +73,12 @@ class Url
 
     public static function relative($absolute)
     {
-        return parse_url(static::withSchema($absolute), PHP_URL_PATH);
+        return parse_url(static::shortly($absolute), PHP_URL_PATH);
     }
 
     public static function serverRelative($absolute)
     {
-        if (parse_url($abs = static::withSchema($absolute), PHP_URL_HOST) == Request::serverHost()) {
+        if (parse_url($abs = static::shortly($absolute), PHP_URL_HOST) == Request::serverHost()) {
             return parse_url($abs, PHP_URL_PATH);
         }
 
@@ -72,7 +87,7 @@ class Url
 
     public static function host($absolute, $stripWWW = true)
     {
-        $host = parse_url(self::shortSchema($absolute), PHP_URL_HOST);
+        $host = parse_url(self::shortly($absolute), PHP_URL_HOST);
 
         if ($stripWWW and substr($host, 0, 4) == 'www.') {
             $host = substr($host, 4);
@@ -83,7 +98,7 @@ class Url
 
     public static function hostLevel($absolute, $level = 2, $stripWWW = true)
     {
-        $host = parse_url(static::shortSchema($absolute), PHP_URL_HOST);
+        $host = parse_url(static::shortly($absolute), PHP_URL_HOST);
 
         $host = mb_strtolower($host);
 
@@ -157,7 +172,7 @@ class Url
 
     public static function init($absolute, $verbose = false)
     {
-        $handle = curl_init(static::withSchema($absolute));
+        $handle = curl_init(static::schemly($absolute));
 
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
@@ -188,5 +203,10 @@ class Url
     public static function contents($absolute)
     {
         return curl_exec(static::init($absolute));
+    }
+
+    protected function currentSchema()
+    {
+        return (Request::isSecured() ? 'https' : 'http') . '://';
     }
 }

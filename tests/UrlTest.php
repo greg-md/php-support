@@ -47,7 +47,7 @@ class UrlTest extends TestCase
     /** @test */
     public function it_gets_with_short_schema()
     {
-        $this->assertEquals('//localhost', Url::shortSchema('localhost'));
+        $this->assertEquals('//localhost', Url::shorted('localhost'));
     }
 
     /** @test */
