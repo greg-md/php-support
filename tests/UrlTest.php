@@ -103,7 +103,7 @@ class UrlTest extends TestCase
     /** @test */
     public function it_removes_query_string()
     {
-        $this->assertEquals('localhost/foo', Url::removeQueryString('localhost/foo?bar=1'));
+        $this->assertEquals('localhost/foo', Url::path('localhost/foo?bar=1'));
     }
 
     /** @test */
