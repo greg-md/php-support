@@ -18,10 +18,13 @@ const UA = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0
 * [hasSchema](#hasschema) - Determine if an URL has schema;
 * [noSchema](#noschema) - Get an URL without schema;
 * [schema](#schema) - Set current schema to an URL;
-* [withSchema](#withschema) - Add current schema to an URL if was not defined;
-* [shortSchema](#shortschema) - Set short schema to an URL;
+* [shorted](#shorted) - Set short schema to an URL;
 * [secured](#secured) - Set secured schema to an URL;
 * [unsecured](#unsecured) - Set unsecured schema to an URL;
+* [schemly](#schemly) - Add current schema to an URL if was not defined;
+* [shortly](#shortly) - Set short schema to an URL if was not defined;
+* [securely](#securely) - Set secured schema to an URL if was not defined;
+* [unsecurely](#unsecurely) - Set unsecured schema to an URL if was not defined;
 * [absolute](#absolute) - Transform a relative URL to server absolute URL;
 * [relative](#relative) - Transform an URL to relative URL;
 * [serverRelative](#serverrelative) - Transform a server absolute URL to relative URL;
@@ -29,7 +32,7 @@ const UA = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0
 * [hostLevel](#hostlevel) - Get host level from an URL;
 * [hostEquals](#hostequals) - Determine if two URLs are equal by their host;
 * [root](#root) - Get root of an URL;
-* [removeQueryString](#removequerystring) - Remove query string of an URL;
+* [path](#path) - Remove query string of an URL;
 * [base](#base) - Get server base URL;
 * [addQuery](#addquery) - Add a query to an URL;
 * [init](#init) - Init an cURL handle for an URL;
@@ -86,30 +89,12 @@ _Example:_
 \Greg\Support\Url::schema('example.com'); // result: http://example.com
 ```
 
-## withSchema
-
-Add current schema to an URL if was not defined.
-
-```php
-withSchema(string $absolute): string
-```
-
-`$absolute` - The URL.
-
-_Example:_
-
-```php
-\Greg\Support\Url::withSchema('example.com'); // result: http://example.com
-
-\Greg\Support\Url::withSchema('https://example.com'); // result: https://example.com
-```
-
-## shortSchema
+## shorted
 
 Set short schema to an URL.
 
 ```php
-shortSchema(string $absolute): string
+shorted(string $absolute): string
 ```
 
 `$absolute` - The URL.
@@ -117,7 +102,7 @@ shortSchema(string $absolute): string
 _Example:_
 
 ```php
-\Greg\Support\Url::shortSchema('http://example.com/styles.css'); // result: //example.com/styles.css
+\Greg\Support\Url::shorted('http://example.com/styles.css'); // result: //example.com/styles.css
 ```
 
 ## secured
@@ -150,6 +135,72 @@ _Example:_
 
 ```php
 \Greg\Support\Url::unsecured('https://example.com'); // result: http://example.com
+```
+
+## schemly
+
+Add current schema to an URL if was not defined.
+
+```php
+schemly(string $absolute): string
+```
+
+`$absolute` - The URL.
+
+_Example:_
+
+```php
+\Greg\Support\Url::schemly('example.com'); // result: http://example.com
+
+\Greg\Support\Url::schemly('https://example.com'); // result: https://example.com
+```
+
+## shortly
+
+Set short schema to an URL if was not defined.
+
+```php
+shorted(string $absolute): string
+```
+
+`$absolute` - The URL.
+
+_Example:_
+
+```php
+\Greg\Support\Url::shortly('http://example.com/styles.css'); // result: //example.com/styles.css
+```
+
+## securely
+
+Set secured schema to an URL if was not defined.
+
+```php
+securely(string $absolute): string
+```
+
+`$absolute` - The URL.
+
+_Example:_
+
+```php
+\Greg\Support\Url::securely('http://example.com'); // result: https://example.com
+```
+
+## unsecurely
+
+Set unsecured schema to an URL if was not defined.
+
+```php
+unsecurely(string $absolute): string
+```
+
+`$absolute` - The URL.
+
+_Example:_
+
+```php
+\Greg\Support\Url::unsecurely('https://example.com'); // result: http://example.com
 ```
 
 ## absolute
@@ -277,12 +328,12 @@ _Example:_
 \Greg\Support\Url::root('http://example.com/foo'); // result: http://example.com
 ```
 
-## removeQueryString
+## path
 
-Remove query string of an URL.
+Get without query string.
 
 ```php
-removeQueryString(string $url): string
+path(string $url): string
 ```
 
 `$url` - The URL.
@@ -290,7 +341,7 @@ removeQueryString(string $url): string
 _Example:_
 
 ```php
-\Greg\Support\Url::removeQueryString('/foo?bar=BAR'); // result: /foo
+\Greg\Support\Url::path('/foo?bar=BAR'); // result: /foo
 ```
 
 ## base

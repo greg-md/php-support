@@ -137,7 +137,7 @@ class Url
         return $root;
     }
 
-    public static function removeQueryString($url)
+    public static function path($url)
     {
         list($url) = explode('?', $url, 2);
 
