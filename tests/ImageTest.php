@@ -34,7 +34,7 @@ class ImageTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $this->expectExceptionMessage('File is not a valid image.');
+        $this->expectExceptionMessage('File does not exists.');
 
         Image::check(__DIR__ . '/.gitignore');
     }
