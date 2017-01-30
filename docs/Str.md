@@ -31,6 +31,7 @@
 * [startsWith](#startswith) - Determine if a given string starts with a given substring;
 * [endsWith](#endswith) - Determine if a given string ends with a given substring;
 * [shift](#shift) - Shift a string off from the beginning of the string;
+* [pop](#pop) - Pop a string off from the ending of the string;
 * [quote](#quote) - Quote a string;
 * [split](#split) - Split a string;
 * [splitPath](#splitpath) - Split a string path;
@@ -432,6 +433,24 @@ _Example:_
 ```php
 \Greg\Support\Str::shift('Foo Bar', "Foo "); // return: Bar
 \Greg\Support\Str::shift('Foo Bar', "Baz "); // return: Bar
+```
+
+## pop
+
+Pop a string off from the ending of the string.
+
+```php
+pop(string $string, string $pop): string
+```
+
+`$string` - The string;  
+`$pop` - Pop string.
+
+_Example:_
+
+```php
+\Greg\Support\Str::pop('Foo Bar', " Bar"); // return: Foo
+\Greg\Support\Str::pop('Foo Bar', " Baz"); // return: Foo
 ```
 
 ## quote
