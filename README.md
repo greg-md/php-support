@@ -48,3 +48,7 @@ Support classes for PHP.
     * [Regex](docs/Tools/Regex.md) - Working with regular expressions;
     * [InNamespaceRegex](docs/Tools/InNamespaceRegex.md) - Generate a regular expression to search in desired namespaces. Ex: `{{ Find Me! }}`;
     * [SubHtml](docs/Tools/SubHtml.md) - Extract a sub-html from a html.
+
+# License
+
+MIT © [Grigorii Duca](http://greg.md)
