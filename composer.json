@@ -2,7 +2,7 @@
   "name": "greg-md/php-support",
   "type": "library",
   "description": "Greg PHP Support",
-  "keywords": [ "greg", "php-support" ],
+  "keywords": [ "greg-md", "greg-php", "php-support", "support", "php", "web-artisans" ],
   "homepage": "https://github.com/greg-md/php-support",
   "license": "MIT",
   "authors": [
