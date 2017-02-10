@@ -9,7 +9,7 @@
 
 Support classes for PHP.
 
-# Table of contents:
+# Table of Contents:
 
 * [Requirements](#requirements)
 * [Documentation](#documentation)
