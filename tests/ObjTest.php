@@ -146,8 +146,6 @@ class ObjTest extends TestCase
     {
         $this->expectException(\Exception::class);
 
-        $this->expectExceptionMessage('Argument `foo` is required in `Greg\Support\Tests\ObjTest::Greg\Support\Tests\{closure}`.');
-
         Obj::callMixed(function (Foo $foo) {
             return func_get_args();
         });
@@ -157,8 +155,6 @@ class ObjTest extends TestCase
     public function it_throws_exception_if_arg_type_is_required_in_a_function()
     {
         $this->expectException(\Exception::class);
-
-        $this->expectExceptionMessage('Argument `foo` is required in `Greg\Support\Tests\foo_function`.');
 
         Obj::callMixed('Greg\Support\Tests\foo_function');
     }
