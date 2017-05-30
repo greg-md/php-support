@@ -16,12 +16,20 @@ class Obj
 
     public static function callMixed(callable $callable, ...$args)
     {
-        return call_user_func_array($callable, static::mixedArgs($callable, $args));
+        if ($expectedArgs = static::parameters($callable)) {
+            $args = static::populateParameters($expectedArgs, $args, true);
+        }
+
+        return call_user_func_array($callable, $args);
     }
 
     public static function callMixedRef(callable $callable, &...$args)
     {
-        return call_user_func_array($callable, static::mixedArgs($callable, $args));
+        if ($expectedArgs = static::parameters($callable)) {
+            $args = static::populateParameters($expectedArgs, $args, true);
+        }
+
+        return call_user_func_array($callable, $args);
     }
 
     public static function baseName($class)
@@ -76,16 +84,12 @@ class Obj
         return array_unique($results);
     }
 
-    protected static function mixedArgs(callable $callable, array &$args = [])
+    public static function typeAliases($class)
     {
-        if ($expectedArgs = static::expectedArgs($callable)) {
-            return static::fetchExpectedArgs($expectedArgs, $args, null, true);
-        }
-
-        return [];
+        return array_merge([get_class($class)], class_implements($class), class_parents($class));
     }
 
-    protected static function expectedArgs(callable $callable)
+    public static function parameters(callable $callable)
     {
         if (Str::isScalar($callable) and strpos($callable, '::')) {
             $callable = explode('::', $callable, 2);
@@ -98,117 +102,105 @@ class Obj
         return (new \ReflectionFunction($callable))->getParameters();
     }
 
-    protected static function fetchExpectedArgs(array $expectedArgs, array &$customArgs = [], callable $expectedCallback = null, $allowMixed = false)
+    public static function parameterValue(\ReflectionParameter $parameter)
     {
-        static::splitCustomArgs($customArgs, $allowMixed, $assocArgs, $mixedArgs);
+        if (!$parameter->isOptional()) {
+            if ($function = $parameter->getDeclaringFunction() and $class = $parameter->getDeclaringClass()) {
+                throw new \Exception('Parameter `' . $parameter->getName() . '` is required in `' . $class->getName() . '::' . $function->getName() . '`.');
+            }
 
-        /* @var $expectedArgs \ReflectionParameter[] */
-        $expectedArgs = array_reverse($expectedArgs);
+            throw new \Exception('Parameter `' . $parameter->getName() . '` is required in `' . $function->getName() . '`.');
+        }
 
-        $returnArgs = [];
+        return $parameter->getDefaultValue();
+    }
 
-        $countMixedExpected = $allowMixed ? static::countMixableParams($expectedArgs) : 0;
+    public static function populateParameters(array $parameters, array $arguments = [], $mixed = false, callable $expectedCallable = null)
+    {
+        [$argumentsTypes, $mixedArguments] = static::extractArgumentsTypes($arguments, $mixed);
 
-        foreach ($expectedArgs as $expectedArg) {
-            if ($expectedArg->isVariadic()) {
-                $returnArgs = array_merge($returnArgs, array_reverse(array_slice($customArgs, $expectedArg->getPosition())));
+        /* @var $parameters \ReflectionParameter[] */
+        $parameters = array_reverse($parameters);
+
+        $returnArguments = [];
+
+        $countMixedExpected = $mixed ? static::countMixableParameters($parameters) : 0;
+
+        foreach ($parameters as $parameter) {
+            if ($parameter->isVariadic()) {
+                $returnArguments = array_merge($returnArguments, array_reverse(array_slice($arguments, $parameter->getPosition())));
 
                 continue;
             }
 
-            $expectedType = $expectedArg->getClass();
+            $expectedType = $parameter->getClass();
 
-            if ($allowMixed and !$expectedType) {
+            if ($mixed and !$expectedType) {
                 --$countMixedExpected;
 
-                if (Arr::has($mixedArgs, $countMixedExpected)) {
-                    $returnArgs[] = &$mixedArgs[$countMixedExpected];
+                if (Arr::has($mixedArguments, $countMixedExpected)) {
+                    $returnArguments[] = &$mixedArguments[$countMixedExpected];
                 } else {
-                    if (!$returnArgs and $expectedArg->isOptional()) {
+                    if (!$returnArguments and $parameter->isOptional()) {
                         continue;
                     }
 
-                    if (Arr::has($customArgs, $expectedArg->getPosition())) {
-                        $returnArgs[] = $customArgs[$expectedArg->getPosition()];
+                    if (Arr::has($arguments, $parameter->getPosition())) {
+                        $returnArguments[] = &$arguments[$parameter->getPosition()];
                     } else {
-                        $returnArgs[] = static::expectedArg($expectedArg);
+                        $returnArguments[] = static::parameterValue($parameter);
                     }
                 }
             } else {
-                //                if (!$returnArgs and !$expectedType and $expectedArg->isOptional()) {
-//                    continue;
-//                }
-
-                if ($assocArgs and Arr::has($assocArgs, $expectedType->getName())) {
-                    $returnArgs[] = &$assocArgs[$expectedType->getName()];
-//                } elseif (is_callable($expectedCallback)) {
-//                    $returnArgs[] = &call_user_func_array($expectedCallback, [$expectedArg]);
+                if ($argumentsTypes and Arr::has($argumentsTypes, $expectedType->getName())) {
+                    $returnArguments[] = &$argumentsTypes[$expectedType->getName()];
+                } elseif (is_callable($expectedCallable)) {
+                    $returnArguments[] = &call_user_func_array($expectedCallable, [$parameter]);
                 } else {
-                    if (!$returnArgs and $expectedArg->isOptional()) {
+                    if (!$returnArguments and $parameter->isOptional()) {
                         continue;
                     }
 
-                    $returnArgs[] = static::expectedArg($expectedArg);
+                    $returnArguments[] = static::parameterValue($parameter);
                 }
             }
         }
 
-        $returnArgs = array_reverse($returnArgs);
+        $returnArguments = array_reverse($returnArguments);
 
-        return $returnArgs;
+        return $returnArguments;
     }
 
-    protected static function splitCustomArgs($customArgs, $allowMixed = false, &$assocArgs = [], &$mixedArgs = [])
+    private static function extractArgumentsTypes($arguments, $mixed = false)
     {
-        foreach ($customArgs as $key => &$value) {
-            if (is_int($key)) {
-                if (is_object($value)) {
-                    $assocArgs[get_class($value)] = &$value;
+        $argumentsTypes = $mixedArguments = [];
 
-                    foreach (class_implements($value) as $interface) {
-                        $assocArgs[$interface] = &$value;
-                    }
-
-                    foreach (class_parents($value) as $class) {
-                        $assocArgs[$class] = &$value;
-                    }
-                } else {
-                    if ($allowMixed) {
-                        $mixedArgs[] = &$value;
-                    } else {
-                        throw new \Exception('Expected value is not an object.');
-                    }
+        foreach ($arguments as &$argument) {
+            if (is_object($argument)) {
+                foreach (static::typeAliases($argument) as $type) {
+                    $argumentsTypes[$type] = &$argument;
                 }
             } else {
-                $assocArgs[$key] = &$value;
+                if ($mixed) {
+                    $mixedArguments[] = &$argument;
+                } else {
+                    throw new \Exception('Expected argument is not an object.');
+                }
             }
         }
-        unset($value);
+        unset($argument);
 
-        return [$assocArgs, $mixedArgs];
+        return [$argumentsTypes, $mixedArguments];
     }
 
-    protected static function countMixableParams($expectedArgs)
+    private static function countMixableParameters(array $parameters)
     {
-        return count(Arr::filter($expectedArgs, function (\ReflectionParameter $expectedArg) {
+        return count(Arr::filter($parameters, function (\ReflectionParameter $parameter) {
             try {
-                return !$expectedArg->getClass();
+                return !$parameter->getClass();
             } catch (\Exception $e) {
                 return false;
             }
         }));
-    }
-
-    protected static function expectedArg(\ReflectionParameter $expectedArg)
-    {
-        if (!$expectedArg->isOptional()) {
-            if ($function = $expectedArg->getDeclaringFunction() and $class = $expectedArg->getDeclaringClass()) {
-                throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `' . $class->getName() . '::' . $function->getName() . '`.');
-            }
-
-            throw new \Exception('Argument `' . $expectedArg->getName() . '` is required in `' . $function->getName() . '`.');
-        }
-
-        return $expectedArg->getDefaultValue();
     }
 }
