@@ -117,7 +117,7 @@ class Obj
 
     public static function populateParameters(array $parameters, array $arguments = [], $mixed = false, callable $expectedCallable = null)
     {
-        [$argumentsTypes, $mixedArguments] = static::extractArgumentsTypes($arguments, $mixed);
+        list($argumentsTypes, $mixedArguments) = static::extractArgumentsTypes($arguments, $mixed);
 
         /* @var $parameters \ReflectionParameter[] */
         $parameters = array_reverse($parameters);
