@@ -155,7 +155,7 @@ class Obj
                 if ($argumentsTypes and Arr::has($argumentsTypes, $expectedType->getName())) {
                     $returnArguments[] = &$argumentsTypes[$expectedType->getName()];
                 } elseif (is_callable($expectedCallable)) {
-                    $returnArguments[] = &call_user_func_array($expectedCallable, [$parameter]);
+                    $returnArguments[] = call_user_func_array($expectedCallable, [$parameter]);
                 } else {
                     if (!$returnArguments and $parameter->isOptional()) {
                         continue;
