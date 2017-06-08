@@ -167,7 +167,7 @@ class Obj
                     continue;
                 }
 
-                $returnArguments[] = Obj::expectedParameterValue($parameter);
+                $returnArguments[] = self::expectedParameterValue($parameter);
 
                 continue;
             }
@@ -190,7 +190,7 @@ class Obj
                 continue;
             }
 
-            $returnArguments[] = Obj::expectedParameterValue($parameter);
+            $returnArguments[] = self::expectedParameterValue($parameter);
         }
 
         return array_reverse($returnArguments);
@@ -202,7 +202,7 @@ class Obj
 
         foreach ($arguments as &$argument) {
             if (is_object($argument)) {
-                foreach (Obj::typeAliases($argument) as $type) {
+                foreach (self::typeAliases($argument) as $type) {
                     $argumentsTypes[$type] = &$argument;
                 }
             } else {
