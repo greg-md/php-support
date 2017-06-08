@@ -4,6 +4,23 @@ namespace Greg\Support;
 
 class Obj
 {
+    public static function &call(callable $callable, array $arguments)
+    {
+        // NOTE: Don't use call_user_func_array for return-by-reference because the function doesn't support it.
+        if (Obj::callableReturnsReference($callable)) {
+            if (is_array($callable)) {
+                return $callable[0]->{$callable[1]}(...$arguments);
+            }
+
+            return $callable(...$arguments);
+        }
+
+        // Set value to an argument to return it's reference.
+        $return = call_user_func_array($callable, $arguments);
+
+        return $return;
+    }
+
     public static function baseName($class)
     {
         return basename(str_replace('\\', '/', is_object($class) ? get_class($class) : $class));
