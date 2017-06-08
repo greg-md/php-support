@@ -26,6 +26,20 @@ class Obj
         return $return;
     }
 
+    public static function &callMixed(callable $callable, &...$arguments)
+    {
+        return static::callMixedArgs($callable, $arguments);
+    }
+
+    public static function &callMixedArgs(callable $callable, array $arguments)
+    {
+        if ($parameters = static::parameters($callable)) {
+            $arguments = static::populateParameters($parameters, $arguments);
+        }
+
+        return static::callArgs($callable, $arguments);
+    }
+
     public static function baseName($class)
     {
         return basename(str_replace('\\', '/', is_object($class) ? get_class($class) : $class));
@@ -118,5 +132,99 @@ class Obj
         }
 
         return $reflection->returnsReference();
+    }
+
+    public static function populateParameters(array $parameters, array $arguments = [], callable $fallback = null)
+    {
+        $countMixedExpected = self::countMixableParameters($parameters);
+
+        list($argumentsTypes, $mixedArguments) = self::extractArgumentsTypes($arguments);
+
+        $returnArguments = [];
+
+        /* @var $parameter \ReflectionParameter */
+        foreach (array_reverse($parameters) as $parameter) {
+            if ($parameter->isVariadic()) {
+                $returnArguments = array_merge($returnArguments, array_reverse(array_slice($arguments, $parameter->getPosition())));
+
+                continue;
+            }
+
+            if ($expectedType = $parameter->getClass()) {
+                if (array_key_exists($expectedType->getName(), $argumentsTypes)) {
+                    $returnArguments[] = &$argumentsTypes[$expectedType->getName()];
+
+                    continue;
+                }
+
+                if ($fallback) {
+                    $returnArguments[] = call_user_func_array($fallback, [$parameter]);
+
+                    continue;
+                }
+
+                if (!$returnArguments and $parameter->isOptional()) {
+                    continue;
+                }
+
+                $returnArguments[] = Obj::expectedParameterValue($parameter);
+
+                continue;
+            }
+
+            --$countMixedExpected;
+
+            if (array_key_exists($countMixedExpected, $mixedArguments)) {
+                $returnArguments[] = &$mixedArguments[$countMixedExpected];
+
+                continue;
+            }
+
+            if (!$returnArguments and $parameter->isOptional()) {
+                continue;
+            }
+
+            if (array_key_exists($parameter->getPosition(), $arguments)) {
+                $returnArguments[] = &$arguments[$parameter->getPosition()];
+
+                continue;
+            }
+
+            $returnArguments[] = Obj::expectedParameterValue($parameter);
+        }
+
+        return array_reverse($returnArguments);
+    }
+
+    private static function extractArgumentsTypes($arguments)
+    {
+        $argumentsTypes = $mixedArguments = [];
+
+        foreach ($arguments as &$argument) {
+            if (is_object($argument)) {
+                foreach (Obj::typeAliases($argument) as $type) {
+                    $argumentsTypes[$type] = &$argument;
+                }
+            } else {
+                $mixedArguments[] = &$argument;
+            }
+        }
+        unset($argument);
+
+        return [$argumentsTypes, $mixedArguments];
+    }
+
+    private static function countMixableParameters(array $parameters)
+    {
+        return count(array_filter($parameters, function (\ReflectionParameter $parameter) {
+            /*
+             * In some of cases it throws an exception. Need to remember when.
+             */
+//            try {
+            return !$parameter->getClass();
+//            } catch (\Exception $e) {
+//                return false;
+//            }
+        }));
     }
 }
