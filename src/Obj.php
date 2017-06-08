@@ -7,7 +7,7 @@ class Obj
     public static function &call(callable $callable, array $arguments)
     {
         // NOTE: Don't use call_user_func_array for return-by-reference because the function doesn't support it.
-        if (Obj::callableReturnsReference($callable)) {
+        if (self::callableReturnsReference($callable)) {
             if (is_array($callable)) {
                 return $callable[0]->{$callable[1]}(...$arguments);
             }
