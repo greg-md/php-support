@@ -85,7 +85,7 @@ class Response
 
     protected $fileName = null;
 
-    public function __construct($content = null, $contentType = null)
+    public function __construct($content = null, $contentType = null, $code = null)
     {
         if ($content !== null) {
             $this->setContent($content);
@@ -93,6 +93,10 @@ class Response
 
         if ($contentType !== null) {
             $this->setContentType($contentType);
+        }
+
+        if ($code !== null) {
+            $this->setCode($code);
         }
 
         return $this;
