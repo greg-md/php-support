@@ -4,7 +4,12 @@ namespace Greg\Support;
 
 class Obj
 {
-    public static function &call(callable $callable, array $arguments)
+    public static function &call(callable $callable, &...$arguments)
+    {
+        return static::callArgs($callable, $arguments);
+    }
+
+    public static function &callArgs(callable $callable, array $arguments)
     {
         // NOTE: Don't use call_user_func_array for return-by-reference because the function doesn't support it.
         if (self::callableReturnsReference($callable)) {
