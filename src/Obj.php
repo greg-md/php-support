@@ -53,6 +53,10 @@ class Obj
 
         $name = implode('\\', $name);
 
+        $prefix = $prefix ?: [''];
+
+        $suffix = $suffix ?: [''];
+
         foreach ((array) $prefix as $classPrefix) {
             foreach ((array) $suffix as $classSuffix) {
                 $class = $classPrefix . $name . $classSuffix;
