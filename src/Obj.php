@@ -61,7 +61,7 @@ class Obj
             foreach ((array) $suffix as $classSuffix) {
                 $class = $classPrefix . $name . $classSuffix;
 
-                if (class_exists($class, false)) {
+                if (class_exists($class)) {
                     return $class;
                 }
             }
