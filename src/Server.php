@@ -193,6 +193,7 @@ class Server
     private static function isComment($line)
     {
         $line = ltrim($line);
+
         return isset($line[0]) && $line[0] === '#';
     }
 
