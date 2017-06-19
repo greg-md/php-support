@@ -67,6 +67,20 @@ class File
         return Dir::make(dirname($fileName), $recursive);
     }
 
+    public static function lines($file)
+    {
+        // Read file into an array of lines with auto-detected line endings
+        $autodetect = ini_get('auto_detect_line_endings');
+
+        ini_set('auto_detect_line_endings', '1');
+
+        $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        ini_set('auto_detect_line_endings', $autodetect);
+
+        return $lines;
+    }
+
     protected static function checkedExtension($fileName, $point = false)
     {
         $fileName = explode('.', $fileName);
