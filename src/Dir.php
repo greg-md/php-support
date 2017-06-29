@@ -19,6 +19,12 @@ class Dir
 
     public static function unlink($dir)
     {
+        if (is_file($dir)) {
+            unlink($dir);
+
+            return true;
+        }
+
         $search = $dir;
 
         if (!Str::endsWith($search, '/*')) {
