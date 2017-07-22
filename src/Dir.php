@@ -62,6 +62,37 @@ class Dir
         return static::copyFolder($source, $destination, $permissions);
     }
 
+    public static function absolute($path)
+    {
+        $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+
+        $parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
+
+        $absolutes = array();
+
+        foreach ($parts as $part) {
+            if ('.' == $part) {
+                continue;
+            }
+
+            if ('..' == $part) {
+                array_pop($absolutes);
+
+                continue;
+            }
+
+            $absolutes[] = $part;
+        }
+
+        $absolute = implode(DIRECTORY_SEPARATOR, $absolutes);
+
+        if ($path[0] === DIRECTORY_SEPARATOR) {
+            $absolute = DIRECTORY_SEPARATOR . $absolute;
+        }
+
+        return $absolute;
+    }
+
     protected static function copyFolder($source, $destination, $permissions = 0755)
     {
         // Loop through the folder
