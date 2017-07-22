@@ -68,7 +68,7 @@ class Dir
 
         $parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
 
-        $absolutes = array();
+        $absolutes = [];
 
         foreach ($parts as $part) {
             if ('.' == $part) {
