@@ -96,9 +96,9 @@ class Obj
         return array_unique($results);
     }
 
-    public static function typeAliases($class)
+    public static function typeAliases($class, $self = true)
     {
-        return array_merge([get_class($class)], class_implements($class), class_parents($class));
+        return array_merge($self ? [is_string($class) ? $class : get_class($class)] : [], class_implements($class), class_parents($class));
     }
 
     public static function parameters(callable $callable)
