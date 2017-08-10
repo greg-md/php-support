@@ -488,7 +488,7 @@ class Response
         return self::$mockHeadersSent;
     }
 
-    private static function sendHeader(string $header)
+    private static function sendHeader($header)
     {
         if (self::$mockHeaders) {
             self::$mockHeadersSent[] = $header;
