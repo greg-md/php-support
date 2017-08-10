@@ -85,6 +85,10 @@ class Response
 
     protected $fileName = null;
 
+    private static $mockHeaders = false;
+
+    private static $mockHeadersSent = [];
+
     public function __construct($content = null, $contentType = null, $code = null)
     {
         if ($content !== null) {
@@ -291,7 +295,7 @@ class Response
             $code .= ' ' . static::CODES[$code];
         }
 
-        header('HTTP/1.1 ' . $code);
+        self::sendHeader('HTTP/1.1 ' . $code);
 
         return true;
     }
@@ -306,7 +310,7 @@ class Response
             $url = '/';
         }
 
-        header('Location: ' . $url, false, $code);
+        self::sendHeader('Location: ' . $url, false, $code);
 
         return true;
     }
@@ -390,14 +394,14 @@ class Response
 
     public static function sendContentType($type)
     {
-        header('Content-Type: ' . $type);
+        self::sendHeader('Content-Type: ' . $type);
 
         return true;
     }
 
     public static function sendDisposition($name, $fileName = null)
     {
-        header('Content-disposition: ' . $name . '; filename="' . addslashes($fileName) . '"');
+        self::sendHeader('Content-disposition: ' . $name . '; filename="' . addslashes($fileName) . '"');
 
         return true;
     }
@@ -445,9 +449,9 @@ class Response
 
         if ($sendHeaders) {
             // Send the headers
-            header('Last-Modified: ' . $lastModified);
+            self::sendHeader('Last-Modified: ' . $lastModified);
 
-            header('ETag: ' . $eTag);
+            self::sendHeader('ETag: ' . $eTag);
         }
 
         $match = Request::match();
@@ -472,5 +476,24 @@ class Response
         }
 
         return [$lastModified, $eTag];
+    }
+
+    public static function mockHeaders()
+    {
+        self::$mockHeaders = true;
+    }
+
+    public static function mockHeadersSent()
+    {
+        return self::$mockHeadersSent;
+    }
+
+    private static function sendHeader(string $header)
+    {
+        if (self::$mockHeaders) {
+            self::$mockHeadersSent[] = $header;
+        } else {
+            header($header);
+        }
     }
 }
