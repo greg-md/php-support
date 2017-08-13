@@ -19,24 +19,10 @@ class Dir
 
     public static function unlink($dir)
     {
-        if (is_file($dir)) {
-            unlink($dir);
+        $dir = str_replace('/*', '/{,.}[!.,!..]*', $dir);
 
-            return true;
-        }
-
-        $search = $dir;
-
-        if (!Str::endsWith($search, '/*')) {
-            $search .= '/*';
-        }
-
-        foreach (glob($search) as $file) {
-            is_dir($file) ? static::unlink($file) : unlink($file);
-        }
-
-        if ($search !== $dir) {
-            rmdir($dir);
+        foreach (glob($dir, GLOB_BRACE) as $path) {
+            static::unlinkRecursive($path);
         }
 
         return true;
@@ -110,6 +96,21 @@ class Dir
 
         // Clean up
         $dir->close();
+
+        return true;
+    }
+
+    private static function unlinkRecursive($path)
+    {
+        if (is_file($path)) {
+            unlink($path);
+        } else {
+            foreach (glob($path . '/{,.}[!.,!..]*', GLOB_BRACE) as $file) {
+                static::unlinkRecursive($file);
+            }
+
+            rmdir($path);
+        }
 
         return true;
     }
