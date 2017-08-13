@@ -224,9 +224,9 @@ class Obj
             /*
              * In some of cases it throws an exception. Need to remember when.
              */
-//            try {
+            //            try {
             return !$parameter->getClass();
-//            } catch (\Exception $e) {
+            //            } catch (\Exception $e) {
 //                return false;
 //            }
         }));
