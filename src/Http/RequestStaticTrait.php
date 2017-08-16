@@ -75,11 +75,13 @@ trait RequestStaticTrait
 
     public static function baseUri()
     {
+        if (php_sapi_name() == 'cli') {
+            return null;
+        }
+
         $scriptName = Server::scriptName();
 
-        $uriInfo = pathinfo($scriptName);
-
-        $baseUri = $uriInfo['dirname'];
+        $baseUri = pathinfo($scriptName, PATHINFO_DIRNAME);
 
         if (static::$DS != '/') {
             $baseUri = str_replace(static::$DS, '/', $baseUri);
