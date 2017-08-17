@@ -18,7 +18,7 @@ Support classes for PHP.
 
 # Requirements
 
-* PHP Version `^5.6 || ^7.0`
+* PHP Version `^7.1`
 
 # Documentation
 
