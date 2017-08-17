@@ -13,6 +13,8 @@ trait RequestStaticTrait
 
     protected static $DS = DIRECTORY_SEPARATOR;
 
+    private static $disableCliCkecks = false;
+
     public static function protocol()
     {
         return Server::get('SERVER_PROTOCOL');
@@ -75,7 +77,7 @@ trait RequestStaticTrait
 
     public static function baseUri()
     {
-        if (php_sapi_name() == 'cli') {
+        if (!self::$disableCliCkecks and php_sapi_name() === 'cli') {
             return null;
         }
 
@@ -374,6 +376,29 @@ trait RequestStaticTrait
         }
 
         return static::checkFiles($files, $mime);
+    }
+
+    public static function mockHttpMode()
+    {
+        self::$disableCliCkecks = true;
+
+        $_SERVER['SERVER_PROTOCOL'] = 'http';
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['SERVER_ADMIN'] = get_current_user();
+        $_SERVER['SERVER_PORT'] = 80;
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['REQUEST_URI'] = '/';
+
+        $_SERVER['SCRIPT_NAME'] = '/index.php';
+
+        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = null;
+        $_SERVER['HTTP_IF_NONE_MATCH'] = null;
+        $_SERVER['HTTP_REFERER'] = null;
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        return true;
     }
 
     protected static function checkHumanReadableFiles(array $files, $mime = null)

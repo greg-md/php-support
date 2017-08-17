@@ -129,23 +129,13 @@ class RequestTest extends TestCase
 
         $_FILES = $this->files;
 
-        $_SERVER['SERVER_PROTOCOL'] = 'http';
-        $_SERVER['HTTP_HOST'] = 'localhost';
-        $_SERVER['SERVER_NAME'] = 'localhost';
-        $_SERVER['SERVER_ADMIN'] = 'greg';
+        Request::mockHttpMode();
+
         $_SERVER['HTTPS'] = 'on';
         $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
-        $_SERVER['SERVER_PORT'] = 80;
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla';
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['REQUEST_URI'] = '/admin/?foo=bar';
 
         $_SERVER['SCRIPT_NAME'] = '/admin/index.php';
-
-        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = null;
-        $_SERVER['HTTP_IF_NONE_MATCH'] = null;
-        $_SERVER['HTTP_REFERER'] = null;
-        $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $this->request = new Request([
             'foo' => 'required',
