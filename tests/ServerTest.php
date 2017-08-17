@@ -142,7 +142,11 @@ class ServerTest extends TestCase
         $this->assertTrue(Server::existsInIncPaths('image.png'));
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     */
     public function it_throws_exception()
     {
         Server::errorsAsExceptions();
@@ -155,18 +159,24 @@ class ServerTest extends TestCase
     /**
      * @test
      *
-     * @depends it_throws_exception
+     * @runInSeparateProcess
      *
      * @expectedException \PHPUnit\Framework\Error\Warning
      */
     public function it_restores_errors()
     {
+        Server::errorsAsExceptions();
+
         Server::restoreErrors();
 
         mkdir(__DIR__ . '/no/recursive/dir');
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     */
     public function it_disables_errors()
     {
         Server::disableErrors();
