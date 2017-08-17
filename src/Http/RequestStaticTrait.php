@@ -13,7 +13,9 @@ trait RequestStaticTrait
 
     protected static $DS = DIRECTORY_SEPARATOR;
 
-    private static $disableCliCkecks = false;
+    private static $disableCliChecks = false;
+
+    private static $originalServer;
 
     public static function protocol()
     {
@@ -77,7 +79,7 @@ trait RequestStaticTrait
 
     public static function baseUri()
     {
-        if (!self::$disableCliCkecks and php_sapi_name() === 'cli') {
+        if (!self::$disableCliChecks and php_sapi_name() === 'cli') {
             return null;
         }
 
@@ -380,7 +382,9 @@ trait RequestStaticTrait
 
     public static function mockHttpMode()
     {
-        self::$disableCliCkecks = true;
+        self::$disableCliChecks = true;
+
+        self::$originalServer = $_SERVER;
 
         $_SERVER['SERVER_PROTOCOL'] = 'http';
         $_SERVER['HTTP_HOST'] = 'localhost';
@@ -399,6 +403,15 @@ trait RequestStaticTrait
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         return true;
+    }
+
+    public static function restoreHttpMode()
+    {
+        if (self::$disableCliChecks) {
+            self::$disableCliChecks = false;
+
+            $_SERVER = self::$originalServer;
+        }
     }
 
     protected static function checkHumanReadableFiles(array $files, $mime = null)

@@ -121,10 +121,8 @@ class RequestTest extends TestCase
 
     private $request = null;
 
-    public function setUp()
+    protected function setUp()
     {
-        parent::setUp();
-
         $_GET = $_POST = $_REQUEST = $this->data;
 
         $_FILES = $this->files;
@@ -144,6 +142,11 @@ class RequestTest extends TestCase
         TestingRequest::$isHumanReadableFiles = false;
 
         TestingRequest::$checkFileUpload = false;
+    }
+
+    protected function tearDown()
+    {
+        Request::restoreHttpMode();
     }
 
     public function testInvalid()

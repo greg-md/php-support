@@ -14,7 +14,7 @@ class SessionTest extends TestCase
 {
     use TestingAccessorTrait;
 
-    public function testingAccessorSetup()
+    public function setupTestingAccessor()
     {
         session_start();
     }

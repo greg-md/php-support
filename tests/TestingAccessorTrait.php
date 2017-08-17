@@ -10,7 +10,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_checks_if_has_value()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -34,7 +34,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_checks_if_has_value_by_index()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -66,7 +66,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_sets_value()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->assertEquals(['foo' => 'bar'], $object->set('foo', 'bar'));
@@ -82,7 +82,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_sets_value_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $value = 'bar';
@@ -110,7 +110,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_sets_value_by_index()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->assertEquals(['foo' => ['bar' => 'biz']], $object->setIndex('foo.bar', 'biz'));
@@ -126,7 +126,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_sets_value_by_index_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $value = 'biz';
@@ -154,7 +154,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_value()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -178,7 +178,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_value_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -206,7 +206,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_else_value_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -242,7 +242,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_force()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -266,7 +266,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_force_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -294,7 +294,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_array()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -318,7 +318,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_array_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -342,7 +342,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_array_force()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -366,7 +366,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_array_force_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -394,7 +394,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_index()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -418,7 +418,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_index_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -446,7 +446,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_index_else_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -482,7 +482,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_index_force()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -506,7 +506,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_index_force_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -534,7 +534,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_index_array()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -558,7 +558,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_index_array_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -582,7 +582,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_index_array_force()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -606,7 +606,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_gets_index_array_force_by_reference()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -634,7 +634,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_deletes_by_key()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = 'bar';
@@ -654,7 +654,7 @@ trait TestingAccessorTrait
     /** @test */
     public function accessor_it_deletes_by_index()
     {
-        $this->testingAccessorSetup();
+        $this->setupTestingAccessor();
 
         if ($object = $this->object()) {
             $this->accessor()['foo'] = ['bar' => 'biz'];
@@ -671,7 +671,7 @@ trait TestingAccessorTrait
         }
     }
 
-    public function testingAccessorSetup()
+    public function setupTestingAccessor()
     {
     }
 

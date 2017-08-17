@@ -152,6 +152,20 @@ class ServerTest extends TestCase
         mkdir(__DIR__ . '/no/recursive/dir');
     }
 
+    /**
+     * @test
+     *
+     * @depends it_throws_exception
+     *
+     * @expectedException \PHPUnit\Framework\Error\Warning
+     */
+    public function it_restores_errors()
+    {
+        Server::restoreErrors();
+
+        mkdir(__DIR__ . '/no/recursive/dir');
+    }
+
     /** @test */
     public function it_disables_errors()
     {
@@ -160,19 +174,5 @@ class ServerTest extends TestCase
         mkdir(__DIR__ . '/no/recursive/dir');
 
         $this->assertTrue(true);
-    }
-
-    /**
-     * @test
-     *
-     * @depends it_throws_exception
-     *
-     * @expectedException \PHPUnit_Framework_Error_Warning
-     */
-    public function it_restores_errors()
-    {
-        Server::restoreErrors();
-
-        mkdir(__DIR__ . '/no/recursive/dir');
     }
 }

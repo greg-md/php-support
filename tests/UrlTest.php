@@ -2,16 +2,20 @@
 
 namespace Greg\Support\Tests;
 
+use Greg\Support\Http\Request;
 use Greg\Support\Url;
 use PHPUnit\Framework\TestCase;
 
 class UrlTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
-        parent::setUp();
+        Request::mockHttpMode();
+    }
 
-        $_SERVER['SERVER_NAME'] = $_SERVER['HTTP_HOST'] = 'localhost';
+    protected function tearDown()
+    {
+        Request::restoreHttpMode();
     }
 
     /** @test */
@@ -109,9 +113,9 @@ class UrlTest extends TestCase
     /** @test */
     public function it_gets_base_url()
     {
-        $this->assertContains(Url::base('/path'), ['//vendor/bin/path', '/vendor/bin/path']);
+        $this->assertEquals(Url::base('/path'), '/path');
 
-        $this->assertContains(Url::base('/path', true), ['//vendor/bin/path', 'http://localhost/vendor/bin/path']);
+        $this->assertEquals(Url::base('/path', true), 'http://localhost/path');
     }
 
     /** @test */
