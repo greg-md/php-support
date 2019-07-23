@@ -48,7 +48,7 @@ class Math
         $newMore = $more;
         $newLess = $less;
 
-        for ($i = 2; $i <= $max; ++$i) {
+        for ($i = 2; $i <= $max; $i++) {
             if ($less % $i !== 0) {
                 continue;
             }

@@ -277,7 +277,7 @@ class Str
     {
         $token = '';
 
-        for ($i = 0; $i < $length; ++$i) {
+        for ($i = 0; $i < $length; $i++) {
             $token .= $characters[Math::cryptoRandSecure(0, strlen($characters))];
         }
 

@@ -1019,7 +1019,7 @@ class Arr
                             unset($array[$key]);
                         }
 
-                        ++$i;
+                        $i++;
                     }
                 } else {
                     $maxLevel = (array) $maxLevel;
@@ -1094,7 +1094,7 @@ class Arr
         if ($until = (int) $until) {
             $lastValue = &$array;
 
-            for ($k = 0; $k < $until; ++$k) {
+            for ($k = 0; $k < $until; $k++) {
                 reset($lastValue);
 
                 $lastValue = &$lastValue[key($lastValue)];

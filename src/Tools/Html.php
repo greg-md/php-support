@@ -21,7 +21,7 @@ class Html
         $lastClean = $cleanAfter ? uniqid('cut_', true) : null;
 
         $html = preg_replace_callback('#' . $regex . '#i', function ($matches) use (&$count, $offset, $limit, $lastClean) {
-            ++$count;
+            $count++;
 
             if ($count > $offset and ($limit < 1 or ($count <= ($offset + $limit)))) {
                 return $lastClean;

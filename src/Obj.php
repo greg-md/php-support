@@ -176,7 +176,7 @@ class Obj
                 continue;
             }
 
-            --$countMixedExpected;
+            $countMixedExpected--;
 
             if (array_key_exists($countMixedExpected, $mixedArguments)) {
                 $returnArguments[] = &$mixedArguments[$countMixedExpected];
