@@ -12,10 +12,8 @@ class InNamespaceRegexTest extends TestCase
      */
     protected $regex = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->regex = new InNamespaceRegex('{{', '}}');
     }
 

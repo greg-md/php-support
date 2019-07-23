@@ -16,10 +16,8 @@ class ArrayObjectTest extends TestCase
      */
     protected $arrayObject = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->arrayObject = new ArrayObject([], ArrayObjectArrayIterator::class);
     }
 

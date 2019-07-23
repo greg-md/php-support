@@ -14,10 +14,8 @@ class ImageTest extends TestCase
      */
     private $image = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->fileName = __DIR__ . '/image.png';
 
         $this->image = new Image($this->fileName);

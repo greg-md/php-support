@@ -36,10 +36,8 @@ class ArrayAccessTraitTest extends TestCase
      */
     private $arrayAccess = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->arrayAccess = new TestingArrayAccess();
 
         //

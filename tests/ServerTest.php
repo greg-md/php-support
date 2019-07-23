@@ -3,14 +3,13 @@
 namespace Greg\Support\Tests;
 
 use Greg\Support\Server;
+use PHPUnit\Framework\Error\Warning;
 use PHPUnit\Framework\TestCase;
 
 class ServerTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         set_include_path('.');
     }
 
@@ -160,11 +159,11 @@ class ServerTest extends TestCase
      * @test
      *
      * @runInSeparateProcess
-     *
-     * @expectedException \PHPUnit\Framework\Error\Warning
      */
     public function it_restores_errors()
     {
+        $this->expectException(Warning::class);
+
         Server::errorsAsExceptions();
 
         Server::restoreErrors();

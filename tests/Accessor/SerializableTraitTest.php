@@ -29,10 +29,8 @@ class SerializableTraitTest extends TestCase
      */
     private $serializable = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->serializable = new TestingSerializable();
     }
 

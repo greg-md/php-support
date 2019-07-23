@@ -28,10 +28,8 @@ class IteratorAggregateTraitTest extends TestCase
      */
     private $iterator = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->iterator = new TestingIteratorAggregate();
     }
 

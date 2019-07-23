@@ -18,16 +18,14 @@ class ResponseTest extends TestCase
 
     protected $data = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->response = new Response();
 
         ob_start();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->assertEquals(md5($this->data), md5(ob_get_clean()));
     }

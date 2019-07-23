@@ -113,10 +113,8 @@ class AccessorTraitTest extends TestCase
      */
     private $accessor = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->accessor = new TestingAccessor();
 
         //

@@ -24,10 +24,8 @@ class CountableTraitTest extends TestCase
      */
     private $countable = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->countable = new TestingCountable();
     }
 

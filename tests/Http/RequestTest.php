@@ -121,7 +121,7 @@ class RequestTest extends TestCase
 
     private $request = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $_GET = $_POST = $_REQUEST = $this->data;
 
@@ -144,7 +144,7 @@ class RequestTest extends TestCase
         TestingRequest::$checkFileUpload = false;
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Request::restoreHttpMode();
     }

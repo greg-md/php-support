@@ -8,12 +8,12 @@ use PHPUnit\Framework\TestCase;
 
 class UrlTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         Request::mockHttpMode();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Request::restoreHttpMode();
     }
